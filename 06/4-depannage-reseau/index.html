@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../3-resolution-noms/" rel="prev"/>
+<link href="../5-quiz-reseau/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>VI.4 Dépannage réseau - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#depannage-reseau-et-diagnostic-client-serveur">43. VI.4 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              VI.4 Dépannage réseau
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#methodologie-de-gestion-des-pannes">43.1 VI.4.1 
+<span class="md-ellipsis">
+      
+        Méthodologie de gestion des pannes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#les-outils-de-diagnostic-reseau">43.2 VI.4.2 
+<span class="md-ellipsis">
+      
+        Les outils de diagnostic réseau
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#interpreter-ping-traceroute-et-netstat">43.3 VI.4.3 
+<span class="md-ellipsis">
+      
+        Interpréter ping, traceroute et netstat
+      
+    </span>
+</a>
+<nav aria-label="Interpréter ping, traceroute et netstat" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lire-les-erreurs-de-ping">43.3.1 VI.4.3.1 
+<span class="md-ellipsis">
+      
+        Lire les erreurs de ping
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#localiser-une-coupure-avec-traceroute">43.3.2 VI.4.3.2 
+<span class="md-ellipsis">
+      
+        Localiser une coupure avec traceroute
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analyser-les-interfaces-et-sockets-avec-netstat-et-ss">43.3.3 VI.4.3.3 
+<span class="md-ellipsis">
+      
+        Analyser les interfaces et sockets avec netstat (et ss)
+      
+    </span>
+</a>
+<nav aria-label="Analyser les interfaces et sockets avec netstat (et ss)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#inspecter-les-services-en-ecoute-netstat-nlpt-ou-ss-nlpt">43.3.3.1 VI.4.3.3.1 
+<span class="md-ellipsis">
+      
+        Inspecter les services en écoute : netstat -nlpt (ou ss -nlpt)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cas-pratique-diagnostiquer-une-panne-client-java-base-de-donnees">43.4 VI.4.4 
+<span class="md-ellipsis">
+      
+        Cas pratique : Diagnostiquer une panne Client (Java) ↔ Base de Données
+      
+    </span>
+</a>
+<nav aria-label="Cas pratique : Diagnostiquer une panne Client (Java) ↔ Base de Données" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-1-verifier-la-resolution-de-nom-depuis-srv-app">43.4.1 VI.4.4.1 
+<span class="md-ellipsis">
+      
+        Étape 1 : Vérifier la résolution de nom (depuis srv-app)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-2-verifier-la-connectivite-ip-et-le-routage-depuis-srv-app">43.4.2 VI.4.4.2 
+<span class="md-ellipsis">
+      
+        Étape 2 : Vérifier la connectivité IP et le routage (depuis srv-app)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-3-verifier-le-service-et-son-adresse-decoute-sur-srv-bdd">43.4.3 VI.4.4.3 
+<span class="md-ellipsis">
+      
+        Étape 3 : Vérifier le service et son adresse d'écoute (sur srv-bdd)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-4-tester-le-port-tcp-bout-en-bout-avec-telnet-depuis-srv-app">43.4.4 VI.4.4.4 
+<span class="md-ellipsis">
+      
+        Étape 4 : Tester le port TCP bout-en-bout avec telnet (depuis srv-app)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH VI – Gestion du réseau
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="VI.4 Dépannage réseau.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="depannage-reseau-et-diagnostic-client-serveur"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4</span> Dépannage réseau et diagnostic client-serveur</h1>
+<p>Une panne réseau en production interrompt l'activité des applications et des utilisateurs. L'administrateur Linux doit adopter une <strong>démarche rigoureuse</strong> pour localiser rapidement la couche défaillante plutôt que de modifier des configurations au hasard.</p>
+<p>Cette section présente la méthode en trois étapes, les outils de diagnostic de l'objectif <strong>LPIC-1 109.3</strong>, ainsi qu'un <strong>guide pratique complet de résolution d'incident entre un client applicatif (ex. code Java) et un serveur de base de données</strong>.</p>
+<hr/>
+<h2 id="methodologie-de-gestion-des-pannes"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.1</span> Méthodologie de gestion des pannes</h2>
+<p>Face à un incident réseau, appliquez systématiquement ces trois phases :</p>
+<pre class="mermaid"><code>flowchart LR
+    S1["1. Isoler&lt;br/&gt;Utiliser les outils pour&lt;br/&gt;déterminer les symptômes"] --&gt; S2["2. Résoudre&lt;br/&gt;Corriger la cause racine&lt;br/&gt;identifiée"]
+    S2 --&gt; S3["3. Enregistrer&lt;br/&gt;Documenter la détection&lt;br/&gt;et la résolution"]</code></pre>
+<ol>
+<li><strong>Isoler</strong> : délimiter le périmètre (problème local à un poste, limité à un port applicatif, ou coupure réseau globale ?).</li>
+<li><strong>Résoudre</strong> : appliquer la correction ciblée (démarrer un service, ouvrir un port pare-feu, corriger une route ou <code>/etc/hosts</code>).</li>
+<li><strong>Enregistrer</strong> : consigner la procédure de détection et de résolution (documentation / ticket) pour gagner du temps lors d'un futur incident similaire.</li>
+</ol>
+<hr/>
+<h2 id="les-outils-de-diagnostic-reseau"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.2</span> Les outils de diagnostic réseau</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Commande</th>
+<th style="text-align: left;">Usage principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>ip addr</code>, <code>ifconfig</code>, <code>ifup</code>, <code>ifdown</code></td>
+<td style="text-align: left;">Examiner, activer ou désactiver les interfaces réseau</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ip route</code>, <code>route -n</code>, <code>netstat -r</code></td>
+<td style="text-align: left;">Examiner la table de routage et la passerelle par défaut</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ping</code></td>
+<td style="text-align: left;">Tester l'accessibilité IP (ICMP) d'une machine et la latence</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>hostname</code></td>
+<td style="text-align: left;">Afficher ou vérifier le nom de la machine</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>host</code>, <code>dig</code>, <code>getent</code></td>
+<td style="text-align: left;">Diagnostiquer les problèmes de résolution DNS / <code>/etc/hosts</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>netstat</code>, <code>ss</code></td>
+<td style="text-align: left;">Statistiques d'interfaces, sockets ouvertes et processus en écoute</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>traceroute</code>, <code>tracepath</code></td>
+<td style="text-align: left;">Localiser le saut (routeur) où le trafic s'interrompt</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>telnet</code>, <code>nc</code> (<em>netcat</em>)</td>
+<td style="text-align: left;">Tester l'ouverture d'un port TCP précis sur un serveur distant</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="interpreter-ping-traceroute-et-netstat"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.3</span> Interpréter <code>ping</code>, <code>traceroute</code> et <code>netstat</code></h2>
+<h3 id="lire-les-erreurs-de-ping"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.3.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.3.1</span> Lire les erreurs de <code>ping</code></h3>
+<p>La commande <code>ping</code> envoie des paquets <strong>ICMP Echo Request</strong> et attend un <strong>Echo Reply</strong>. Trois messages d'erreur permettent d'orienter immédiatement le diagnostic :</p>
+<ul>
+<li>
+<p><strong><code>ping: unknown host</code></strong> <em>(ou <code>Name or service not known</code>)</em><br/>
+  Le nom d'hôte n'a pas pu être traduit en adresse IP. Vérifiez <code>/etc/resolv.conf</code>, <code>/etc/hosts</code> et <code>/etc/nsswitch.conf</code>.</p>
+</li>
+<li>
+<p><strong><code>Destination Host Unreachable</code></strong><br/>
+  Un routeur (ou l'hôte local faute de passerelle) signale via ICMP qu'il ne possède aucune route ou résolution ARP vers la destination.</p>
+</li>
+<li>
+<p><strong><code>100% packet loss</code></strong><br/>
+  Aucune réponse reçue : la machine cible est éteinte, une route retour manque, ou un pare-feu bloque silencieusement les paquets ICMP (<code>DROP</code>).</p>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Limiter le nombre de paquets</p>
+<p>Sous Linux, <code>ping</code> s'exécute en boucle infinie jusqu'à <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-c">C</kbd></span>. Utilisez l'option <code>-c</code> (<em>count</em>) pour envoyer un nombre fixe de paquets : <code>ping -c 4 192.168.1.1</code>.</p>
+</div>
+<h3 id="localiser-une-coupure-avec-traceroute"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.3.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.3.2</span> Localiser une coupure avec <code>traceroute</code></h3>
+<p><code>traceroute</code> (ou <code>tracepath</code>, qui ne nécessite pas de privilèges <code>root</code>) affiche chaque routeur traversé jusqu'à la destination en faisant varier le TTL IP :</p>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>traceroute<span class="w"> </span>mailserver1
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go"> 1  pyramid.alrac.net (10.0.1.1)  0.842 ms  0.715 ms  0.690 ms</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="go"> 2  mailserver1.alrac.net (10.0.2.25)  1.924 ms  1.810 ms  1.795 ms</span>
+</span></code></pre></div>
+Si la trace s'arrête avec des astérisques <code>* * *</code> après le saut N, le problème de routage ou de filtrage se situe au niveau du routeur suivant.
+<h3 id="analyser-les-interfaces-et-sockets-avec-netstat-et-ss"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.3.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.3.3</span> Analyser les interfaces et sockets avec <code>netstat</code> (et <code>ss</code>)</h3>
+<p>La commande <strong><code>netstat</code></strong> (remplacée sur les systèmes récents par <strong><code>ss</code></strong>, plus rapide et aux options quasi identiques) offre trois vues essentielles :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">// 1. Statistiques d'erreurs sur les interfaces (colonnes ERR, DRP, OVR)</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="gp">$ </span>netstat<span class="w"> </span>-i
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">// 2. Table de routage numérique</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="gp">$ </span>netstat<span class="w"> </span>-rn
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="go">// 3. Toutes les sockets TCP/UDP avec le programme associé (-p nécessite sudo)</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="gp">$ </span>sudo<span class="w"> </span>netstat<span class="w"> </span>-tua<span class="w"> </span>-p
+</span></code></pre></div>
+<p>Les colonnes <strong><code>ERR</code></strong> (erreurs de transmission/CRC), <strong><code>DRP</code></strong> (<em>dropped</em>, paquets abandonnés) et <strong><code>OVR</code></strong> (<em>overrun</em>, débordement de tampon) de <code>netstat -i</code> révèlent un problème matériel (câble défectueux, carte réseau saturée, erreur de duplex).</p>
+<h4 id="inspecter-les-services-en-ecoute-netstat-nlpt-ou-ss-nlpt"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.3.3.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.3.3.1</span> Inspecter les services en écoute : <code>netstat -nlpt</code> (ou <code>ss -nlpt</code>)</h4>
+<p>Pour vérifier quels services TCP écoutent sur un serveur, l'administrateur utilise la combinaison d'options <strong><code>-nlpt</code></strong> :</p>
+<ul>
+<li><strong><code>-n</code></strong> : affichage <strong>numérique</strong> des IP et des ports (pas de résolution DNS lente).</li>
+<li><strong><code>-l</code></strong> : uniquement les sockets en <strong>écoute</strong> (<em>listening</em>).</li>
+<li><strong><code>-p</code></strong> : affiche le <strong>PID et le nom du processus</strong> (nécessite <code>sudo</code>).</li>
+<li><strong><code>-t</code></strong> : filtre uniquement le protocole <strong>TCP</strong> (<code>-u</code> pour UDP).</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>netstat<span class="w"> </span>-nlpt
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">Active Internet connections (only servers)</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="go">tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      892/sshd</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="go">tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      1450/postgres</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="go">tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN      1612/mysqld</span>
+</span></code></pre></div>
+<p>Équivalent moderne avec <code>ss</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>ss<span class="w"> </span>-nlpt
+</span></code></pre></div>
+<hr/>
+<h2 id="cas-pratique-diagnostiquer-une-panne-client-java-base-de-donnees"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.4</span> Cas pratique : Diagnostiquer une panne Client (Java) ↔ Base de Données</h2>
+<p><strong>Scénario réel :</strong> Une application Java déployée sur le serveur applicatif <code>srv-app</code> n'arrive pas à se connecter à une base de données PostgreSQL (port <code>5432</code>) hébergée sur <code>srv-bdd</code> (<code>10.20.30.40</code>). L'application renvoie une erreur de type <code>UnknownHostException</code>, <code>Connection timed out</code> ou <code>Connection refused</code>.</p>
+<p>Comment identifier méthodiquement la cause exacte ? Suivez cet arbre de décision couche par couche :</p>
+<pre class="mermaid"><code>flowchart TD
+    Start["Erreur de connexion Java -&gt; BDD (5432)"]:::start --&gt; E1["1. Test résolution de nom&lt;br/&gt;getent hosts srv-bdd"]:::test
+    E1 --&gt;|Échec| C1["Cause : DNS ou /etc/hosts manquant"]:::cause
+    E1 --&gt;|OK : 10.20.30.40| E2["2. Test joignabilité réseau&lt;br/&gt;ping -c 3 10.20.30.40"]:::test
+    E2 --&gt;|Destination Unreachable / Loss| C2["Cause : Routage, passerelle, VLAN ou ICMP filtré"]:::cause
+    E2 --&gt;|OK ou ICMP filtré| E3["3. Sur srv-bdd : vérifier l'écoute&lt;br/&gt;sudo netstat -nlpt | grep 5432"]:::test
+    E3 --&gt;|Aucune ligne| C3["Cause : Service BDD arrêté ou crashé"]:::cause
+    E3 --&gt;|Écoute sur 127.0.0.1:5432| C4["Cause : Écoute locale uniquement&lt;br/&gt;(configurer listen_addresses = '*')"]:::cause
+    E3 --&gt;|Écoute sur 0.0.0.0:5432| E4["4. Depuis srv-app : test port TCP&lt;br/&gt;telnet 10.20.30.40 5432"]:::test
+    E4 --&gt;|Connection timed out| C5["Cause : Pare-feu DROP les paquets&lt;br/&gt;(iptables, ufw, firewalld, réseau)"]:::cause
+    E4 --&gt;|Connection refused| C6["Cause : Paquet atteint l'hôte mais port fermé&lt;br/&gt;ou pare-feu en REJECT"]:::cause
+    E4 --&gt;|Connected| C7["Réseau &amp; Port OK !&lt;br/&gt;Problème applicatif (identifiants, pg_hba.conf, TLS)"]:::ok
+
+    classDef start fill:#fef3c7,stroke:#d97706,color:#78350f,stroke-width:2px
+    classDef test fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e,stroke-width:2px
+    classDef cause fill:#fee2e2,stroke:#dc2626,color:#7f1d1d,stroke-width:1.5px
+    classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d,stroke-width:2px</code></pre>
+<h3 id="etape-1-verifier-la-resolution-de-nom-depuis-srv-app"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.4.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.4.1</span> Étape 1 : Vérifier la résolution de nom (depuis <code>srv-app</code>)</h3>
+<p>Si le code Java utilise un nom d'hôte (<code>jdbc:postgresql://srv-bdd:5432/appdb</code>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span>getent<span class="w"> </span>hosts<span class="w"> </span>srv-bdd
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">10.20.30.40     srv-bdd.interne srv-bdd</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Si rien n'est retourné</strong> (et Java lève <code>java.net.UnknownHostException</code>) : le problème vient du DNS (<code>/etc/resolv.conf</code>) ou d'une entrée manquante dans <code>/etc/hosts</code>.</li>
+</ul>
+<h3 id="etape-2-verifier-la-connectivite-ip-et-le-routage-depuis-srv-app"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.4.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.4.2</span> Étape 2 : Vérifier la connectivité IP et le routage (depuis <code>srv-app</code>)</h3>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">10</span>.20.30.40
+</span></code></pre></div>
+<ul>
+<li><strong><code>Destination Host Unreachable</code></strong> : vérifiez la table de routage (<code>ip route</code> ou <code>route -n</code>) et la passerelle par défaut.</li>
+<li><strong><code>100% packet loss</code></strong> : le serveur cible est peut-être éteint, ou un routeur intermédiaire bloque (vérifiez avec <code>traceroute 10.20.30.40</code>). <em>Attention : certains pare-feux bloquent ICMP (<code>ping</code>) tout en autorisant le port TCP 5432 ; passez toujours à l'étape 4 pour confirmer.</em></li>
+</ul>
+<h3 id="etape-3-verifier-le-service-et-son-adresse-decoute-sur-srv-bdd"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.4.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.4.3</span> Étape 3 : Vérifier le service et son adresse d'écoute (sur <code>srv-bdd</code>)</h3>
+<p>Connectez-vous sur le serveur de base de données et exécutez <code>netstat -nlpt</code> (ou <code>ss -nlpt</code>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>netstat<span class="w"> </span>-nlpt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">5432</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="go">tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      1450/postgres</span>
+</span></code></pre></div>
+<p>Trois situations se présentent :</p>
+<ol>
+<li><strong>Aucune sortie</strong> : le service de base de données n'est pas démarré (<code>sudo systemctl status postgresql</code>) ou écoute sur un autre port.</li>
+<li><strong><code>127.0.0.1:5432</code></strong> <em>(piège très fréquent !)</em> : le service est démarré, mais il n'écoute <strong>que sur l'interface locale (<code>localhost</code>)</strong>. Il refusera toute connexion provenant d'un autre serveur ! Il faut modifier sa configuration (ex. <code>listen_addresses = '*'</code> dans <code>postgresql.conf</code> ou <code>bind-address = 0.0.0.0</code> pour MySQL) puis redémarrer le service.</li>
+<li><strong><code>0.0.0.0:5432</code></strong> (ou <code>10.20.30.40:5432</code>) : le service écoute bien sur le réseau. Passez à l'étape 4.</li>
+</ol>
+<h3 id="etape-4-tester-le-port-tcp-bout-en-bout-avec-telnet-depuis-srv-app"><span class="enumerate-headings-plugin enumerate-heading-plugin">43.4.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.4.4.4</span> Étape 4 : Tester le port TCP bout-en-bout avec <code>telnet</code> (depuis <code>srv-app</code>)</h3>
+<p>La commande <code>telnet &lt;IP&gt; &lt;port&gt;</code> (ou <code>nc -zv &lt;IP&gt; &lt;port&gt;</code>) tente d'établir une poignée de main TCP (<em>SYN → SYN-ACK → ACK</em>) directement depuis le client vers le port cible :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>telnet<span class="w"> </span><span class="m">10</span>.20.30.40<span class="w"> </span><span class="m">5432</span>
+</span></code></pre></div>
+<p>Les trois résultats possibles tranchent définitivement le diagnostic :</p>
+<ul>
+<li>
+<p><strong><code>Connected to 10.20.30.40.</code></strong> <em>(Escape character is '^]'.)</em> :<br/>
+  Le routage, le pare-feu et le port d'écoute fonctionnent parfaitement ! Si le code Java échoue encore, la cause est <strong>applicative</strong> (mauvais mot de passe, base inexistante, règle d'autorisation IP refusée dans <code>pg_hba.conf</code> ou <code>GRANT</code> MySQL, exigence TLS/SSL). <em>(Tapez ++ctrl+altgr+right_bracket++ puis <code>quit</code> pour fermer <code>telnet</code>).</em></p>
+</li>
+<li>
+<p><strong><code>telnet: Unable to connect to remote host: Connection refused</code></strong> :<br/>
+  Un paquet TCP <code>RST</code> a été renvoyé immédiatement. Soit le service est arrêté/écoute sur <code>127.0.0.1</code> (voir étape 3), soit un pare-feu rejette explicitement le port (<code>REJECT</code>).</p>
+</li>
+<li>
+<p><strong>Blocage silencieux puis <code>Connection timed out</code></strong> :<br/>
+  Aucun paquet de retour n'arrive. Un <strong>pare-feu</strong> (local sur <code>srv-bdd</code> via <code>iptables</code>/<code>nftables</code>/<code>ufw</code>/<code>firewalld</code>, ou un pare-feu matériel / Security Group cloud) supprime silencieusement (<code>DROP</code>) les paquets à destination du port <code>5432</code>.</p>
+</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="go">// Vérifier rapidement le pare-feu local sur srv-bdd :</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w">            </span><span class="c1"># Ubuntu / Debian</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="gp">$ </span>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--list-all<span class="w">  </span><span class="c1"># RHEL / Rocky / AlmaLinux</span>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="gp">$ </span>sudo<span class="w"> </span>iptables<span class="w"> </span>-L<span class="w"> </span>-n<span class="w"> </span>-v<span class="w">     </span><span class="c1"># Règles Netfilter brutes</span>
+</span></code></pre></div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: VI.3 Résolution de noms" class="md-footer__link md-footer__link--prev" href="../3-resolution-noms/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                VI.3 Résolution de noms
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: VI.5 Quiz" class="md-footer__link md-footer__link--next" href="../5-quiz-reseau/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                VI.5 Quiz
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

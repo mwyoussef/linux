@@ -1,0 +1,19 @@
+je dois preparer un chapitre de cours sur linux insipire de lpi101/102.
+
+commandes et themetique abordees
+
+- ps ( + options + exemple avec les options fréquemment utilisees)
+- kill
+- pgrep
+- pkill
+- top (et explication de ses colonnes)
+- watch
+- nohup (utilité dans un exemple reel)
+- jobs
+- sleep
+- notion de foreground / background 
+- dossier /dev/proc
+
+donne moi le contenu de ce chapitre en format markdown adaptee pour mkdocs que je peux telecharger.
+
+attention, la reponse doit etre en format markdown

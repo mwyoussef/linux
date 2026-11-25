@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../5-caratere-substitution/" rel="prev"/>
+<link href="../7-infos-cmd/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>II.6 Compression - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#compression-de-fichiers-et-archivage">13. II.6 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              II.6 Compression
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-commande-tar">13.1 II.6.1 
+<span class="md-ellipsis">
+      
+        La commande tar
+      
+    </span>
+</a>
+<nav aria-label="La commande tar" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#creation-dune-archive">13.1.1 II.6.1.1 
+<span class="md-ellipsis">
+      
+        Création d'une archive
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#archivage-avec-compression-integree">13.1.2 II.6.1.2 
+<span class="md-ellipsis">
+      
+        Archivage avec compression intégrée
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#consultation-du-contenu-dune-archive">13.1.3 II.6.1.3 
+<span class="md-ellipsis">
+      
+        Consultation du contenu d'une archive
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#extraction-dune-archive">13.1.4 II.6.1.4 
+<span class="md-ellipsis">
+      
+        Extraction d'une archive
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#outils-de-compression-individuelle">13.2 II.6.2 
+<span class="md-ellipsis">
+      
+        Outils de compression individuelle
+      
+    </span>
+</a>
+<nav aria-label="Outils de compression individuelle" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gzip-et-gunzip">13.2.1 II.6.2.1 
+<span class="md-ellipsis">
+      
+        gzip et gunzip
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#bzip2-et-bunzip2">13.2.2 II.6.2.2 
+<span class="md-ellipsis">
+      
+        bzip2 et bunzip2
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#xz-et-unxz">13.2.3 II.6.2.3 
+<span class="md-ellipsis">
+      
+        xz et unxz
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-commande-cpio">13.3 II.6.3 
+<span class="md-ellipsis">
+      
+        La commande cpio
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#creation-dimages-et-sauvegarde-bas-niveau-avec-dd">13.4 II.6.4 
+<span class="md-ellipsis">
+      
+        Création d'images et sauvegarde bas niveau avec dd
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH II – Shell et commandes de base
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="II.6 Compression.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="compression-de-fichiers-et-archivage"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6</span> Compression de fichiers et archivage</h1>
+<p>Sous Linux, il est essentiel de distinguer deux concepts complémentaires :</p>
+<ul>
+<li><strong>L'archivage</strong> : consiste à regrouper plusieurs fichiers et dossiers en un seul fichier conteneur (sans nécessairement réduire leur taille).</li>
+<li><strong>La compression</strong> : consiste à réduire la taille d’un fichier ou d’une archive grâce à des algorithmes mathématiques.</li>
+</ul>
+<p>Les outils comme <code>tar</code> et <code>cpio</code> sont principalement dédiés à l’archivage, tandis que <code>gzip</code>, <code>bzip2</code> et <code>xz</code> réalisent la compression. En pratique, ces outils sont très fréquemment combinés.</p>
+<h2 id="la-commande-tar"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.1</span> La commande tar</h2>
+<p>La commande <code>tar</code> (<em>Tape Archive</em>) est l’outil d’archivage par excellence sous Linux. Historiquement conçu pour écrire sur des bandes magnétiques, il permet aujourd'hui de créer des archives simples (fichiers <code>.tar</code>) ou compressées (<code>.tar.gz</code>, <code>.tar.bz2</code>, <code>.tar.xz</code>).</p>
+<h3 id="creation-dune-archive"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.1.1</span> Création d'une archive</h3>
+<p>Pour créer une archive simple :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-cvf<span class="w"> </span>archive.tar<span class="w"> </span>file1<span class="w"> </span>file2<span class="w"> </span>dir1/
+</span></code></pre></div>
+<p>Les options principales sont :</p>
+<ul>
+<li><code>-c</code> (<em>create</em>) : crée une nouvelle archive.</li>
+<li><code>-v</code> (<em>verbose</em>) : affiche la liste des fichiers traités.</li>
+<li><code>-f</code> (<em>file</em>) : spécifie le nom du fichier archive (cette option doit toujours précéder immédiatement le nom de l'archive).</li>
+<li><code>-p</code> (<em>preserve permissions</em>) : conserve les droits d'accès originaux des fichiers.</li>
+</ul>
+<h3 id="archivage-avec-compression-integree"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.1.2</span> Archivage avec compression intégrée</h3>
+<p><code>tar</code> peut invoquer directement un compresseur en lui passant l'option adéquate :</p>
+<ul>
+<li>
+<p><strong>Avec gzip (<code>-z</code>)</strong> $\rightarrow$ extension <code>.tar.gz</code> ou <code>.tgz</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-cvzf<span class="w"> </span>archive.tar.gz<span class="w"> </span>file1<span class="w"> </span>file2<span class="w"> </span>dir1/
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Avec bzip2 (<code>-j</code>)</strong> $\rightarrow$ extension <code>.tar.bz2</code> ou <code>.tbz2</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-cvjf<span class="w"> </span>archive.tar.bz2<span class="w"> </span>file1<span class="w"> </span>file2<span class="w"> </span>dir1/
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Avec xz (<code>-J</code>)</strong> $\rightarrow$ extension <code>.tar.xz</code> (taux de compression maximal) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-cvJf<span class="w"> </span>archive.tar.xz<span class="w"> </span>file1<span class="w"> </span>file2<span class="w"> </span>dir1/
+</span></code></pre></div>
+</li>
+</ul>
+<h3 id="consultation-du-contenu-dune-archive"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.1.3</span> Consultation du contenu d'une archive</h3>
+<p>Pour lister le contenu d'une archive sans l'extraire, utilisez l'option <code>-t</code> (<em>list</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-tvf<span class="w"> </span>archive.tar.gz
+</span></code></pre></div>
+<h3 id="extraction-dune-archive"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.1.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.1.4</span> Extraction d'une archive</h3>
+<p>Pour extraire le contenu d'une archive, remplacez <code>-c</code> par <code>-x</code> (<em>extract</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-xvf<span class="w"> </span>archive.tar
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="gp">$ </span>tar<span class="w"> </span>-xvzf<span class="w"> </span>archive.tar.gz
+</span></code></pre></div>
+<p>Pour extraire les fichiers dans un dossier spécifique au lieu du répertoire courant, ajoutez l’option <code>-C</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>tar<span class="w"> </span>-xvzf<span class="w"> </span>archive.tar.gz<span class="w"> </span>-C<span class="w"> </span>/chemin/destination/
+</span></code></pre></div>
+<h2 id="outils-de-compression-individuelle"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.2</span> Outils de compression individuelle</h2>
+<p>Contrairement aux compresseurs d’autres systèmes (comme le format <code>.zip</code>), les utilitaires de compression sous Linux (<code>gzip</code>, <code>bzip2</code>, <code>xz</code>) agissent par défaut sur <strong>des fichiers individuels</strong> et remplacent le fichier d'origine par sa version compressée.</p>
+<h3 id="gzip-et-gunzip"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.2.1</span> gzip et gunzip</h3>
+<p><code>gzip</code> utilise l’algorithme DEFLATE. Il est très rapide et universellement supporté.</p>
+<ul>
+<li>
+<p>Compresser un fichier :</p>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>gzip<span class="w"> </span>file1
+</span></code></pre></div>
+<em>Le fichier <code>file1</code> est remplacé par <code>file1.gz</code>.</em>
+</li>
+<li>
+<p>Conserver le fichier original avec l'option <code>-k</code> (<em>keep</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="gp">$ </span>gzip<span class="w"> </span>-k<span class="w"> </span>file1
+</span></code></pre></div>
+</li>
+<li>
+<p>Décompresser avec <code>gunzip</code> (ou <code>gzip -d</code>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">$ </span>gunzip<span class="w"> </span>file1.gz
+</span></code></pre></div>
+</li>
+</ul>
+<h3 id="bzip2-et-bunzip2"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.2.2</span> bzip2 et bunzip2</h3>
+<p><code>bzip2</code> utilise l’algorithme Burrows-Wheeler. Il offre un meilleur taux de compression que <code>gzip</code>, mais nécessite plus de temps de calcul.</p>
+<ul>
+<li>
+<p>Compresser :</p>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span>bzip2<span class="w"> </span>-k<span class="w"> </span>file1.txt
+</span></code></pre></div>
+<em>Génère <code>file1.txt.bz2</code>.</em>
+</li>
+<li>
+<p>Décompresser avec <code>bunzip2</code> (ou <code>bzip2 -d</code>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="gp">$ </span>bunzip2<span class="w"> </span>file1.txt.bz2
+</span></code></pre></div>
+</li>
+</ul>
+<h3 id="xz-et-unxz"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.2.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.2.3</span> xz et unxz</h3>
+<p><code>xz</code> utilise l’algorithme LZMA2. Il offre le taux de compression le plus élevé du monde Linux standard, au prix d’un temps de compression plus long.</p>
+<ul>
+<li>
+<p>Compresser :</p>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="gp">$ </span>xz<span class="w"> </span>-k<span class="w"> </span>file1.txt
+</span></code></pre></div>
+<em>Génère <code>file1.txt.xz</code>.</em>
+</li>
+<li>
+<p>Décompresser avec <code>unxz</code> (ou <code>xz -d</code>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="gp">$ </span>unxz<span class="w"> </span>file1.txt.xz
+</span></code></pre></div>
+</li>
+</ul>
+<h2 id="la-commande-cpio"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.3</span> La commande cpio</h2>
+<p>La commande <code>cpio</code> (<em>Copy In / Copy Out</em>) est un utilitaire historique d'archivage qui fonctionne en lisant les noms de fichiers depuis son entrée standard (<code>stdin</code>) et en écrivant l'archive sur sa sortie standard (<code>stdout</code>).</p>
+<ul>
+<li>
+<p>Créer une archive (<code>-o</code> pour <em>output</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="gp">$ </span>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.txt"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cpio<span class="w"> </span>-ov<span class="w"> </span>&gt;<span class="w"> </span>archive.cpio
+</span></code></pre></div>
+</li>
+<li>
+<p>Extraire une archive (<code>-i</code> pour <em>input</em>, <code>-d</code> pour créer les répertoires) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="gp">$ </span>cpio<span class="w"> </span>-idv<span class="w"> </span>&lt;<span class="w"> </span>archive.cpio
+</span></code></pre></div>
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Redirections d'entrée / sortie</p>
+<p>Notez l'usage obligatoire des chevrons de redirection : <code>&gt;</code> pour rediriger la sortie de <code>cpio</code> vers un fichier archive, et <code>&lt;</code> pour lui injecter l'archive en entrée.</p>
+</div>
+<h2 id="creation-dimages-et-sauvegarde-bas-niveau-avec-dd"><span class="enumerate-headings-plugin enumerate-heading-plugin">13.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.6.4</span> Création d'images et sauvegarde bas niveau avec dd</h2>
+<p>La commande <code>dd</code> (<em>Data Duplicator</em>) est un utilitaire de copie bloc par bloc, utilisé pour cloner des disques, créer des images ISO ou sauvegarder des partitions brutes.</p>
+<p><code>dd</code> ne compresse pas lui-même les données, mais on peut combiner sa sortie avec un utilitaire de compression via un tube (<em>pipe</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="gp">$ </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/sdb<span class="w"> </span><span class="nv">of</span><span class="o">=</span>cles_usb.img<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+</span></code></pre></div>
+<p>Pour créer directement une image compressée :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="gp">$ </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/sdb<span class="w"> </span><span class="p">|</span><span class="w"> </span>gzip<span class="w"> </span>-c<span class="w"> </span>&gt;<span class="w"> </span>cle_usb.img.gz
+</span></code></pre></div>
+<p>Et pour restaurer cette image compressée sur le disque :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="gp">$ </span>gunzip<span class="w"> </span>-c<span class="w"> </span>cle_usb.img.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>dd<span class="w"> </span><span class="nv">of</span><span class="o">=</span>/dev/sdb<span class="w"> </span><span class="nv">status</span><span class="o">=</span>progress
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Sauvegarde complète vs Archivage</p>
+<p>Les utilitaires <code>tar</code>, <code>gzip</code> et <code>cpio</code> ne constituent pas à eux seuls une stratégie de sauvegarde d’entreprise. Pour gérer la déduplication, l'incrémentation, l'historisation et la planification, on utilise des outils spécialisés comme <code>rsync</code>, <code>BorgBackup</code>, <code>Restic</code> ou <code>Bacula</code>.</p>
+</div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: II.5 Filtres et caractères de substitution" class="md-footer__link md-footer__link--prev" href="../5-caratere-substitution/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                II.5 Filtres et caractères de substitution
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: II.7 Autres commandes" class="md-footer__link md-footer__link--next" href="../7-infos-cmd/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                II.7 Autres commandes
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../6-compression/" rel="prev"/>
+<link href="../8-quiz/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>II.7 Autres commandes - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#obtenir-des-informations-sur-les-commandes">14. II.7 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              II.7 Autres commandes
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#man">14.1 II.7.1 
+<span class="md-ellipsis">
+      
+        man
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#apropos">14.2 II.7.2 
+<span class="md-ellipsis">
+      
+        apropos
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#type">14.3 II.7.3 
+<span class="md-ellipsis">
+      
+        type
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#file">14.4 II.7.4 
+<span class="md-ellipsis">
+      
+        file
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#which">14.5 II.7.5 
+<span class="md-ellipsis">
+      
+        which
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#whereis">14.6 II.7.6 
+<span class="md-ellipsis">
+      
+        whereis
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#locate">14.7 II.7.7 
+<span class="md-ellipsis">
+      
+        locate
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#history">14.8 II.7.8 
+<span class="md-ellipsis">
+      
+        history
+      
+    </span>
+</a>
+<nav aria-label="history" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#raccourcis-indispensables-de-lhistorique">14.8.1 II.7.8.1 
+<span class="md-ellipsis">
+      
+        Raccourcis indispensables de l'historique
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH II – Shell et commandes de base
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="II.7 Autres commandes.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="obtenir-des-informations-sur-les-commandes"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7</span> Obtenir des informations sur les commandes</h1>
+<p>Ci-dessous une sélection de commandes indispensables pour identifier la nature d'une commande, localiser ses fichiers exécutables ou consulter sa documentation intégrée :</p>
+<ul>
+<li><a href="#man">14.1 II.7.1 <code>man</code></a> : Affiche la page de manuel d'une commande ou d'un fichier de configuration.</li>
+<li><a href="#apropos">14.2 II.7.2 <code>apropos</code></a> : Recherche des commandes par mots-clés dans les descriptions du manuel.</li>
+<li><a href="#type">14.3 II.7.3 <code>type</code></a> : Indique comment le shell interprète une commande (programme binaire, primitive interne, alias).</li>
+<li><a href="#file">14.4 II.7.4 <code>file</code></a> : Détermine le format et le type exact d’un fichier.</li>
+<li><a href="#which">14.5 II.7.5 <code>which</code></a> : Localise l’exécutable associé à une commande dans les répertoires du <code>$PATH</code>.</li>
+<li><a href="#whereis">14.6 II.7.6 <code>whereis</code></a> : Localise les binaires, les sources et les pages de manuel associées.</li>
+<li><a href="#locate">14.7 II.7.7 <code>locate</code></a> : Recherche rapidement des fichiers via une base de données indexée.</li>
+<li><a href="#history">14.8 II.7.8 <code>history</code></a> : Affiche l’historique des commandes saisies dans la session.</li>
+</ul>
+<h2 id="man"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.1</span> man</h2>
+<p>La commande <code>man</code> (<em>manual</em>) permet de consulter la documentation officielle du système. La syntaxe est <code>man [section] nom_commande</code>.</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>man<span class="w"> </span>ls
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">LS(1)                            User Commands                           LS(1)</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="go">NAME</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="go">       ls - list directory contents</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="go">DESCRIPTION</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="go">       List  information  about the FILEs (the current directory by default).  Sort entries</span>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="go">       alphabetically if none of -cftuvSUX nor --sort is specified.  Always  show  hidden  files  (those  starting with .) except when -a   or -A is specified.</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Les sections du manuel</p>
+<p>Le manuel Linux est découpé en plusieurs sections numérotées. Les plus courantes sont :
+- <strong>Section 1</strong> : Commandes utilisateur exécutables (<code>ls</code>, <code>cp</code>, <code>passwd</code>).
+- <strong>Section 5</strong> : Formats des fichiers de configuration (<code>/etc/passwd</code>, <code>/etc/fstab</code>).
+- <strong>Section 8</strong> : Commandes d'administration système (<code>fdisk</code>, <code>useradd</code>, <code>systemctl</code>).</p>
+<p><em>Exemple :</em> <code>man 1 passwd</code> affiche l'aide sur la commande pour changer de mot de passe, tandis que <code>man 5 passwd</code> documente la structure du fichier <code>/etc/passwd</code>.</p>
+</div>
+<h2 id="apropos"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.2</span> apropos</h2>
+<p>La commande <code>man</code> requiert de connaître le nom exact de la commande. Si vous cherchez une commande par sa fonction, utilisez <code>apropos</code> (ou <code>man -k</code>), qui effectue une recherche textuelle dans la ligne de résumé de toutes les pages de manuel.</p>
+<p>Par exemple, pour rechercher les commandes en rapport avec le noyau (<em>kernel</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>apropos<span class="w"> </span>kernel
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="go">systemd-udevd-kernel.socket (8) - Device event managing daemon</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="go">uname (2)            - get name and information about current kernel</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">urandom (4)          - kernel random number source devices</span>
+</span></code></pre></div>
+<h2 id="type"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.3</span> type</h2>
+<p>La commande <code>type</code> permet d’identifier la manière dont le shell exécutera une commande donnée (sans avoir à ouvrir le manuel). Elle indique s’il s’agit d'une commande interne (<em>shell builtin</em>), d’un programme externe situé dans le système, d’un alias ou d’une fonction shell :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uname<span class="w"> </span>cp<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>which
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">uname is hashed (/bin/uname)</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">cp is /bin/cp</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="go">kill is a shell builtin</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="go">which is /usr/bin/which</span>
+</span></code></pre></div>
+<p>L'option <code>-a</code> permet d'afficher toutes les définitions disponibles pour un même nom :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>-a<span class="w"> </span><span class="nb">echo</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">echo is a shell builtin</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="go">echo is /bin/echo</span>
+</span></code></pre></div>
+<h2 id="file"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.4</span> file</h2>
+<p>La commande <code>file</code> analyse la signature binaire (les <em>nombres magiques</em>) d'un fichier pour déterminer son type réel, indépendamment de son extension :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span>file<span class="w"> </span>/bin/ls
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">/bin/ls: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=0x123456789abcdef, stripped</span>
+</span></code></pre></div>
+<p>Cette commande identifie avec précision les binaires compilés (ELF), les scripts shell (<code>ASCII text executable</code>), les fichiers compressés, les images ou les données brutes.</p>
+<h2 id="which"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.5</span> which</h2>
+<p>La commande <code>which</code> parcourt les répertoires listés dans la variable <code>$PATH</code> de gauche à droite et retourne le chemin complet du premier exécutable correspondant :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span>which<span class="w"> </span>ls
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="go">/bin/ls</span>
+</span></code></pre></div>
+<h2 id="whereis"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.6</span> whereis</h2>
+<p>La commande <code>whereis</code> recherche simultanément l'emplacement de l'exécutable binaire, de ses fichiers sources et de ses pages de manuel dans les dossiers standards du système :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>whereis<span class="w"> </span>ls
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="go">ls: /bin/ls /usr/share/man/man1/ls.1.gz</span>
+</span></code></pre></div>
+<h2 id="locate"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.7</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.7</span> locate</h2>
+<p>La commande <code>locate</code> effectue une recherche quasi instantanée dans l'ensemble de l'arborescence en interrogeant une base de données d'indexation locale (<code>mlocate</code> ou <code>plocate</code>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>locate<span class="w"> </span>ls
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="go">/bin/ls</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="go">/usr/bin/ls</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="go">/usr/share/man/man1/ls.1.gz</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Mise à jour de l'index</p>
+<p>Les fichiers récemment créés ou supprimés n’apparaîtront qu'après la mise à jour de la base d'indexation. Pour forcer l'actualisation manuelle, exécutez la commande avec les privilèges administrateur :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>updatedb
+</span></code></pre></div>
+</div>
+<h2 id="history"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.8</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.8</span> history</h2>
+<p>La commande <code>history</code> affiche la liste numérotée des commandes précédemment saisies dans la session de shell :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">$ </span><span class="nb">history</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="go">1  ls</span>
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="go">2  cd /home/frank</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="go">3  echo $PATH</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="go">4  export PATH=$PATH:/home/frank/bin    </span>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="go">5  history</span>
+</span></code></pre></div>
+<h3 id="raccourcis-indispensables-de-lhistorique"><span class="enumerate-headings-plugin enumerate-heading-plugin">14.8.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.7.8.1</span> Raccourcis indispensables de l'historique</h3>
+<ul>
+<li><code>!n</code> : réexécute la commande numéro <code>n</code> (ex: <code>!3</code> réexécute la commande 3).</li>
+<li><code>!!</code> : réexécute la dernière commande exécutée (très utile avec <code>sudo !!</code> pour relancer la commande précédente avec les droits d'administration).</li>
+<li><code>!chaine</code> : réexécute la dernière commande commençant par <code>chaine</code>.</li>
+<li><kbd>Ctrl</kbd> + <kbd>R</kbd> : lance la recherche incrémentale inversée dans l'historique au fur et à mesure de votre saisie.</li>
+</ul>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: II.6 Compression" class="md-footer__link md-footer__link--prev" href="../6-compression/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                II.6 Compression
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: II.8 Quiz CH2" class="md-footer__link md-footer__link--next" href="../8-quiz/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                II.8 Quiz CH2
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

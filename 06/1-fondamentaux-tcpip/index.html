@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../" rel="prev"/>
+<link href="../2-configuration-reseau/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>VI.1 Fondamentaux TCP/IP - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#fondamentaux-des-protocoles-tcpip">40. VI.1 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              VI.1 Fondamentaux TCP/IP
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pile-tcpip-et-modele-osi">40.1 VI.1.1 
+<span class="md-ellipsis">
+      
+        Pile TCP/IP et modèle OSI
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#encapsulation-et-decapsulation">40.2 VI.1.2 
+<span class="md-ellipsis">
+      
+        Encapsulation et décapsulation
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#multiplexage-demultiplexage-et-numeros-de-ports">40.3 VI.1.3 
+<span class="md-ellipsis">
+      
+        Multiplexage, démultiplexage et numéros de ports
+      
+    </span>
+</a>
+<nav aria-label="Multiplexage, démultiplexage et numéros de ports" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ports-standards-a-connaitre-lpic-1">40.3.1 VI.1.3.1 
+<span class="md-ellipsis">
+      
+        Ports standards à connaître (LPIC-1)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#structure-des-en-tetes-ip-et-tcp">40.4 VI.1.4 
+<span class="md-ellipsis">
+      
+        Structure des en-têtes IP et TCP
+      
+    </span>
+</a>
+<nav aria-label="Structure des en-têtes IP et TCP" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#len-tete-ipv4">40.4.1 VI.1.4.1 
+<span class="md-ellipsis">
+      
+        L'en-tête IPv4
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#len-tete-tcp-et-la-poignee-de-main-3-way-handshake">40.4.2 VI.1.4.2 
+<span class="md-ellipsis">
+      
+        L'en-tête TCP et la poignée de main (3-Way Handshake)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#adressage-ipv4-masques-cidr-et-ipv6">40.5 VI.1.5 
+<span class="md-ellipsis">
+      
+        Adressage IPv4, masques CIDR et IPv6
+      
+    </span>
+</a>
+<nav aria-label="Adressage IPv4, masques CIDR et IPv6" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#plages-dadresses-ipv4-speciales-a-connaitre">40.5.1 VI.1.5.1 
+<span class="md-ellipsis">
+      
+        Plages d'adresses IPv4 spéciales à connaître
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lecture-pratique-des-plages-cidr-et-role-operationnel-de-0000">40.5.2 VI.1.5.2 
+<span class="md-ellipsis">
+      
+        Lecture pratique des plages CIDR et rôle opérationnel de 0.0.0.0
+      
+    </span>
+</a>
+<nav aria-label="Lecture pratique des plages CIDR et rôle opérationnel de 0.0.0.0" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#comprendre-0000-any-dans-la-configuration-des-services">40.5.2.1 VI.1.5.2.1 
+<span class="md-ellipsis">
+      
+        Comprendre 0.0.0.0 (any) dans la configuration des services
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#notions-dipv6">40.5.3 VI.1.5.3 
+<span class="md-ellipsis">
+      
+        Notions d'IPv6
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#fichiers-systeme-de-reference-etcprotocols-et-etcservices">40.6 VI.1.6 
+<span class="md-ellipsis">
+      
+        Fichiers système de référence : /etc/protocols et /etc/services
+      
+    </span>
+</a>
+<nav aria-label="Fichiers système de référence : /etc/protocols et /etc/services" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etcprotocols-nom-de-protocole-numero-ip">40.6.1 VI.1.6.1 
+<span class="md-ellipsis">
+      
+        /etc/protocols (Nom de protocole ↔ numéro IP)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etcservices-nom-de-service-numero-de-port">40.6.2 VI.1.6.2 
+<span class="md-ellipsis">
+      
+        /etc/services (Nom de service ↔ numéro de port)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH VI – Gestion du réseau
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="VI.1 Fondamentaux TCP/IP.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="fondamentaux-des-protocoles-tcpip"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1</span> Fondamentaux des protocoles TCP/IP</h1>
+<p>Toute administration réseau sous Linux exige de comprendre comment les données applicatives sont découpées, adressées et acheminées sur le réseau. Cette section présente l'architecture <strong>TCP/IP</strong> face au modèle <strong>OSI</strong>, le mécanisme d'<strong>encapsulation</strong>, le <strong>multiplexage par ports</strong>, la structure des en-têtes <strong>IP</strong> et <strong>TCP</strong>, l'adressage IPv4/CIDR et les fichiers de référence du système (<code>/etc/protocols</code> et <code>/etc/services</code>), conformément à l'objectif <strong>LPIC-1 109.1</strong>.</p>
+<hr/>
+<h2 id="pile-tcpip-et-modele-osi"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.1</span> Pile TCP/IP et modèle OSI</h2>
+<p>Le modèle <strong>OSI</strong> (<em>Open Systems Interconnection</em>) propose une approche théorique et formaliste en 7 couches, tandis que le modèle <strong>TCP/IP</strong> adopte une approche pragmatique en 4 couches directement utilisée par Internet et le noyau Linux :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Modèle OSI (7 couches)</th>
+<th style="text-align: left;">Modèle TCP/IP (4 couches)</th>
+<th style="text-align: left;">Protocoles et exemples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>7. Application</strong><br/><strong>6. Présentation</strong><br/><strong>5. Session</strong></td>
+<td style="text-align: left;"><strong>Applications TCP/IP</strong></td>
+<td style="text-align: left;"><code>HTTP</code>, <code>FTP</code>, <code>TELNET</code>, <code>SSH</code>, <code>SMTP</code>, <code>DNS</code>, <code>SNMP</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. Transport</strong></td>
+<td style="text-align: left;"><strong>Transport</strong></td>
+<td style="text-align: left;"><code>TCP</code>, <code>UDP</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3. Réseau</strong></td>
+<td style="text-align: left;"><strong>Inter-réseau</strong></td>
+<td style="text-align: left;"><code>IP</code> (IPv4/IPv6), <code>ICMP</code>, <code>ARP</code>, <code>RARP</code>, <code>OSPF</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. Liaison de données</strong><br/><strong>1. Physique</strong></td>
+<td style="text-align: left;"><strong>Accès au sous-réseau</strong></td>
+<td style="text-align: left;">Ethernet (réseaux locaux), <code>PPP</code>, <code>SLIP</code>, <code>X.25</code>, <code>FR</code>, <code>ATM</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Approche pragmatique de TCP/IP</p>
+<p>À l'origine, la spécification TCP/IP ne décrit ni la couche physique ni la couche liaison : les applications s'appuient directement sur la couche transport (<code>TCP</code> ou <code>UDP</code>), qui s'appuie elle-même sur <code>IP</code> pour traverser n'importe quel réseau physique sous-jacent.</p>
+</div>
+<hr/>
+<h2 id="encapsulation-et-decapsulation"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.2</span> Encapsulation et décapsulation</h2>
+<p>Lorsqu'une application envoie des données sur le réseau, chaque couche de la pile TCP/IP ajoute ses propres informations de contrôle sous forme d'en-tête (<em>header</em>) : c'est l'<strong>encapsulation</strong>. À la réception, la machine destinataire effectue l'opération inverse (<strong>décapsulation</strong>) en retirant chaque en-tête au fur et à mesure de la remontée vers l'application.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>Couches hautes     :                       [ Données applicatives ]
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>Transport (TCP/UDP):              [Ent. TCP][ Données applicatives ]   -&gt; Segment / Datagramme
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>Réseau (IP)        :     [Ent. IP][Ent. TCP][ Données applicatives ]   -&gt; Paquet
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>Liaison (couche 2) : [Ent. L2][Ent. IP][Ent. TCP][ Données applicatives ][Pied L2] -&gt; Trame
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>Couche physique    : 1 0 0 1 0 1 1 0 1 1 0 0 1 0 1 1 ...              -&gt; Bits sur le média
+</span></code></pre></div>
+<ul>
+<li><strong>À l'émission</strong> (descendant) : chaque couche encapsule les données reçues de la couche supérieure.</li>
+<li><strong>À la réception</strong> (montant) : chaque couche lit et retire son propre en-tête, puis transmet la charge utile (<em>payload</em>) à la couche supérieure.</li>
+</ul>
+<hr/>
+<h2 id="multiplexage-demultiplexage-et-numeros-de-ports"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.3</span> Multiplexage, démultiplexage et numéros de ports</h2>
+<p>Un même serveur Linux héberge simultanément plusieurs services (serveur web, base de données, serveur SSH, client DNS) partageant une unique interface réseau et une seule adresse IP.</p>
+<ul>
+<li><strong>Multiplexage (émission)</strong> : Les flux de plusieurs applications passent par <code>TCP</code> ou <code>UDP</code>, puis sont regroupés par <code>IP</code> vers un seul lien physique.</li>
+<li><strong>Démultiplexage (réception)</strong> : La couche <code>IP</code> examine le champ <strong>Protocole</strong> de son en-tête pour remettre le paquet à <code>TCP</code> (protocole <code>6</code>) ou <code>UDP</code> (protocole <code>17</code>). La couche transport lit ensuite le <strong>numéro de port de destination</strong> pour délivrer les données au bon processus applicatif.</li>
+</ul>
+<h3 id="ports-standards-a-connaitre-lpic-1"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.3.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.3.1</span> Ports standards à connaître (LPIC-1)</h3>
+<p>Les ports compris entre <strong>0 et 1023</strong> sont les ports réservés (<em>well-known ports</em>), qui nécessitent des privilèges <code>root</code> pour être ouverts en écoute sous Linux :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Service / Protocole</th>
+<th style="text-align: center;">Transport</th>
+<th style="text-align: center;">Port</th>
+<th style="text-align: left;">Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>FTP</strong> (<em>File Transfer Protocol</em>)</td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">20 / 21</td>
+<td style="text-align: left;">Transfert de fichiers (données / contrôle)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SSH</strong> (<em>Secure Shell</em>)</td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: left;">Administration distante chiffrée</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Telnet</strong></td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: left;">Terminal distant en clair (usage test TCP aujourd'hui)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SMTP</strong> (<em>Simple Mail Transfer</em>)</td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: left;">Envoi et relais de courrier électronique</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DNS</strong> (<em>Domain Name System</em>)</td>
+<td style="text-align: center;">UDP / TCP</td>
+<td style="text-align: center;">53</td>
+<td style="text-align: left;">Résolution de noms (UDP requêtes, TCP transferts de zone)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DHCP</strong> (<em>Dynamic Host Config</em>)</td>
+<td style="text-align: center;">UDP</td>
+<td style="text-align: center;">67 / 68</td>
+<td style="text-align: left;">Attribution dynamique d'adresses IP (serveur / client)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>HTTP / HTTPS</strong></td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">80 / 443</td>
+<td style="text-align: left;">Trafic Web en clair / chiffré TLS</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POP3 / IMAP</strong></td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">110 / 143</td>
+<td style="text-align: left;">Réception d'e-mails (chiffrés : 995 / 993)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NTP</strong> (<em>Network Time Protocol</em>)</td>
+<td style="text-align: center;">UDP</td>
+<td style="text-align: center;">123</td>
+<td style="text-align: left;">Synchronisation horaire</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SNMP</strong></td>
+<td style="text-align: center;">UDP</td>
+<td style="text-align: center;">161 / 162</td>
+<td style="text-align: left;">Supervision réseau</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MySQL / MariaDB</strong></td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">3306</td>
+<td style="text-align: left;">Base de données relationnelle</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PostgreSQL</strong></td>
+<td style="text-align: center;">TCP</td>
+<td style="text-align: center;">5432</td>
+<td style="text-align: left;">Base de données relationnelle</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="structure-des-en-tetes-ip-et-tcp"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.4</span> Structure des en-têtes IP et TCP</h2>
+<h3 id="len-tete-ipv4"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.4.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.4.1</span> L'en-tête IPv4</h3>
+<p>L'en-tête IPv4 a une largeur de <strong>32 bits</strong> et une taille minimale de <strong>20 octets</strong> (sans options). Il assure le routage de bout en bout entre réseaux :</p>
+<ul>
+<li><strong>Version</strong> (4 bits) : <code>4</code> pour IPv4.</li>
+<li><strong>IHL</strong> (<em>Internet Header Length</em>) : longueur de l'en-tête en mots de 32 bits.</li>
+<li><strong>Type de service (ToS / DSCP)</strong> : priorité et qualité de service (QoS).</li>
+<li><strong>Longueur totale</strong> : taille totale du paquet (en-tête + données, max 65 535 octets).</li>
+<li><strong>Identification, Flags, Offset de fragmentation</strong> : gestion du découpage et réassemblage des paquets si un lien a une MTU plus petite.</li>
+<li><strong>Durée de vie (TTL - <em>Time To Live</em>)</strong> : compteur décrémenté de <code>1</code> à chaque routeur traversé. À <code>0</code>, le paquet est détruit (évite les boucles de routage infinies ; exploité par <code>traceroute</code>).</li>
+<li><strong>Protocole</strong> : identifie le protocole encapsulé (<code>1</code> = ICMP, <code>6</code> = TCP, <code>17</code> = UDP).</li>
+<li><strong>Checksum</strong> : somme de contrôle vérifiant l'intégrité de l'en-tête IP.</li>
+<li><strong>Adresses IP source et destinataire</strong> : 32 bits chacune.</li>
+<li><strong>Options et Padding</strong> : champs facultatifs et bourrage pour aligner sur 32 bits.</li>
+</ul>
+<h3 id="len-tete-tcp-et-la-poignee-de-main-3-way-handshake"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.4.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.4.2</span> L'en-tête TCP et la poignée de main (<em>3-Way Handshake</em>)</h3>
+<p><strong>TCP</strong> (<em>Transmission Control Protocol</em>) est un protocole orienté connexion, fiable et ordonné. Son en-tête mesure <strong>20 octets minimum</strong> :</p>
+<ul>
+<li><strong>Ports source et destination</strong> (16 bits chacun, de 0 à 65535).</li>
+<li><strong>Numéro de séquence</strong> et <strong>Numéro d'acquittement</strong> : garantissent la remise dans l'ordre et la retransmission des segments perdus.</li>
+<li><strong>Longueur d'en-tête</strong> et <strong>Drapeaux (Flags)</strong> :<ul>
+<li><code>SYN</code> : demande d'ouverture de connexion.</li>
+<li><code>ACK</code> : acquittement de réception.</li>
+<li><code>FIN</code> : fermeture propre de la connexion.</li>
+<li><code>RST</code> : réinitialisation brutale (connexion refusée ou coupée).</li>
+<li><code>PSH</code> : transmission immédiate à l'application sans mise en tampon.</li>
+<li><code>URG</code> : données urgentes (avec le pointeur sur données urgentes).</li>
+</ul>
+</li>
+<li><strong>Fenêtre (<em>Window</em>)</strong> : contrôle de flux (quantité d'octets que le récepteur accepte avant acquittement).</li>
+<li><strong>Total de contrôle (<em>Checksum</em>)</strong> et <strong>Options / Bourrage</strong>.</li>
+</ul>
+<p>Avant tout échange de données applicatives (HTTP, requête SQL), TCP établit une session via la <strong>poignée de main en trois temps</strong> (<em>Three-Way Handshake</em>) :</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant C as Client (ex. Java)
+    participant S as Serveur (ex. BDD :5432)
+    C-&gt;&gt;S: 1. SYN (Demande de connexion)
+    S-&gt;&gt;C: 2. SYN-ACK (Acceptation + synchronisation)
+    C-&gt;&gt;S: 3. ACK (Connexion établie - ESTABLISHED)</code></pre>
+<p>À l'opposé, <strong>UDP</strong> (<em>User Datagram Protocol</em>) est un protocole sans connexion (<em>connectionless</em>), plus léger (en-tête de 8 octets), sans garantie de livraison ni réordonnancement (idéal pour DNS, DHCP, streaming, VoIP).</p>
+<hr/>
+<h2 id="adressage-ipv4-masques-cidr-et-ipv6"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.5</span> Adressage IPv4, masques CIDR et IPv6</h2>
+<p>Une adresse IPv4 est codée sur <strong>32 bits</strong> (4 octets notés en décimal pointé, ex. <code>192.168.1.10</code>) et associée à un <strong>masque de sous-réseau</strong> qui sépare la partie <strong>réseau</strong> de la partie <strong>hôte</strong> :</p>
+<ul>
+<li>Notation décimale : <code>255.255.255.0</code></li>
+<li>Notation CIDR (<em>Classless Inter-Domain Routing</em>) : <code>/24</code> (24 bits à <code>1</code> pour le réseau, 8 bits pour les hôtes, soit 2⁸ - 2 = 254 adresses utilisables).</li>
+</ul>
+<h3 id="plages-dadresses-ipv4-speciales-a-connaitre"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.5.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.5.1</span> Plages d'adresses IPv4 spéciales à connaître</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Plage CIDR</th>
+<th style="text-align: left;">Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>10.0.0.0/8</code></td>
+<td style="text-align: left;">Réseau privé (RFC 1918 – Classe A)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>172.16.0.0/12</code></td>
+<td style="text-align: left;">Réseau privé (RFC 1918 – Classe B, de <code>172.16.0.0</code> à <code>172.31.255.255</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>192.168.0.0/16</code></td>
+<td style="text-align: left;">Réseau privé (RFC 1918 – Classe C)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>127.0.0.0/8</code></td>
+<td style="text-align: left;">Boucle locale (<em>loopback</em>, typiquement <code>127.0.0.1</code> pour <code>localhost</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>169.254.0.0/16</code></td>
+<td style="text-align: left;">Adresses lien-local (APIPA, attribuées en l'absence de serveur DHCP)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lecture-pratique-des-plages-cidr-et-role-operationnel-de-0000"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.5.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.5.2</span> Lecture pratique des plages CIDR et rôle opérationnel de <code>0.0.0.0</code></h3>
+<p>En administration système, la notation CIDR apparaît partout : configuration d'interfaces (<code>ip addr</code>), règles de pare-feu (<code>ufw</code>, <code>iptables</code>, Security Groups cloud) et fichiers d'accès applicatifs (<code>pg_hba.conf</code>, Nginx). Savoir traduire immédiatement un CIDR en plage d'adresses évite des erreurs de sécurité ou de routage.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Notation CIDR</th>
+<th style="text-align: left;">Masque équivalent</th>
+<th style="text-align: left;">Plage totale (Réseau → Broadcast)</th>
+<th style="text-align: left;">Plage d'hôtes utilisables</th>
+<th style="text-align: left;">Cas d'usage concret en production</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>192.168.1.0/24</code></td>
+<td style="text-align: left;"><code>255.255.255.0</code></td>
+<td style="text-align: left;"><code>192.168.1.0</code> → <code>192.168.1.255</code></td>
+<td style="text-align: left;"><code>.1</code> → <code>.254</code> (254 IP)</td>
+<td style="text-align: left;">Réseau local classique (bureau, VLAN applicatif). <code>.0</code> est l'ID réseau, <code>.255</code> le broadcast.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>192.168.1.0/26</code></td>
+<td style="text-align: left;"><code>255.255.255.192</code></td>
+<td style="text-align: left;"><code>192.168.1.0</code> → <code>192.168.1.63</code></td>
+<td style="text-align: left;"><code>.1</code> → <code>.62</code> (62 IP)</td>
+<td style="text-align: left;">Petit sous-réseau dédié (ex. DMZ ou cluster de serveurs).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>10.0.0.0/16</code></td>
+<td style="text-align: left;"><code>255.255.0.0</code></td>
+<td style="text-align: left;"><code>10.0.0.0</code> → <code>10.0.255.255</code></td>
+<td style="text-align: left;"><code>10.0.0.1</code> → <code>10.0.255.254</code> (65 534 IP)</td>
+<td style="text-align: left;">Plage globale d'un réseau privé virtuel (VPC cloud AWS/Azure).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>192.168.1.50/32</code></td>
+<td style="text-align: left;"><code>255.255.255.255</code></td>
+<td style="text-align: left;"><code>192.168.1.50</code> uniquement</td>
+<td style="text-align: left;"><code>192.168.1.50</code> (1 IP)</td>
+<td style="text-align: left;">Autoriser <strong>un seul serveur précis</strong> dans un pare-feu ou <code>pg_hba.conf</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>0.0.0.0/0</code></td>
+<td style="text-align: left;"><code>0.0.0.0</code></td>
+<td style="text-align: left;"><code>0.0.0.0</code> → <code>255.255.255.255</code></td>
+<td style="text-align: left;">Toutes les IPv4 (<em>any</em>)</td>
+<td style="text-align: left;">Route par défaut (Internet) ou règle pare-feu ouverte à tous.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="comprendre-0000-any-dans-la-configuration-des-services"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.5.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.5.2.1</span> Comprendre <code>0.0.0.0</code> (<em>any</em>) dans la configuration des services</h4>
+<p>L'adresse spéciale <strong><code>0.0.0.0</code></strong> signifie littéralement <strong>« n'importe quelle adresse » (<em>any</em>)</strong>. En pratique, elle intervient dans trois contextes opérationnels essentiels :</p>
+<ol>
+<li>
+<p><strong>Dans les fichiers de configuration de services (écoute réseau)</strong> :<br/>
+   Lorsqu'un administrateur configure une base de données ou un serveur web (ex. <code>bind-address = 0.0.0.0</code> dans MySQL <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>, ou <code>listen_addresses = '*'</code> dans PostgreSQL), il indique au service d'accepter les connexions sur <strong>toutes les interfaces IPv4 de la machine</strong> (carte réseau privée, carte publique, <code>127.0.0.1</code>, etc.).</p>
+</li>
+<li>
+<p>À l'inverse, si le service est configuré sur <strong><code>127.0.0.1</code></strong>, il n'est joignable que depuis la machine elle-même (aucun client distant ne pourra se connecter).</p>
+</li>
+<li>Par sécurité, sur un serveur possédant une IP publique et une IP privée (ex. <code>10.20.30.40</code>), il est souvent préférable de configurer l'écoute sur <strong><code>10.20.30.40</code></strong> plutôt que <code>0.0.0.0</code> afin de ne pas exposer le port sur l'interface publique.</li>
+<li>
+<p><strong>Dans la sortie de <code>netstat -nlpt</code> / <code>ss -nlpt</code></strong> :<br/>
+   Voir <code>0.0.0.0:5432</code> dans la colonne <code>Local Address</code> confirme immédiatement que le service accepte des connexions venant du réseau, contrairement à <code>127.0.0.1:5432</code>.</p>
+</li>
+<li>
+<p><strong>Dans le routage et les pare-feux (<code>0.0.0.0/0</code>)</strong> :<br/>
+   Désigne « tout le trafic » quelle que soit l'adresse IP source ou destination (utilisé pour la passerelle par défaut ou pour ouvrir un port web <code>80/443</code> à tout Internet).</p>
+</li>
+</ol>
+<h3 id="notions-dipv6"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.5.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.5.3</span> Notions d'IPv6</h3>
+<p>Face à l'épuisement d'IPv4, <strong>IPv6</strong> utilise des adresses sur <strong>128 bits</strong> écrites en hexadécimal (8 groupes de 16 bits séparés par <code>:</code>, ex. <code>2001:db8::1</code>). Retenez pour le LPIC-1 :</p>
+<ul>
+<li><code>::1/128</code> : adresse de boucle locale (<em>loopback</em>, équivalent de <code>127.0.0.1</code>).</li>
+<li><code>fe80::/10</code> : adresses lien-local (<em>link-local</em>), générées automatiquement sur chaque interface.</li>
+<li><code>/64</code> : taille standard d'un sous-réseau IPv6.</li>
+</ul>
+<hr/>
+<h2 id="fichiers-systeme-de-reference-etcprotocols-et-etcservices"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.6</span> Fichiers système de référence : <code>/etc/protocols</code> et <code>/etc/services</code></h2>
+<p>Sous Linux, deux fichiers texte servent de tables de correspondance locales aux bibliothèques système et aux outils comme <code>netstat</code>, <code>ss</code> ou <code>tcpdump</code> pour traduire les numéros en noms lisibles.</p>
+<h3 id="etcprotocols-nom-de-protocole-numero-ip"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.6.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.6.1</span> <code>/etc/protocols</code> (Nom de protocole ↔ numéro IP)</h3>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">15</span><span class="w"> </span>/etc/protocols
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="gp"># </span>Internet<span class="w"> </span><span class="o">(</span>IP<span class="o">)</span><span class="w"> </span>protocols
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="go">ip      0       IP              # internet protocol, pseudo protocol number</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">icmp    1       ICMP            # internet control message protocol</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="go">igmp    2       IGMP            # Internet Group Management</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="go">ggp     3       GGP             # gateway-gateway protocol</span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="go">tcp     6       TCP             # transmission control protocol</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="go">pup     12      PUP             # PARC universal packet protocol</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="go">udp     17      UDP             # user datagram protocol</span>
+</span></code></pre></div>
+<h3 id="etcservices-nom-de-service-numero-de-port"><span class="enumerate-headings-plugin enumerate-heading-plugin">40.6.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">VI.1.6.2</span> <code>/etc/services</code> (Nom de service ↔ numéro de port)</h3>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"^(ftp|ssh|telnet|http|postgresql|mysql)\b"</span><span class="w"> </span>/etc/services
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">ftp-data        20/tcp</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">ftp             21/tcp</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="go">ssh             22/tcp                          # SSH Remote Login Protocol</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="go">telnet          23/tcp</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="go">http            80/tcp          www             # WorldWideWeb HTTP</span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="go">mysql           3306/tcp</span>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="go">postgresql      5432/tcp        postgres        # PostgreSQL Database</span>
+</span></code></pre></div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: Index" class="md-footer__link md-footer__link--prev" href="../">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                Index
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: VI.2 Configuration et routage" class="md-footer__link md-footer__link--next" href="../2-configuration-reseau/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                VI.2 Configuration et routage
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

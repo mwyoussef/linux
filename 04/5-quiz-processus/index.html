@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../4-priorite-processus/" rel="prev"/>
+<link href="../6-recap/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>IV.5 Quiz - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#questions-dauto-evaluation">28. IV.5 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              IV.5 Quiz
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH IV – Gestion des Processus
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="IV.5 Quiz.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="questions-dauto-evaluation"><span class="enumerate-headings-plugin enumerate-heading-plugin">28.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.5</span> Questions d'auto-évaluation</h1>
+<ol>
+<li>
+<p><code>oneko</code> est un programme amusant qui affiche un chat poursuivant le curseur de votre souris. S’il n’est pas déjà installé sur votre machine, installez-le avec votre gestionnaire de paquets (<code>sudo apt install oneko</code>). Nous allons l’utiliser pour manipuler le contrôle des tâches (<em>job control</em>).</p>
+<p>1.1 Lancez le programme. Quelle commande tapez-vous ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Installation si nécessaire :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>oneko
+</span></code></pre></div>
+<p>Lancement en avant-plan :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>oneko
+</span></code></pre></div>
+</details>
+<p>1.2 Déplacez le curseur de la souris pour observer le chat. Suspendez maintenant le processus. Quelle combinaison de touches utilisez-vous et quel est le message obtenu ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>En appuyant sur la combinaison de touches <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-z">Z</kbd></span> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">[1]+  Stopped                 oneko</span>
+</span></code></pre></div>
+</details>
+<p>1.3 Vérifiez l'état des tâches de votre session shell courante. Quelle commande tapez-vous ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span><span class="nb">jobs</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">[1]+  Stopped                 oneko</span>
+</span></code></pre></div>
+</details>
+<p>1.4 Relancez maintenant cette tâche en arrière-plan en utilisant son numéro de tâche (<em>job ID</em>). Quelle commande utilisez-vous ? Comment constatez-vous qu'elle s'exécute à nouveau ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span><span class="nb">bg</span><span class="w"> </span>%1
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">[1]+ oneko &amp;</span>
+</span></code></pre></div>
+<p>Le curseur de commande réapparaît dans le terminal et le chat se remet immédiatement à courir après la souris.</p>
+</details>
+<p>1.5 Terminez la tâche en spécifiant son identifiant de tâche (<em>job ID</em>). Quelle commande utilisez-vous ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span><span class="nb">kill</span><span class="w"> </span>%1
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Identifiez les PID de tous les processus engendrés par le serveur web Apache HTTPD (<code>apache2</code>) à l’aide de deux commandes distinctes :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Avec <code>pgrep</code> :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>pgrep<span class="w"> </span>apache2
+</span></code></pre></div>
+Ou avec <code>pidof</code> :
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>pidof<span class="w"> </span>apache2
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Terminez tous les processus <code>apache2</code> sans spécifier manuellement leurs PID, en utilisant deux commandes distinctes :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Avec <code>pkill</code> :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="gp">$ </span>pkill<span class="w"> </span>apache2
+</span></code></pre></div>
+Ou avec <code>killall</code> :
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">$ </span>killall<span class="w"> </span>apache2
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Comment arrêter l'ensemble des processus <code>apache2</code> en utilisant la commande <code>kill</code> avec son signal par défaut (<code>SIGTERM</code>) combinée en une seule ligne de commande ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>En utilisant la substitution de commande :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span><span class="nb">kill</span><span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>apache2<span class="k">)</span>
+</span></code></pre></div>
+Ou :
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="gp">$ </span><span class="nb">kill</span><span class="w"> </span><span class="k">$(</span>pidof<span class="w"> </span>apache2<span class="k">)</span>
+</span></code></pre></div>
+<p><strong>Remarque</strong> : <code>SIGTERM</code> (15) étant le signal envoyé par défaut par <code>kill</code>, il n'est pas nécessaire de spécifier d'option de signal.</p>
+</details>
+</li>
+<li>
+<p>Lancez <code>top</code> et réalisez les manipulations interactives suivantes :</p>
+<p>5.1 Afficher l'arborescence hiérarchique des processus :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Lancer la commande <code>top</code>, puis appuyer sur la touche <kbd>V</kbd>.</p>
+</details>
+<p>5.2 Afficher la ligne de commande complète des processus en distinguant l'espace utilisateur de l'espace noyau :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Appuyer sur la touche <kbd>c</kbd>.</p>
+</details>
+<p>5.3 Afficher avec <code>ps</code> tous les processus appartenant à l’utilisateur système du serveur Apache (<code>www-data</code>) :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="gp">$ </span>ps<span class="w"> </span>-u<span class="w"> </span>www-data
+</span></code></pre></div>
+</details>
+</li>
+<li>
+<p>Le signal <code>SIGHUP</code> permet de recharger la configuration de nombreux démons sans interruption de service. Avec Apache HTTPD, l'envoi de <code>SIGHUP</code> au processus parent (démarré par root) termine proprement les processus enfants de traitement et en recrée de nouveaux avec la configuration mise à jour. Réalisez les étapes suivantes :</p>
+<p>6.1 Démarrez le serveur Apache :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>apache2
+</span></code></pre></div>
+</details>
+<p>6.2 Repérez le PID du processus parent :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="gp">$ </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>apache2
+</span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="go">root      2204  0.0  0.1   6572  5196 ?        Ss   06:50   0:01 /usr/sbin/apache2 -k start</span>
+</span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="go">www-data  3547  0.0  0.3 1211248 12168 ?       Sl   07:10   0:00 /usr/sbin/apache2 -k start</span>
+</span><span id="__span-14-4"><a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="go">www-data  3548  0.0  0.2 1211248 8080 ?        Sl   07:10   0:00 /usr/sbin/apache2 -k start</span>
+</span><span id="__span-14-5"><a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="go">wy        3895  0.0  0.0  76356  2092 pts/0    S+   12:58   0:00 grep apache2</span>
+</span></code></pre></div>
+<p>Le processus parent est celui exécuté par le superutilisateur <code>root</code> (ici PID <code>2204</code>). Il possède deux processus enfants (PID <code>3547</code> et <code>3548</code>).</p>
+</details>
+<p>6.3 Demandez au serveur Apache de recharger sa configuration en envoyant le signal <code>SIGHUP</code> à son processus parent :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="gp">$ </span>sudo<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-SIGHUP<span class="w"> </span><span class="m">2204</span>
+</span></code></pre></div>
+</details>
+<p>6.4 Vérifiez que le processus parent est toujours actif et que de nouveaux processus enfants ont été instanciés :</p>
+<details class="tip">
+<summary>Réponse</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="gp">$ </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>apache2
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="go">root      2204  0.0  0.1   6572  5200 ?        Ss   06:50   0:01 /usr/sbin/apache2 -k start</span>
+</span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="go">www-data  3900  0.0  0.1 1211248 6012 ?        Sl   13:00   0:00 /usr/sbin/apache2 -k start</span>
+</span><span id="__span-16-4"><a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="go">www-data  3901  0.0  0.1 1211248 6012 ?        Sl   13:00   0:00 /usr/sbin/apache2 -k start</span>
+</span><span id="__span-16-5"><a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="go">wy        3957  0.0  0.0  76356  2264 pts/0    S+   13:00   0:00 grep apache2</span>
+</span></code></pre></div>
+<p>Le processus parent (PID <code>2204</code>) a conservé son PID, tandis que deux nouveaux processus enfants (<code>3900</code> et <code>3901</code>) ont pris le relais.</p>
+</details>
+</li>
+<li>
+<p>Dans un système multitâche préemptif, que se produit-il lorsqu’un processus de faible priorité s'exécute sur le processeur et qu’un processus de priorité supérieure devient prêt à s'exécuter ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>L'ordonnanceur interrompt (préempte) le processus de faible priorité pour allouer immédiatement le processeur au processus le plus prioritaire.</p>
+</details>
+</li>
+<li>
+<p>Soit la capture de <code>top</code> suivante :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="go">top - 08:43:14 up 23 days, 12:29,  5 users,  load average: 0,13, 0,18, 0,21</span>
+</span><span id="__span-17-2"><a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="go">Tasks: 240 total,   2 running, 238 sleeping,   0 stopped,   0 zombie</span>
+</span><span id="__span-17-3"><a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="gp">%</span>Cpu<span class="o">(</span>s<span class="o">)</span>:<span class="w">  </span><span class="m">1</span>,4<span class="w"> </span>us,<span class="w">  </span><span class="m">0</span>,4<span class="w"> </span>sy,<span class="w">  </span><span class="m">0</span>,0<span class="w"> </span>ni,<span class="w"> </span><span class="m">98</span>,1<span class="w"> </span>id,<span class="w">  </span><span class="m">0</span>,0<span class="w"> </span>wa,<span class="w">  </span><span class="m">0</span>,0<span class="w"> </span>hi,<span class="w">  </span><span class="m">0</span>,0<span class="w"> </span>si,<span class="w">  </span><span class="m">0</span>,0<span class="w"> </span>st
+</span><span id="__span-17-4"><a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="go">MiB Mem :   7726,4 total,    590,9 free,   1600,8 used,   5534,7 buff/cache</span>
+</span><span id="__span-17-5"><a href="#__codelineno-17-5" id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="go">MiB Swap:  30517,0 total,  30462,5 free,     54,5 used.   5769,4 avail Mem</span>
+</span><span id="__span-17-6"><a href="#__codelineno-17-6" id="__codelineno-17-6" name="__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a href="#__codelineno-17-7" id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="go">PID USER     PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND</span>
+</span><span id="__span-17-8"><a href="#__codelineno-17-8" id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="go"> 1 root      20   0  171420  10668   7612 S   0,0   0,1   9:59.15 systemd</span>
+</span><span id="__span-17-9"><a href="#__codelineno-17-9" id="__codelineno-17-9" name="__codelineno-17-9"></a><span class="go"> 2 root      20   0       0      0      0 S   0,0   0,0   0:02.76 kthreadd</span>
+</span><span id="__span-17-10"><a href="#__codelineno-17-10" id="__codelineno-17-10" name="__codelineno-17-10"></a><span class="go"> 3 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 rcu_gp</span>
+</span><span id="__span-17-11"><a href="#__codelineno-17-11" id="__codelineno-17-11" name="__codelineno-17-11"></a><span class="go"> 4 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 rcu_par_gp</span>
+</span><span id="__span-17-12"><a href="#__codelineno-17-12" id="__codelineno-17-12" name="__codelineno-17-12"></a><span class="go"> 8 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 mm_percpu_wq</span>
+</span><span id="__span-17-13"><a href="#__codelineno-17-13" id="__codelineno-17-13" name="__codelineno-17-13"></a><span class="go"> 9 root      20   0       0      0      0 S   0,0   0,0   0:49.06 ksoftirqd/0</span>
+</span><span id="__span-17-14"><a href="#__codelineno-17-14" id="__codelineno-17-14" name="__codelineno-17-14"></a><span class="go">10 root      20   0       0      0      0 I   0,0   0,0  18:24.20 rcu_sched</span>
+</span><span id="__span-17-15"><a href="#__codelineno-17-15" id="__codelineno-17-15" name="__codelineno-17-15"></a><span class="go">11 root      20   0       0      0      0 I   0,0   0,0   0:00.00 rcu_bh</span>
+</span><span id="__span-17-16"><a href="#__codelineno-17-16" id="__codelineno-17-16" name="__codelineno-17-16"></a><span class="go">12 root      rt   0       0      0      0 S   0,0   0,0   0:08.17 migration/0</span>
+</span><span id="__span-17-17"><a href="#__codelineno-17-17" id="__codelineno-17-17" name="__codelineno-17-17"></a><span class="go">14 root      20   0       0      0      0 S   0,0   0,0   0:00.00 cpuhp/0</span>
+</span><span id="__span-17-18"><a href="#__codelineno-17-18" id="__codelineno-17-18" name="__codelineno-17-18"></a><span class="go">15 root      20   0       0      0      0 S   0,0   0,0   0:00.00 cpuhp/1</span>
+</span><span id="__span-17-19"><a href="#__codelineno-17-19" id="__codelineno-17-19" name="__codelineno-17-19"></a><span class="go">16 root      rt   0       0      0      0 S   0,0   0,0   0:11.79 migration/1</span>
+</span><span id="__span-17-20"><a href="#__codelineno-17-20" id="__codelineno-17-20" name="__codelineno-17-20"></a><span class="go">17 root      20   0       0      0      0 S   0,0   0,0   0:26.01 ksoftirqd/1</span>
+</span></code></pre></div>
+<p>Quels sont les PID soumis à une politique d'ordonnancement temps réel ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Les PID <code>12</code> et <code>16</code> (identifiés par <code>rt</code> dans la colonne <code>PR</code>).</p>
+</details>
+</li>
+<li>
+<p>Soit la sortie de la commande <code>ps -el</code> ci-dessous :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="go">F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD</span>
+</span><span id="__span-18-2"><a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="go">4 S     0     1     0  0  80   0 - 42855 -      ?        00:09:59 systemd</span>
+</span><span id="__span-18-3"><a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="go">1 S     0     2     0  0  80   0 -     0 -      ?        00:00:02 kthreadd</span>
+</span><span id="__span-18-4"><a href="#__codelineno-18-4" id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="go">1 I     0     3     2  0  60 -20 -     0 -      ?        00:00:00 rcu_gp</span>
+</span><span id="__span-18-5"><a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="go">1 S     0     9     2  0  80   0 -     0 -      ?        00:00:49 ksoftirqd/0</span>
+</span><span id="__span-18-6"><a href="#__codelineno-18-6" id="__codelineno-18-6" name="__codelineno-18-6"></a><span class="go">1 I     0    10     2  0  80   0 -     0 -      ?        00:18:26 rcu_sched</span>
+</span><span id="__span-18-7"><a href="#__codelineno-18-7" id="__codelineno-18-7" name="__codelineno-18-7"></a><span class="go">1 I     0    11     2  0  80   0 -     0 -      ?        00:00:00 rcu_bh</span>
+</span><span id="__span-18-8"><a href="#__codelineno-18-8" id="__codelineno-18-8" name="__codelineno-18-8"></a><span class="go">1 S     0    12     2  0 -40   - -     0 -      ?        00:00:08 migration/0</span>
+</span><span id="__span-18-9"><a href="#__codelineno-18-9" id="__codelineno-18-9" name="__codelineno-18-9"></a><span class="go">1 S     0    14     2  0  80   0 -     0 -      ?        00:00:00 cpuhp/0</span>
+</span><span id="__span-18-10"><a href="#__codelineno-18-10" id="__codelineno-18-10" name="__codelineno-18-10"></a><span class="go">5 S     0    15     2  0  80   0 -     0 -      ?        00:00:00 cpuhp/1</span>
+</span></code></pre></div>
+<p>Quel PID possède la priorité la plus élevée ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Le PID <code>12</code> avec une priorité <code>PRI</code> de <code>-40</code> (processus temps réel).</p>
+</details>
+</li>
+<li>
+<p>Vous tentez de modifier la priorité d’un processus avec <code>renice</code> et obtenez le message d'erreur suivant :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="gp">$ </span>renice<span class="w"> </span>-10<span class="w"> </span><span class="m">21704</span>
+</span><span id="__span-19-2"><a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="go">renice: failed to set priority for 21704 (process ID): Permission denied</span>
+</span></code></pre></div>
+<p>Quelle est la cause de ce refus ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p>Seul le superutilisateur <code>root</code> (via <code>sudo</code>) a le droit d'attribuer une valeur <em>nice</em> négative pour rendre un processus plus prioritaire.</p>
+</details>
+</li>
+<li>
+<p>Avec la commande <code>ps</code> en format long sous Linux, quelle option <code>--sort</code> permet de trier les processus par consommation CPU dans l'ordre croissant ?</p>
+<details class="tip">
+<summary>Réponse</summary>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="gp">$ </span>ps<span class="w"> </span>-el<span class="w"> </span>--sort<span class="o">=</span>pcpu
+</span></code></pre></div>
+(Pour un tri décroissant, on préfixerait le champ d'un tiret : <code>--sort=-pcpu</code>).
+</details>
+</li>
+</ol>
+<!-- 12. La commande `schedtool` peut définir tous les paramètres d’ordonnancement du CPU dont Linux est capable ou afficher des informations pour des processus donnés. Comment peut-on l’utiliser pour afficher les paramètres d’ordonnancement du processus 1750 ? Par ailleurs, comment utiliser `schedtool` pour basculer le processus 1750 en temps réel avec une priorité de -90 (telle qu’affichée par top) ?
+
+    ??? tip "Réponse"
+
+        ```console
+        $ schedtool 1750
+        # schedtool -R -p 89 1750
+        ``` -->
+<!-- 7. Bien que statique à la base, la sortie de `ps` peut être rendue dynamique en combinant `ps` et `watch`. Nous allons surveiller le serveur web Apache HTTPD pour détecter les nouvelles connexions. Avant d’effectuer les tâches décrites ci-dessous, il est recommandé de lire la description de la directive `MaxConnectionsPerChild` dans Apache MPM Common Directives.
+
+    7.1 Ajoutez la directive MaxConnectionsPerChild avec une valeur de 1 dans le fichier de configuration de apache2 — dans la famille Debian et dérivées on le trouve dans /etc/apache2/apache2.conf ; dans la famille CentOS, c’est dans /etc/httpd/conf/httpd.conf. N’oubliez pas de redémarrer apache2 pour que les changements soient pris en compte.
+
+    La ligne à inclure dans le fichier de configuration est MaxConnectionsPerChild 1. Une façon de redémarrer le serveur web est de taper sudo systemctl restart apache2.
+
+    Tapez une commande qui utilise watch, ps et grep pour les connexions apache2.
+
+    $ watch 'ps aux | grep apache2'
+    ou
+
+    $ watch "ps aux | grep apache2"
+    Maintenant, ouvrez un navigateur web ou utilisez un navigateur en ligne de commande comme lynx pour établir une connexion au serveur web via son adresse IP. Que voyez-vous dans l’affichage de watch ?
+
+    Un des processus enfants appartenant à www-data disparaît.
+
+    Comme vous l’avez vu, dans sa configuration par défaut, top trie les tâches par pourcentage d’utilisation du CPU par ordre décroissant (les valeurs les plus élevées en haut). Ce comportement peut être modifié avec les raccourcis interactifs M (utilisation de la mémoire), N (identifiant unique du processus), T (temps d’exécution) et P (pourcentage du temps CPU). Cependant, vous pouvez également trier la liste des tâches à votre convenance en lançant top avec l’option -o (pour plus d’informations, consultez la page man de top). Maintenant, effectuez les tâches suivantes :
+
+    Lancez top de façon à ce que les tâches soient triées par utilisation de la mémoire :
+
+    $ top -o %MEM
+    Vérifiez si vous avez tapé la bonne commande en mettant la colonne mémoire en surbrillance :
+
+    Appuyez sur x.
+
+    ps dispose également d’une option o pour spécifier les colonnes que vous souhaitez afficher. Examinez cette alternative et effectuez les tâches suivantes :
+
+    Lancez ps de façon à ce que seules les informations sur l’utilisateur, le pourcentage de mémoire utilisée, le pourcentage de temps CPU utilisé et la commande complète soient affichées :
+
+    $ ps o user,%mem,%cpu,cmd
+    Maintenant, lancez ps pour que les seules informations affichées soient celles de l’utilisateur et le nom des programmes qu’il utilise :
+
+    $ ps o user,comm -->
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: IV.4 Priorité des Processus" class="md-footer__link md-footer__link--prev" href="../4-priorite-processus/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                IV.4 Priorité des Processus
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: IV.6 Récapitulatif" class="md-footer__link md-footer__link--next" href="../6-recap/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                IV.6 Récapitulatif
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

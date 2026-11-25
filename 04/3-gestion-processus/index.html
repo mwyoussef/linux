@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../2-gestion-jobs/" rel="prev"/>
+<link href="../4-priorite-processus/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>IV.3 Gestion des Processus - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#gestion-des-processus-sous-linux">26. IV.3 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              IV.3 Gestion des Processus
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generalites-sur-les-processus-rappel">26.1 IV.3.1 
+<span class="md-ellipsis">
+      
+        Généralités sur les processus (rappel)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commande-ps-lister-les-processus-a-un-instant-donne">26.2 IV.3.2 
+<span class="md-ellipsis">
+      
+        Commande ps : lister les processus à un instant donné
+      
+    </span>
+</a>
+<nav aria-label="Commande ps : lister les processus à un instant donné" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#syntaxes-et-styles-doptions">26.2.1 IV.3.2.1 
+<span class="md-ellipsis">
+      
+        Syntaxes et styles d'options
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#combinaisons-courantes">26.2.2 IV.3.2.2 
+<span class="md-ellipsis">
+      
+        Combinaisons courantes
+      
+    </span>
+</a>
+<nav aria-label="Combinaisons courantes" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#detail-des-codes-detat-stat">26.2.2.1 IV.3.2.2.1 
+<span class="md-ellipsis">
+      
+        Détail des codes d'état (STAT)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commande-top-lister-les-processus-en-temps-reel">26.3 IV.3.3 
+<span class="md-ellipsis">
+      
+        Commande top : Lister les processus en temps réel
+      
+    </span>
+</a>
+<nav aria-label="Commande top : Lister les processus en temps réel" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilisation-de-la-commande-top">26.3.1 IV.3.3.1 
+<span class="md-ellipsis">
+      
+        Utilisation de la commande top
+      
+    </span>
+</a>
+<nav aria-label="Utilisation de la commande top" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-la-zone-de-synthese">26.3.1.1 IV.3.3.1.1 
+<span class="md-ellipsis">
+      
+        1. La zone de synthèse
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-la-zone-des-taches">26.3.1.2 IV.3.3.1.2 
+<span class="md-ellipsis">
+      
+        2. La zone des tâches
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#raccourcis-interactifs-dans-top">26.3.2 IV.3.3.2 
+<span class="md-ellipsis">
+      
+        Raccourcis interactifs dans top
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commande-htop">26.4 IV.3.4 
+<span class="md-ellipsis">
+      
+        Commande htop
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commande-pgrep">26.5 IV.3.5 
+<span class="md-ellipsis">
+      
+        Commande pgrep
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commande-pidof">26.6 IV.3.6 
+<span class="md-ellipsis">
+      
+        Commande pidof
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commande-kill">26.7 IV.3.7 
+<span class="md-ellipsis">
+      
+        Commande kill
+      
+    </span>
+</a>
+<nav aria-label="Commande kill" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#syntaxe">26.7.1 IV.3.7.1 
+<span class="md-ellipsis">
+      
+        Syntaxe
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#signaux-les-plus-courants">26.7.2 IV.3.7.2 
+<span class="md-ellipsis">
+      
+        Signaux les plus courants
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#lister-les-signaux-supportes">26.7.3 IV.3.7.3 
+<span class="md-ellipsis">
+      
+        Lister les signaux supportés
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commandes-pkill-et-killall">26.7.4 IV.3.7.4 
+<span class="md-ellipsis">
+      
+        Commandes pkill et killall
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#le-pseudo-systeme-de-fichiers-proc">26.8 IV.3.8 
+<span class="md-ellipsis">
+      
+        Le pseudo-système de fichiers /proc
+      
+    </span>
+</a>
+<nav aria-label="Le pseudo-système de fichiers /proc" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#structure-de-proc">26.8.1 IV.3.8.1 
+<span class="md-ellipsis">
+      
+        Structure de /proc
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anatomie-dun-repertoire-de-processus-procpid">26.8.2 IV.3.8.2 
+<span class="md-ellipsis">
+      
+        Anatomie d'un répertoire de processus /proc/[PID]/
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mesurer-le-temps-dexecution-la-commande-time">26.9 IV.3.9 
+<span class="md-ellipsis">
+      
+        Mesurer le temps d'exécution : la commande time
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH IV – Gestion des Processus
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="IV.3 Gestion des Processus.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="gestion-des-processus-sous-linux"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3</span> Gestion des Processus sous Linux</h1>
+<h2 id="generalites-sur-les-processus-rappel"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.1</span> Généralités sur les processus (rappel)</h2>
+<p>Dans Linux et les systèmes Unix-like, un processus est une instance d'un programme en cours d'exécution. Chaque processus a un identifiant unique (PID), un identifiant de son parent (PPID), un propriétaire (utilisateur), une priorité, un état (running, sleeping, zombie, etc.) et consomme des ressources système (CPU, mémoire).</p>
+<p>Les processus peuvent être lancés en foreground (attachés au terminal) ou en background (détachés du terminal). Ils peuvent être contrôlés via des signaux (ex: <code>SIGTERM</code> pour terminer, <code>SIGKILL</code> pour forcer la terminaison).</p>
+<p><strong>Relation avec les jobs</strong></p>
+<p>Présenté simplement : Un job = un ou plusieurs processus</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Processus</th>
+<th>Tâche (job)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Niveau</td>
+<td>Noyau (système)</td>
+<td>Shell (bash)</td>
+</tr>
+<tr>
+<td>Identifiant</td>
+<td>PID</td>
+<td>Job ID (<code>%1</code>, <code>%2</code>)</td>
+</tr>
+<tr>
+<td>Composition</td>
+<td>Un seul programme</td>
+<td>1 ou plusieurs processus</td>
+</tr>
+<tr>
+<td>Gestion</td>
+<td>Automatique par le système</td>
+<td>Via <code>jobs</code>, <code>fg</code>, <code>bg</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="commande-ps-lister-les-processus-a-un-instant-donne"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.2</span> Commande <code>ps</code> : lister les processus à un instant donné</h2>
+<p>La commande <code>ps</code> (<em>Process Status</em>) capture un cliché instantané des processus existants lors de son exécution. Utilisée seule sans argument, elle n'affiche que les processus attachés au terminal actuel de l'utilisateur :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="hll"><span class="gp">$ </span>ps<span class="w"> </span>
+</span></span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">  PID TTY          TIME CMD</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="go"> 4494 pts/0    00:00:00 bash</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="go"> 4552 pts/0    00:00:00 ps</span>
+</span></code></pre></div>
+<div class="admonition info inline end">
+<p class="admonition-title">Processus avec ou sans terminal (TTY)</p>
+<p>Un <strong>processus avec terminal</strong> est lié à une session interactive (terminal virtuel, console locale, session SSH) et lit/écrit sur ce terminal. Par exemple, l'éditeur <code>nano</code> :
+</p><div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>nano<span class="w"> </span>fichier.txt
+</span></code></pre></div>
+<p>À l'inverse, un <strong>processus sans terminal</strong> (marqué d'un point d'interrogation <code>?</code> dans la colonne TTY) est un démon ou service système tournant en arrière-plan (<code>cron</code>, <code>sshd</code>, <code>systemd</code>).</p>
+</div>
+<h3 id="syntaxes-et-styles-doptions"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.2.1</span> Syntaxes et styles d'options</h3>
+<p>Sous Linux, <code>ps</code> supporte trois conventions de syntaxe :</p>
+<ol>
+<li>
+<p><strong>Style UNIX (standard POSIX)</strong> : précédé d'un tiret simple (ex. <code>ps -ef</code>, <code>ps -u root</code>).</p>
+</li>
+<li>
+<p><strong>Style BSD</strong> : sans aucun tiret (ex. <code>ps aux</code>, <code>ps ax</code>).</p>
+</li>
+<li>
+<p><strong>Style GNU</strong> : précédé d'un double tiret (ex. <code>ps --forest</code>, <code>ps --pid 811</code>).</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Pourquoi <code>ps aux</code> et non <code>ps -aux</code> ?</p>
+<p>En pure syntaxe POSIX/UNIX, l'option <code>-u</code> attend un nom d'utilisateur (donc <code>ps -u x</code> tenterait d'afficher les processus de l'utilisateur nommé <code>x</code>). En syntaxe BSD historique, <code>aux</code> sans tiret signifie : <strong>a</strong> (tous les processus de tous les terminaux), <strong>u</strong> (affichage détaillé avec utilisateur), <strong>x</strong> (processus détachés de tout terminal).</p>
+</div>
+<h3 id="combinaisons-courantes"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.2.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.2.2</span> Combinaisons courantes</h3>
+<ul>
+<li><code>ps aux</code> : vue exhaustive style BSD avec usage CPU/RAM.</li>
+<li><code>ps -ef</code> : vue exhaustive style Unix avec colonnes UID et PPID.</li>
+<li><code>ps -u &lt;utilisateur&gt;</code> : filtre les processus d'un compte particulier.</li>
+<li><code>ps -ef --forest</code> : affiche l'arborescence visuelle parents/enfants.</li>
+<li><code>ps -eo pid,user,pcpu,pmem,comm --sort=-%cpu</code> : sélection sur mesure des colonnes triées par consommation CPU.</li>
+</ul>
+<p>Exemple d'affichage avec <code>ps aux</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="hll"><span class="gp">$ </span>ps<span class="w"> </span>aux
+</span></span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">root         1  0.0  0.0   3304  1960 ?        Ss   Mar11   0:01 /sbin/init</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="go">root         2  0.0  0.0      0     0 ?        S    Mar11   0:00 [kthreadd]</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="go">root         3  0.0  0.0      0     0 ?        I&lt;   Mar11   0:00 [rcu_gp]</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="gp gp-VirtualEnv">(...)</span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="go">alice     4553  0.0  0.0  77784  3620 pts/0    R+   11:12   0:00 ps aux</span>
+</span></code></pre></div>
+<p>Signification des colonnes principales :</p>
+<ul>
+<li><strong>USER</strong> : propriétaire du processus.</li>
+<li><strong>PID</strong> : identifiant unique du processus.</li>
+<li><strong>PPID</strong> : identifiant du processus parent.</li>
+<li><strong>%CPU</strong> : part de temps CPU consommée (rapportée à un seul cœur logique).</li>
+<li><strong>%MEM</strong> : pourcentage d'utilisation de la mémoire vive physique (RAM).</li>
+<li><strong>VSZ</strong> (<em>Virtual Set Size</em>) : taille totale de l'espace d'adressage virtuel réservé par le processus en Kio (inclut RAM, swap, bibliothèques partagées et zones allouées).</li>
+<li><strong>RSS</strong> (<em>Resident Set Size</em>) : mémoire RAM physique réellement occupée en Kio.</li>
+<li><strong>TTY</strong> : terminal de contrôle (<code>pts/0</code>, <code>tty1</code>, ou <code>?</code> pour les démons).</li>
+<li><strong>STAT</strong> : état du processus (voir ci-après).</li>
+<li><strong>START</strong> : heure ou date de démarrage.</li>
+<li><strong>TIME</strong> : temps processeur cumulé consommé par le programme.</li>
+<li><strong>COMMAND</strong> : ligne de commande ayant démarré le processus.</li>
+</ul>
+<h4 id="detail-des-codes-detat-stat"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.2.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.2.2.1</span> Détail des codes d'état (STAT)</h4>
+<ul>
+<li><code>R</code> (<em>Running</em>) : en cours d'exécution sur le CPU ou dans la file d'attente d'ordonnancement.</li>
+<li><code>S</code> (<em>Sleeping</em>) : en sommeil interruptible (attend un signal, une saisie ou une ressource).</li>
+<li><code>D</code> (<em>Uninterruptible Sleep</em>) : en attente non interruptible (généralement bloqué sur une opération disque/E-S matérielle).</li>
+<li><code>T</code> (<em>Stopped</em>) : arrêté ou suspendu (par <kbd>Ctrl</kbd> + <kbd>Z</kbd> ou signal <code>SIGSTOP</code>).</li>
+<li><code>Z</code> (<em>Zombie</em>) : processus terminé dont le parent n'a pas encore lu le code retour.</li>
+</ul>
+<p>Modificateurs fréquents :
+- <code>&lt;</code> : priorité élevée (valeur <em>nice</em> négative).
+- <code>N</code> : priorité basse (<em>nice</em> positive, poli avec les autres).
+- <code>s</code> : leader de session (ex. un shell maître).
+- <code>+</code> : appartient au groupe de processus actif au premier plan.</p>
+<div class="language-text highlight"><pre><span></span><code>- RSS  : mémoire physique hors swap utilisée par le processus. C’est la quantité de RAM que le processus utilise réellement à un moment donné. Il inclut les pages de mémoire qui sont actuellement en RAM, mais pas celles qui ont été paginées (swappées) sur le disque. 
+RSS est généralement plus petit que VSZ, car une partie de la mémoire virtuelle peut être paginée ou partagée.
+
+La valeur de VSZ peut être trompeuse, car elle inclut tout l’espace mémoire réservé, même si une grande partie n’est pas utilisée ou est partagée. RSS donne une meilleure idée de la quantité de RAM que le processus consomme réellement.
+</code></pre></div>
+<p>On utilise en général des filtres pour trouver un processus spécifique, par exemple <code>ps -aux | grep bash</code> pour trouver les processus bash. Ici, PID=5112 est le PID du processus bash en cours d'exécution.</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="hll"><span class="gp">$ </span>ps<span class="w"> </span>-aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>/bin/bash
+</span></span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">wy        2967  0.0  0.0  77484  3928 ?        Ss   Mar11   0:00 /bin/bash /usr/local/bin/desktop-session zzz-icewm</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="go">wy        3088  0.0  0.0  76956  1388 ?        S    Mar11   0:00 /bin/bash /home/wy/.desktop-session/startup</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="go">wy        3176  0.0  0.0  77352  3672 ?        S    Mar11   0:00 /bin/bash /usr/bin/devmon --exec-on-drive desktop-defaults-run -fm "%d" --exec-on-disc desktop-defaults-run -fm "%d"</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="go">wy        4494  0.0  0.1  78260  5112 pts/0    Ss   11:12   0:00 /bin/bash</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="go">wy        4565  0.0  0.0  76356  2100 pts/0    S+   11:17   0:00 grep /bin/bash</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Sous Linux, la commande <code>ps</code> est unique car elle accepte trois styles d'options différents (Unix, BSD et GNU), et <strong>l'utilisation ou non d'un tiret (-) change l'interprétation de la commande</strong>.</p>
+<ul>
+<li>BSD : Les options ne suivent pas un tiret initial </li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span>ps<span class="w"> </span>p<span class="w"> </span><span class="m">811</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">PID TTY      STAT   TIME COMMAND</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="go">811 pts/0    S      0:00 -su</span>
+</span></code></pre></div>
+<ul>
+<li>UNIX : Les options suivent un tiret initial :</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span>ps<span class="w"> </span>-p<span class="w"> </span><span class="m">811</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="go">PID TTY          TIME CMD</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="go">811 pts/0    00:00:00 bash</span>
+</span></code></pre></div>
+<ul>
+<li>GNU : Les options suivent un double tiret initial :</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>ps<span class="w"> </span>--pid<span class="w"> </span><span class="m">811</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="go">PID TTY          TIME CMD</span>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="go">811 pts/0    00:00:00 bash</span>
+</span></code></pre></div>
+<p>Dans les trois cas, ps renvoie des informations sur le processus dont le PID est 811</p>
+</div>
+<h2 id="commande-top-lister-les-processus-en-temps-reel"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.3</span> Commande <code>top</code> : Lister les processus en temps réel</h2>
+<p>Lorsqu’il s’agit de surveiller les processus, <code>ps</code> et <code>top</code> sont deux outils indispensables. Le premier donne une vue statique à un instant donné, tandis que le second produit un affichage dynamique et interactif mis à jour en continu.</p>
+<h3 id="utilisation-de-la-commande-top"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.3.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.3.1</span> Utilisation de la commande <code>top</code></h3>
+<p>Pour lancer <code>top</code>, tapez simplement son nom :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>top
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="go">top - 05:10:08 up 56 min,  1 user,  load average: 0.00, 0.02, 0.06</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="go">Tasks: 219 total,   1 running, 218 sleeping,   0 stopped,   0 zombie</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="gp">%</span>Cpu<span class="o">(</span>s<span class="o">)</span>:<span class="w">  </span><span class="m">0</span>.5<span class="w"> </span>us,<span class="w">  </span><span class="m">0</span>.7<span class="w"> </span>sy,<span class="w">  </span><span class="m">0</span>.0<span class="w"> </span>ni,<span class="w"> </span><span class="m">98</span>.8<span class="w"> </span>id,<span class="w">  </span><span class="m">0</span>.0<span class="w"> </span>wa,<span class="w">  </span><span class="m">0</span>.0<span class="w"> </span>hi,<span class="w">  </span><span class="m">0</span>.0<span class="w"> </span>si,<span class="w">  </span><span class="m">0</span>.0<span class="w"> </span>st<span class="w"> </span>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="go">MiB Mem :   3919.4 total,   3070.5 free,    526.4 used,    545.5 buff/cache     </span>
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="go">MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   3392.9 avail Mem </span>
+</span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="go">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                </span>
+</span><span id="__span-7-9"><a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="go"> 2444 root      20   0  357940 108376  53088 S   1.7   2.7   0:04.62 Xorg                                                                   </span>
+</span><span id="__span-7-10"><a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="go"> 3295 wy        20   0  310720  33216  27252 S   1.0   0.8   0:01.41 roxterm                                                                </span>
+</span><span id="__span-7-11"><a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="go"> 2986 wy        20   0  148572  19312  14972 S   0.3   0.5   0:16.26 icewm                                                                  </span>
+</span><span id="__span-7-12"><a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="go"> 3553 wy        20   0   78204   4660   2656 R   0.3   0.1   0:00.03 top                                                                    </span>
+</span><span id="__span-7-13"><a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="go">    1 root      20   0    3304   1956   1816 S   0.0   0.0   0:00.29 init                                                                   </span>
+</span><span id="__span-7-14"><a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="go">    2 root      20   0       0      0      0 S   0.0   0.0   0:00.01 kthreadd                                                               </span>
+</span><span id="__span-7-15"><a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="go">    3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp                                                                 </span>
+</span><span id="__span-7-16"><a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="go">    4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp                                                             </span>
+</span><span id="__span-7-17"><a href="#__codelineno-7-17" id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="go">    5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 slub_flushwq                                                           </span>
+</span><span id="__span-7-18"><a href="#__codelineno-7-18" id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="go">    6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 netns                                                                  </span>
+</span><span id="__span-7-19"><a href="#__codelineno-7-19" id="__codelineno-7-19" name="__codelineno-7-19"></a><span class="go">    8 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-kblockd                                                   </span>
+</span><span id="__span-7-20"><a href="#__codelineno-7-20" id="__codelineno-7-20" name="__codelineno-7-20"></a><span class="go">   10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 mm_percpu_wq                                                           </span>
+</span><span id="__span-7-21"><a href="#__codelineno-7-21" id="__codelineno-7-21" name="__codelineno-7-21"></a><span class="go">   11 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_kthread                                                      </span>
+</span><span id="__span-7-22"><a href="#__codelineno-7-22" id="__codelineno-7-22" name="__codelineno-7-22"></a><span class="go">   12 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread                                                </span>
+</span><span id="__span-7-23"><a href="#__codelineno-7-23" id="__codelineno-7-23" name="__codelineno-7-23"></a><span class="go">   13 root      20   0       0      0      0 S   0.0   0.0   0:00.12 ksoftirqd/0                                                            </span>
+</span><span id="__span-7-24"><a href="#__codelineno-7-24" id="__codelineno-7-24" name="__codelineno-7-24"></a><span class="go">   14 root      20   0       0      0      0 I   0.0   0.0   0:00.10 rcu_preempt                                                            </span>
+</span><span id="__span-7-25"><a href="#__codelineno-7-25" id="__codelineno-7-25" name="__codelineno-7-25"></a><span class="go">   15 root      rt   0       0      0      0 S   0.0   0.0   0:00.00 migration/0                                                            </span>
+</span></code></pre></div>
+<p>Les informations fournies par <code>top</code> sont réparties en deux parties : la zone de synthèse et la zone des tâches.</p>
+<h4 id="1-la-zone-de-synthese"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.3.1.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.3.1.1</span> 1. La zone de synthèse</h4>
+<p>La <strong>zone de synthèse</strong> comprend les cinq premières lignes de l'en-tête :</p>
+<ul>
+<li><code>top - 05:10:08 up 56 min,  1 user,  load average: 0.00, 0.02, 0.06</code> :<ul>
+<li><code>05:10:08</code> : heure actuelle du système.</li>
+<li><code>up 56 min</code> : durée de fonctionnement sans interruption (<em>uptime</em>).</li>
+<li><code>1 user</code> : nombre d'utilisateurs connectés.</li>
+<li><code>load average: 0.00, 0.02, 0.06</code> : charge moyenne du système sur les 1, 5 et 15 dernières minutes.</li>
+</ul>
+</li>
+<li><code>Tasks: 219 total,   1 running, 218 sleeping,   0 stopped,   0 zombie</code> : répartition des processus :<ul>
+<li><code>219 total</code> : nombre total de processus dans la table du noyau.</li>
+<li><code>1 running</code> : processus en cours d'exécution ou prêts à s'exécuter.</li>
+<li><code>218 sleeping</code> : processus endormis (en attente d'un événement ou d'une E/S).</li>
+<li><code>0 stopped</code> : processus arrêtés (par un signal <code>SIGSTOP</code> ou <code>Ctrl+Z</code>).</li>
+<li><code>0 zombie</code> : processus terminés dont le parent n'a pas encore lu le code de retour.</li>
+</ul>
+</li>
+<li><code>%Cpu(s):  0.5 us,  0.7 sy,  0.0 ni, 98.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</code> : pourcentage de temps processeur :<ul>
+<li><code>0.5 us</code> (<em>user</em>) : processus utilisateurs non renicés.</li>
+<li><code>0.7 sy</code> (<em>system</em>) : code exécuté dans le noyau.</li>
+<li><code>0.0 ni</code> (<em>nice</em>) : processus utilisateurs ayant une priorité modifiée (<em>nice</em> positif).</li>
+<li><code>98.8 id</code> (<em>idle</em>) : temps d'inactivité du processeur.</li>
+<li><code>0.0 wa</code> (<em>wait</em>) : temps d'attente lié aux entrées/sorties disque ou réseau.</li>
+<li><code>0.0 hi</code> (<em>hardware interrupt</em>) : traitement des interruptions matérielles.</li>
+<li><code>0.0 si</code> (<em>software interrupt</em>) : traitement des interruptions logicielles.</li>
+<li><code>0.0 st</code> (<em>steal time</em>) : temps CPU dérobé par l'hyperviseur pour d'autres machines virtuelles.</li>
+</ul>
+</li>
+<li><code>MiB Mem :   3919.4 total,   3070.5 free,    526.4 used,    545.5 buff/cache</code> : mémoire vive physique (en mébibyts) :<ul>
+<li><code>3919.4 total</code> : RAM totale installée.</li>
+<li><code>3070.5 free</code> : RAM totalement inutilisée.</li>
+<li><code>526.4 used</code> : RAM consommée par les programmes.</li>
+<li><code>545.5 buff/cache</code> : mémoire utilisée par les tampons et le cache disque du noyau (libérable immédiatement en cas de besoin).</li>
+</ul>
+</li>
+<li><code>MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   3392.9 avail Mem</code> : espace d'échange et mémoire disponible :<ul>
+<li><code>2048.0 total</code> : espace swap total.</li>
+<li><code>2048.0 free</code> : espace swap libre.</li>
+<li><code>0.0 used</code> : espace swap utilisé.</li>
+<li><code>3392.9 avail Mem</code> : estimation de la quantité réelle de RAM disponible pour lancer de nouvelles applications sans déclencher d'écriture sur le swap.</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-la-zone-des-taches"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.3.1.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.3.1.2</span> 2. La zone des tâches</h4>
+<p>La liste inférieure détaille chaque processus :</p>
+<ul>
+<li><code>PID</code> : identifiant unique du processus.</li>
+<li><code>USER</code> : propriétaire du processus.</li>
+<li><code>PR</code> : priorité interne attribuée par l'ordonnanceur du noyau.</li>
+<li><code>NI</code> : valeur <em>nice</em> de courtoisie (de -20 à +19).</li>
+<li><code>VIRT</code> : mémoire virtuelle totale réservée par le processus (code, données, bibliothèques, swap).</li>
+<li><code>RES</code> : mémoire résidente réelle occupée en RAM physique.</li>
+<li><code>SHR</code> : mémoire partagée avec d'autres processus (ex. bibliothèques partagées).</li>
+<li><code>S</code> : état du processus :<ul>
+<li><code>S</code> : endormi interruptible (<em>sleeping</em>).</li>
+<li><code>D</code> : endormi ininterruptible (<em>uninterruptible sleep</em>, généralement attente disque).</li>
+<li><code>R</code> : en cours d'exécution ou prêt à être exécuté (<em>runnable</em>).</li>
+<li><code>T</code> : arrêté par un signal (<em>stopped</em>).</li>
+<li><code>Z</code> : zombie.</li>
+</ul>
+</li>
+<li><code>%CPU</code> : pourcentage de temps CPU consommé depuis le dernier rafraîchissement.</li>
+<li><code>%MEM</code> : pourcentage de mémoire vive physique (RAM) utilisé par le processus.</li>
+<li><code>TIME+</code> : temps processeur cumulé consommé par le processus depuis son démarrage.</li>
+<li><code>COMMAND</code> : nom du programme ou commande ayant lancé le processus.</li>
+</ul>
+<h3 id="raccourcis-interactifs-dans-top"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.3.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.3.2</span> Raccourcis interactifs dans <code>top</code></h3>
+<p>Pendant l'exécution de <code>top</code>, vous pouvez interagir directement avec l'affichage grâce aux touches suivantes :</p>
+<ul>
+<li><code>M</code> : Trier la liste par utilisation de mémoire (%MEM).</li>
+<li><code>P</code> : Trier la liste par pourcentage d'utilisation processeur (%CPU, ordre par défaut).</li>
+<li><code>N</code> : Trier par numéro de PID.</li>
+<li><code>T</code> : Trier par temps processeur cumulé (TIME+).</li>
+<li><code>R</code> : Inverser l'ordre de tri (croissant / décroissant).</li>
+<li><code>1</code> : Afficher ou masquer le détail de chaque cœur processeur individuellement.</li>
+<li><code>c</code> : Basculer entre le nom simple du binaire et la ligne de commande complète avec ses arguments.</li>
+<li><code>k</code> : Envoyer un signal à un processus (<em>kill</em>). <code>top</code> demandera le PID et le numéro du signal (15 par défaut).</li>
+<li><code>r</code> : Modifier la priorité d'un processus (<em>renice</em>). <code>top</code> demandera le PID et la nouvelle valeur <em>nice</em>.</li>
+<li><code>u</code> : Filtrer les processus par nom d'utilisateur.</li>
+<li><code>V</code> : Afficher l'arborescence hiérarchique des processus (vue forêt).</li>
+<li><code>t</code> et <code>m</code> : Modifier l'affichage des lignes CPU et mémoire (texte brut, barres de progression).</li>
+<li><code>W</code> : Enregistrer les réglages actuels dans le fichier <code>~/.toprc</code>.</li>
+<li><code>q</code> : Quitter <code>top</code>.</li>
+<li><code>h</code> ou <code>?</code> : Afficher l'aide interactive complète.</li>
+</ul>
+<h2 id="commande-htop"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.4</span> Commande <code>htop</code></h2>
+<p>La commande <code>htop</code> est une version interactive, visuelle et moderne de <code>top</code>. C'est un gestionnaire de processus très populaire dans l'environnement terminal.</p>
+<p>Voici ses principaux atouts :</p>
+<ul>
+<li><strong>Interface visuelle et colorée</strong> : barres graphiques intuitives pour chaque cœur CPU, la RAM et le swap.</li>
+<li><strong>Navigation aisée</strong> : défilement vertical et horizontal dans la liste des processus à l'aide des touches fléchées.</li>
+<li><strong>Actions directes via les touches de fonction</strong> : tuer un processus (<kbd>F9</kbd>), modifier sa courtoisie (<em>nice</em>) (<kbd>F7</kbd> / <kbd>F8</kbd>), rechercher un nom (<kbd>F3</kbd>) ou filtrer (<kbd>F4</kbd>).</li>
+<li><strong>Vue en arbre</strong> : la touche <kbd>F5</kbd> affiche directement la hiérarchie parent-enfant des processus.</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="gp">$ </span>htop
+</span></code></pre></div>
+<p><img align="center" alt="Sortie commande htop" src="../img/htop.png"/></p>
+<blockquote>
+<p>[!TIP]
+Une autre alternative avancée orientée surveillance de serveurs est l'outil <code>atop</code>. Vous pouvez installer ces utilitaires via votre gestionnaire de paquets (<code>apt install htop atop</code>).</p>
+</blockquote>
+<h2 id="commande-pgrep"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.5</span> Commande <code>pgrep</code></h2>
+<p>La commande <code>pgrep</code> permet de rechercher des processus par leur nom ou leurs attributs, et renvoie uniquement leurs PID :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="hll"><span class="gp">$ </span>pgrep<span class="w"> </span>bash
+</span></span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="hll"><span class="go">3361</span>
+</span></span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="gp">$</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="hll"><span class="gp">$ </span>ps<span class="w"> </span>-aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>bash
+</span></span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="go">wy        2905  0.0  0.0  77484  3940 ?        Ss   06:50   0:00 /bin/bash /usr/local/bin/desktop-session zzz-icewm</span>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="go">wy        3021  0.0  0.0  76956  1560 ?        S    06:50   0:00 /bin/bash /home/wy/.desktop-session/startup</span>
+</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="go">wy        3113  0.0  0.0  77352  3708 ?        S    06:50   0:00 /bin/bash /usr/bin/devmon --exec-on-drive desktop-defaults-run -fm "%d" --exec-on-disc desktop-defaults-run -fm "%d"</span>
+</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="hll"><span class="go">wy        3361  0.0  0.1  78000  4912 pts/0    Ss   06:51   0:00 /bin/bash</span>
+</span></span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="go">wy        3456  0.0  0.0  76356  2164 pts/0    S+   07:01   0:00 grep bash</span>
+</span></code></pre></div>
+<p>Dans l'exemple ci-dessus, seul le processus 3361 s'appelle strictement <code>bash</code>. Les autres sont des scripts exécutés via bash que <code>pgrep</code> ignore par défaut (à moins d'utiliser l'option <code>-f</code> pour analyser l'ensemble de la ligne de commande).</p>
+<p><code>pgrep</code> accepte également les expressions régulières. Par exemple, pour rechercher tous les processus dont le nom commence par « ba » :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span>pgrep<span class="w"> </span><span class="s1">'^ba'</span>
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="go">3361</span>
+</span></code></pre></div>
+<h2 id="commande-pidof"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.6</span> Commande <code>pidof</code></h2>
+<p>La commande <code>pidof</code> est un utilitaire simple qui recherche les identifiants (PID) des programmes en cours d'exécution à partir de leur nom exact de binaire :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="gp">$ </span>pidof<span class="w"> </span>bash
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="go">3361 3113 3021 2905</span>
+</span></code></pre></div>
+<p>Ses spécificités :</p>
+<ul>
+<li><strong>Recherche exacte</strong> : elle associe le nom d'un exécutable (ex. <code>bash</code>) à la liste complète de ses PID.</li>
+<li><strong>Usage en script</strong> : très couramment utilisée dans les scripts d'administration pour tester si un démon s'exécute ou pour récupérer rapidement ses PID.</li>
+</ul>
+<h2 id="commande-kill"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.7</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.7</span> Commande <code>kill</code></h2>
+<p>La commande <code>kill</code> est l'outil fondamental pour <strong>envoyer des signaux</strong> à un processus, le plus souvent pour solliciter son arrêt ou forcer sa fermeture.</p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Contrairement à ce que son nom pourrait laisser penser, <code>kill</code> ne détruit pas nécessairement un processus ; elle lui envoie un signal logiciel que le processus peut intercepter, sauf pour certains signaux critiques gérés directement par le noyau.</p>
+</div>
+<h3 id="syntaxe"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.7.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.7.1</span> Syntaxe</h3>
+<p>La commande prend en argument l'identifiant du processus (PID) et éventuellement le signal à lui transmettre. Si aucun signal n'est précisé, le signal <code>SIGTERM</code> (15) est envoyé par défaut :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="nb">kill</span><span class="w"> </span><span class="o">[</span>SIGNAL<span class="o">]</span><span class="w"> </span>PID
+</span></code></pre></div>
+<h3 id="signaux-les-plus-courants"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.7.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.7.2</span> Signaux les plus courants</h3>
+<ul>
+<li><strong><code>15</code> ou <code>SIGTERM</code></strong> (<code>kill -15 PID</code> ou <code>kill -TERM PID</code>) : signal de terminaison normal (<strong>méthode douce</strong>). Il laisse au programme le temps de fermer ses fichiers, sauvegarder son état et libérer ses ressources.</li>
+<li><strong><code>9</code> ou <code>SIGKILL</code></strong> (<code>kill -9 PID</code> ou <code>kill -KILL PID</code>) : arrêt forcé immédiat (<strong>méthode brutale</strong>). Le noyau détruit le processus sans que celui-ci puisse intercepter ou ignorer le signal. À utiliser uniquement en dernier recours lorsque le processus est bloqué.</li>
+<li><strong><code>1</code> ou <code>SIGHUP</code></strong> (<code>kill -1 PID</code> ou <code>kill -HUP PID</code>) : signal de raccrochage (<em>hangup</em>). Utilisé par la plupart des services et démons (Apache, Nginx, SSH...) pour recharger leur configuration sans interrompre les connexions actives.</li>
+<li><strong><code>2</code> ou <code>SIGINT</code></strong> : interruption, équivalent au raccourci clavier <kbd>Ctrl+C</kbd>.</li>
+<li><strong><code>19</code> ou <code>SIGSTOP</code></strong> : suspension immédiate du processus par le noyau (non interceptable).</li>
+<li><strong><code>18</code> ou <code>SIGCONT</code></strong> : reprise de l'exécution d'un processus suspendu.</li>
+</ul>
+<h3 id="lister-les-signaux-supportes"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.7.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.7.3</span> Lister les signaux supportés</h3>
+<p>L'option <code>-l</code> affiche la liste de tous les signaux disponibles sur le système :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="gp">$ </span><span class="nb">kill</span><span class="w"> </span>-l
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="go"> 1) SIGHUP   2) SIGINT   3) SIGQUIT  4) SIGILL   5) SIGTRAP</span>
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="go"> 6) SIGABRT  7) SIGBUS   8) SIGFPE   9) SIGKILL 10) SIGUSR1</span>
+</span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="go">11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM</span>
+</span><span id="__span-13-5"><a href="#__codelineno-13-5" id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="go">16) SIGSTKFLT   17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP</span>
+</span><span id="__span-13-6"><a href="#__codelineno-13-6" id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="go">21) SIGTTIN 22) SIGTTOU 23) SIGURG  24) SIGXCPU 25) SIGXFSZ</span>
+</span><span id="__span-13-7"><a href="#__codelineno-13-7" id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="go">26) SIGVTALRM   27) SIGPROF 28) SIGWINCH    29) SIGIO   30) SIGPWR</span>
+</span><span id="__span-13-8"><a href="#__codelineno-13-8" id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="go">31) SIGSYS  34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span>
+</span><span id="__span-13-9"><a href="#__codelineno-13-9" id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="go">38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span>
+</span><span id="__span-13-10"><a href="#__codelineno-13-10" id="__codelineno-13-10" name="__codelineno-13-10"></a><span class="go">43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span>
+</span><span id="__span-13-11"><a href="#__codelineno-13-11" id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="go">48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span>
+</span><span id="__span-13-12"><a href="#__codelineno-13-12" id="__codelineno-13-12" name="__codelineno-13-12"></a><span class="go">53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span>
+</span><span id="__span-13-13"><a href="#__codelineno-13-13" id="__codelineno-13-13" name="__codelineno-13-13"></a><span class="go">58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span>
+</span><span id="__span-13-14"><a href="#__codelineno-13-14" id="__codelineno-13-14" name="__codelineno-13-14"></a><span class="go">63) SIGRTMAX-1  64) SIGRTMAX</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Droits d'accès</p>
+<ul>
+<li>Un utilisateur standard ne peut envoyer des signaux qu'à ses propres processus.</li>
+<li>Pour agir sur un processus appartenant à un autre utilisateur ou au système, les privilèges <code>root</code> (via <code>sudo</code>) sont indispensables.</li>
+</ul>
+</div>
+<h3 id="commandes-pkill-et-killall"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.7.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.7.4</span> Commandes <code>pkill</code> et <code>killall</code></h3>
+<ul>
+<li><strong><code>pkill</code></strong> : permet d'envoyer un signal à des processus en ciblant leur nom (ex. <code>pkill firefox</code>).</li>
+<li><strong><code>killall</code></strong> : termine toutes les instances d'un programme partageant le même nom exact de binaire.</li>
+</ul>
+<p>Exemple combiné :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="hll"><span class="gp">$ </span>pgrep<span class="w"> </span>sleep
+</span></span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="go">1201</span>
+</span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="hll"><span class="gp">$ </span>pkill<span class="w"> </span>sleep
+</span></span><span id="__span-14-4"><a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="go">[1]+  Terminated              sleep 60</span>
+</span><span id="__span-14-5"><a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="gp">$</span>
+</span><span id="__span-14-6"><a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="gp">$ </span>sleep<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-14-7"><a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="go">[1] 1246</span>
+</span><span id="__span-14-8"><a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="gp">$ </span>sleep<span class="w"> </span><span class="m">70</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-14-9"><a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="go">[2] 1247</span>
+</span><span id="__span-14-10"><a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="gp">$</span>
+</span><span id="__span-14-11"><a href="#__codelineno-14-11" id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="hll"><span class="gp">$ </span>killall<span class="w"> </span>sleep
+</span></span><span id="__span-14-12"><a href="#__codelineno-14-12" id="__codelineno-14-12" name="__codelineno-14-12"></a><span class="go">[1]-  Terminated              sleep 60</span>
+</span><span id="__span-14-13"><a href="#__codelineno-14-13" id="__codelineno-14-13" name="__codelineno-14-13"></a><span class="go">[2]+  Terminated              sleep 70</span>
+</span></code></pre></div>
+<p>Pour cibler un ensemble de PID avec <code>kill</code> classique sans passer par <code>pkill</code>, on peut utiliser la substitution de commande :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="gp">$ </span><span class="nb">kill</span><span class="w"> </span>-15<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>sleep<span class="k">)</span>
+</span></code></pre></div>
+<h2 id="le-pseudo-systeme-de-fichiers-proc"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.8</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.8</span> Le pseudo-système de fichiers <code>/proc</code></h2>
+<p>Sous Linux, le répertoire <code>/proc</code> est un <strong>système de fichiers virtuel</strong> créé dynamiquement en mémoire vive par le noyau. Il ne consomme aucun espace sur le disque dur physique et sert d'interface directe de communication avec l'état interne du noyau.</p>
+<h3 id="structure-de-proc"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.8.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.8.1</span> Structure de <code>/proc</code></h3>
+<p>En listant le contenu de <code>/proc</code>, on observe :</p>
+<ul>
+<li><strong>Des répertoires numériques <code>/proc/[PID]</code></strong> : chaque processus en cours d'exécution dispose de son propre répertoire désigné par son PID.</li>
+<li><strong>Des fichiers d'informations système</strong> : par exemple <code>/proc/meminfo</code> (consulté par <code>free</code>), <code>/proc/cpuinfo</code> (caractéristiques du processeur), ou <code>/proc/loadavg</code> (charge moyenne).</li>
+</ul>
+<p><img align="center" alt="Contenu du dossier /proc" src="../img/slach-proc.png"/></p>
+<h3 id="anatomie-dun-repertoire-de-processus-procpid"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.8.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.8.2</span> Anatomie d'un répertoire de processus <code>/proc/[PID]/</code></h3>
+<p>Pour un processus donné (par exemple le PID <code>3361</code>), son répertoire <code>/proc/3361/</code> contient :</p>
+<table>
+<thead>
+<tr>
+<th>Fichier / Répertoire</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cmdline</code></td>
+<td>Commande initiale complète avec tous ses arguments (séparés par des octets nuls).</td>
+</tr>
+<tr>
+<td><code>environ</code></td>
+<td>Variables d'environnement exportées vers le processus au lancement.</td>
+</tr>
+<tr>
+<td><code>exe</code></td>
+<td>Lien symbolique pointant vers le binaire exécutable réel sur le disque.</td>
+</tr>
+<tr>
+<td><code>fd/</code></td>
+<td>Répertoire listant les descripteurs de fichiers ouverts (fichiers, sockets, tubes).</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Résumé lisible de l'état du processus (UID/GID, mémoire VmSize/VmRSS, threads).</td>
+</tr>
+<tr>
+<td><code>io</code></td>
+<td>Statistiques sur les entrées/sorties disque effectuées par le processus.</td>
+</tr>
+</tbody>
+</table>
+<p><img align="center" alt="Contenu du dossier /proc" src="../img/processus3361.png"/></p>
+<p>Tous ces fichiers ont une taille apparente de 0 octet sur le disque, car leurs données sont générées à la volée par le noyau au moment de leur lecture. C'est dans <code>/proc</code> que des outils comme <code>ps</code>, <code>top</code>, <code>htop</code> ou <code>lsof</code> puisent l'ensemble de leurs informations.</p>
+<h2 id="mesurer-le-temps-dexecution-la-commande-time"><span class="enumerate-headings-plugin enumerate-heading-plugin">26.9</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">IV.3.9</span> Mesurer le temps d'exécution : la commande <code>time</code></h2>
+<p>La commande <code>time</code> permet de mesurer avec précision le temps nécessaire à l'exécution d'un programme ou d'une commande :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="gp">$ </span><span class="nb">time</span><span class="w"> </span>sleep<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="go">real    0m2.002s</span>
+</span><span id="__span-16-4"><a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="go">user    0m0.001s</span>
+</span><span id="__span-16-5"><a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="go">sys     0m0.001s</span>
+</span></code></pre></div>
+<p>La sortie décompose le temps mesuré selon trois critères :</p>
+<ul>
+<li><strong><code>real</code></strong> (<em>wall-clock time</em>) : temps total réel écoulé entre le début et la fin de l'exécution, tel qu'il serait mesuré par un chronomètre externe.</li>
+<li><strong><code>user</code></strong> (<em>User CPU time</em>) : temps CPU cumulé passé en mode utilisateur à exécuter le code propre au programme.</li>
+<li><strong><code>sys</code></strong> (<em>System CPU time</em>) : temps CPU passé en mode noyau au nom du processus (exécutions d'appels système tels que les accès aux fichiers ou les allocations mémoire).</li>
+</ul>
+<blockquote>
+<p>[!NOTE]
+Le shell <code>bash</code> fournit sa propre version interne (<em>builtin</em>) de <code>time</code>. Il existe également un exécutable autonome <code>/usr/bin/time</code>, qui propose des options supplémentaires comme <code>/usr/bin/time -v commande</code> pour obtenir un rapport détaillé incluant la consommation mémoire maximale (<em>Maximum resident set size</em>) et les entrées/sorties.</p>
+</blockquote>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: IV.2 Gestion des Tâches" class="md-footer__link md-footer__link--prev" href="../2-gestion-jobs/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                IV.2 Gestion des Tâches
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: IV.4 Priorité des Processus" class="md-footer__link md-footer__link--next" href="../4-priorite-processus/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                IV.4 Priorité des Processus
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

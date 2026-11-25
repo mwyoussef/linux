@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../3-arborescence-fichiers/" rel="prev"/>
+<link href="../5-caratere-substitution/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>II.4 Gestion fichiers - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#manipulation-des-fichiers-et-dossiers">11. II.4 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              II.4 Gestion fichiers
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commandes-de-base">11.1 II.4.1 
+<span class="md-ellipsis">
+      
+        Commandes de base
+      
+    </span>
+</a>
+<nav aria-label="Commandes de base" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pwd">11.1.1 II.4.1.1 
+<span class="md-ellipsis">
+      
+        pwd
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ls">11.1.2 II.4.1.2 
+<span class="md-ellipsis">
+      
+        ls
+      
+    </span>
+</a>
+<nav aria-label="ls" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ls-l">11.1.2.1 II.4.1.2.1 
+<span class="md-ellipsis">
+      
+        ls -l
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ls-h">11.1.2.2 II.4.1.2.2 
+<span class="md-ellipsis">
+      
+        ls -h
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ls-a">11.1.2.3 II.4.1.2.3 
+<span class="md-ellipsis">
+      
+        ls -a
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cd">11.1.3 II.4.1.3 
+<span class="md-ellipsis">
+      
+        cd
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mkdir">11.1.4 II.4.1.4 
+<span class="md-ellipsis">
+      
+        mkdir
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cp">11.1.5 II.4.1.5 
+<span class="md-ellipsis">
+      
+        cp
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mv">11.1.6 II.4.1.6 
+<span class="md-ellipsis">
+      
+        mv
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rm">11.1.7 II.4.1.7 
+<span class="md-ellipsis">
+      
+        rm
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rmdir">11.1.8 II.4.1.8 
+<span class="md-ellipsis">
+      
+        rmdir
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#touch">11.1.9 II.4.1.9 
+<span class="md-ellipsis">
+      
+        touch
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gestion-recursive-des-fichiers-et-des-repertoires">11.2 II.4.2 
+<span class="md-ellipsis">
+      
+        Gestion récursive des fichiers et des répertoires
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#guillemets-et-echappement-des-caracteres-speciaux">11.3 II.4.3 
+<span class="md-ellipsis">
+      
+        Guillemets et échappement des caractères spéciaux
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../05/">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../05/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH II – Shell et commandes de base
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="II.4 Gestion fichiers.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="manipulation-des-fichiers-et-dossiers"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4</span> Manipulation des fichiers et dossiers</h1>
+<p>Nous allons apprendre à manipuler les fichiers et les répertoires dans Linux en utilisant des commandes de base. Nous allons couvrir les opérations courantes telles que la copie, le déplacement, la suppression, et la création de fichiers et de répertoires. Nous allons également explorer des commandes plus avancées pour gérer les fichiers de manière efficace, notamment en utilisant des caractères génériques et la commande <code>find</code>.</p>
+<h2 id="commandes-de-base"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1</span> Commandes de base</h2>
+<p>Voici les commandes indispensables pour naviguer et gérer vos dossiers :</p>
+<ul>
+<li><a href="#pwd">11.1.1 II.4.1.1 <code>pwd</code> (Print Working Directory)</a> : affiche le chemin absolu du répertoire courant.</li>
+<li><a href="#ls">11.1.2 II.4.1.2 <code>ls</code> (List)</a> : liste le contenu d'un répertoire.</li>
+<li><a href="#cd">11.1.3 II.4.1.3 <code>cd</code> (Change Directory)</a> : permet de changer de répertoire de travail.</li>
+<li><a href="#mkdir">11.1.4 II.4.1.4 <code>mkdir</code> (Make Directory)</a> : crée un nouveau répertoire.</li>
+<li><a href="#cp">11.1.5 II.4.1.5 <code>cp</code> (Copy)</a> : copie des fichiers ou des répertoires.</li>
+<li><a href="#mv">11.1.6 II.4.1.6 <code>mv</code> (Move)</a> : déplace ou renomme un fichier ou un répertoire.</li>
+<li><a href="#rm">11.1.7 II.4.1.7 <code>rm</code> (Remove)</a> : supprime un fichier ou une arborescence.</li>
+<li><a href="#rmdir">11.1.8 II.4.1.8 <code>rmdir</code> (Remove Directory)</a> : supprime un répertoire vide.</li>
+<li><a href="#touch">11.1.9 II.4.1.9 <code>touch</code> (Touch)</a> : crée un fichier vide ou met à jour les horodatages d'un fichier existant.</li>
+</ul>
+<h3 id="pwd"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.1</span> pwd</h3>
+<p><code>pwd</code> (<em>Print Working Directory</em>) affiche le <strong>chemin absolu</strong> du répertoire dans lequel vous vous situez actuellement :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span><span class="nb">pwd</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">/home/frank</span>
+</span></code></pre></div>
+<h3 id="ls"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.2</span> ls</h3>
+<p>La commande <code>ls</code> (<em>List</em>) liste le contenu d'un répertoire. Elle dispose de nombreuses options très utiles :</p>
+<ul>
+<li><code>ls -l</code> : affiche les informations détaillées en format long (permissions, nombre de liens, propriétaire, groupe, taille, date et heure de dernière modification, nom).</li>
+<li><code>ls -h</code> : affiche les tailles de fichiers sous une forme lisible par un humain (ex. <code>4.0K</code>, <code>234M</code>, <code>1.2G</code>). S'utilise conjointement avec <code>-l</code> (<code>ls -lh</code>).</li>
+<li><code>ls -a</code> : affiche tous les fichiers, y compris les fichiers cachés (ceux dont le nom commence par un point <code>.</code>).</li>
+</ul>
+<h4 id="ls-l"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.2.1</span> ls -l</h4>
+<p>L’option <code>-l</code> (<em>long listing</em>) affiche les métadonnées complètes de chaque fichier et répertoire :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>ls<span class="w"> </span>-l
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="go">total 60</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Desktop</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Documents</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Downloads</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="go">-rw-r--r--  1   frank   frank     21    Sep 7   12:59   emp_name</span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="go">-rw-r--r--  1   frank   frank     20    Sep 7   13:03   emp_salary</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="go">-rw-r--r--  1   frank   frank   8980    Apr 1   2018    examples.desktop</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="go">-rw-r--r--  1   frank   frank     10    Sep 1   2018    file1</span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="go">-rw-r--r--  1   frank   frank     10    Sep 1   2018    file2</span>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Music</span>
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Pictures</span>
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Public</span>
+</span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Templates</span>
+</span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="go">drwxr-xr-x  2   frank   frank   4096    Apr 1   2018    Videos</span>
+</span></code></pre></div>
+<p>Le tout premier caractère de la liste nous renseigne sur le type du fichier :</p>
+<ul>
+<li><code>-</code> pour un fichier normal.</li>
+<li><code>d</code> pour un répertoire.</li>
+<li><code>c</code> pour un fichier spécial.</li>
+<li><code>l</code> pour un lien symbolique.</li>
+<li><code>s</code> pour un socket.</li>
+<li><code>p</code> pour un tube nommé (named pipe).</li>
+</ul>
+<h4 id="ls-h"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.2.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.2.2</span> ls -h</h4>
+<p>Pour afficher la taille des fichiers dans un format lisible pour un humain (Kio, Mio, Gio), ajoutez l’option <code>-h</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>ls<span class="w"> </span>-lh
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">total 60K</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Desktop</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Documents</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Downloads</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="go">-rw-r--r--  1   frank   frank     21    Sep 7   12:59   emp_name</span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="go">-rw-r--r--  1   frank   frank     20    Sep 7   13:03   emp_salary</span>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="go">-rw-r--r--  1   frank   frank   8.8K    Apr 1   2018    examples.desktop</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="go">-rw-r--r--  1   frank   frank     10    Sep 1   2018    file1</span>
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="go">-rw-r--r--  1   frank   frank     10    Sep 1   2018    file2</span>
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Music</span>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Pictures</span>
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Public</span>
+</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Templates</span>
+</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="go">drwxr-xr-x  2   frank   frank   4.0K    Apr 1   2018    Videos</span>
+</span></code></pre></div>
+<h4 id="ls-a"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.2.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.2.3</span> ls -a</h4>
+<p>Pour afficher tous les fichiers, y compris les fichiers cachés (dont le nom commence par un point <code>.</code>), utilisez l’option <code>-a</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span>ls<span class="w"> </span>-a
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">.  ..  .bashrc  .profile  .bash_history  Desktop  Documents  Downloads  emp_name  emp_salary  examples.desktop  file1  file2  Music  Pictures  Public  Templates  Videos</span>
+</span></code></pre></div>
+<h3 id="cd"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.3</span> cd</h3>
+<p>Pour changer de répertoire, utilisez la commande <code>cd</code> suivie du chemin vers lequel vous souhaitez vous déplacer. Ce chemin peut être absolu ou relatif. Par exemple, pour accéder au répertoire <code>Documents</code>, vous pouvez exécuter :</p>
+<div class="admonition info inline end">
+<p class="admonition-title">Raccourcis utiles</p>
+<ul>
+<li><code>cd ..</code> : Remonte au répertoire parent.</li>
+<li><code>cd ~</code> ou <code>cd</code> : Retourne au répertoire personnel (<code>$HOME</code>).</li>
+<li><code>cd -</code> : Retourne au répertoire précédent.</li>
+<li><code>cd /</code> : Va à la racine du système de fichiers.</li>
+</ul>
+</div>
+<ul>
+<li>Chemin relatif (depuis le répertoire courant) :</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Documents<span class="w"> </span>
+</span></code></pre></div>
+<ul>
+<li>Chemin absolu (depuis la racine) :</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>/home/frank/Documents
+</span></code></pre></div>
+<p>La commande s’exécute toujours relativement au répertoire courant. Par exemple, si vous êtes dans <code>/home/frank</code> et que vous exécutez <code>cd Documents</code>, vous vous déplacerez vers <code>/home/frank/Documents</code>. Si vous exécutez <code>cd ..</code>, vous remonterez à <code>/home/frank</code>.</p>
+<h3 id="mkdir"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.4</span> mkdir</h3>
+<p>La commande <code>mkdir</code> (<em>Make Directory</em>) permet de créer un nouveau répertoire. L'option <code>-p</code> permet de créer toute une arborescence de répertoires en créant automatiquement les répertoires parents manquants, sans avoir à créer chaque niveau individuellement :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/home/frank/projects/linux_course
+</span></code></pre></div>
+<h3 id="cp"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.5</span> cp</h3>
+<div class="admonition tip inline end">
+<p class="admonition-title">Remarque</p>
+<p>Vous pouvez utiliser des chemins absolus ou relatifs pour désigner la source et/ou la destination.</p>
+</div>
+<p>La commande <code>cp</code> (<em>Copy</em>) permet de copier des fichiers ou des répertoires. La syntaxe de base pour copier un fichier est : <code>cp source destination</code>. </p>
+<p>Par exemple, pour copier un fichier nommé <code>file1</code> vers un nouveau fichier nommé <code>file2</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>cp<span class="w"> </span>file1<span class="w"> </span>file2
+</span></code></pre></div>
+<p>Il est possible de copier plusieurs fichiers simultanément en spécifiant plusieurs sources <strong>et un répertoire comme destination finale</strong>. Par exemple, pour copier <code>file1</code> et <code>file2</code> dans le dossier <code>backup</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="gp">$ </span>cp<span class="w"> </span>file1<span class="w"> </span>file2<span class="w"> </span>backup/
+</span></code></pre></div>
+<p>Il est aussi possible d'utiliser des métacaractères (<em>wildcards</em>) pour cibler plusieurs fichiers. Par exemple, pour copier tous les fichiers texte (<code>.txt</code>) dans le répertoire <code>backup</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">$ </span>cp<span class="w"> </span>*.txt<span class="w"> </span>backup/
+</span></code></pre></div>
+<p>Enfin, pour copier un répertoire et l'ensemble de son contenu, vous devez impérativement utiliser l'option <code>-r</code> (<em>recursive</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span>cp<span class="w"> </span>-r<span class="w"> </span>my_directory<span class="w"> </span>backup/
+</span></code></pre></div>
+<h3 id="mv"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.6</span> mv</h3>
+<div class="admonition tip inline end">
+<p class="admonition-title">Remarque</p>
+<p>Vous pouvez utiliser des chemins absolus ou relatifs pour désigner la source et/ou la destination.</p>
+</div>
+<p>La commande <code>mv</code> (<em>Move</em>) est utilisée pour déplacer ou renommer un fichier ou un répertoire. La syntaxe de base est <code>mv source destination</code>.</p>
+<p>Pour renommer un fichier nommé <code>old_name</code> en <code>new_name</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="gp">$ </span>mv<span class="w"> </span>old_name<span class="w"> </span>new_name
+</span></code></pre></div>
+<p>Par défaut, <code>mv</code> écrase sans confirmation un fichier cible de même nom déjà existant. Pour demander une confirmation interactive avant tout écrasement, utilisez l’option <code>-i</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="gp">$ </span>mv<span class="w"> </span>-i<span class="w"> </span>old_name<span class="w"> </span>new_name
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="go">mv: overwrite 'new_name'? y</span>
+</span></code></pre></div>
+<p>Cette commande demande la confirmation de l’utilisateur avant d’écraser le fichier existant <code>new_name</code>.</p>
+<p>Inversement, l’option <code>-f</code> (<em>force</em>) permet de forcer le déplacement ou le renommage sans demander de confirmation :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="gp">$ </span>mv<span class="w"> </span>-f<span class="w"> </span>old_name<span class="w"> </span>new_name
+</span></code></pre></div>
+<h3 id="rm"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.7</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.7</span> rm</h3>
+<div class="admonition tip inline end">
+<p class="admonition-title">Remarque</p>
+<p>Vous pouvez utiliser des chemins absolus ou relatifs pour désigner la cible à supprimer.</p>
+</div>
+<p>La commande <code>rm</code> (<em>Remove</em>) permet de supprimer un fichier. Avec l'option <code>-r</code> (<em>recursive</em>), elle supprime un répertoire et tout son contenu. Avec l'option <code>-f</code> (<em>force</em>), elle supprime sans demander de confirmation.</p>
+<p>La syntaxe de base pour supprimer un fichier est : <code>rm filename</code>. Par exemple, pour supprimer <code>file1</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="gp">$ </span>rm<span class="w"> </span>file1
+</span></code></pre></div>
+<p>Pour supprimer un répertoire et tout son contenu de manière récursive, utilisez l'option <code>-r</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="gp">$ </span>rm<span class="w"> </span>-r<span class="w"> </span>my_directory
+</span></code></pre></div>
+<p>Pour demander une confirmation avant chaque suppression, utilisez l’option <code>-i</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="gp">$ </span>rm<span class="w"> </span>-i<span class="w"> </span>file1
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="go">rm: remove regular file 'file1'? y</span>
+</span></code></pre></div>
+<p>Inversement, utilisez l’option <code>-f</code> pour forcer la suppression sans confirmation, y compris si le fichier est protégé en écriture :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="gp">$ </span>rm<span class="w"> </span>-f<span class="w"> </span>file1
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Sous Linux, la suppression via la ligne de commande est <strong>définitive et irréversible</strong> (il n'y a pas de corbeille). Cette commande doit donc être manipulée avec précaution.</p>
+</div>
+<h3 id="rmdir"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.8</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.8</span> rmdir</h3>
+<p>La commande <code>rmdir</code> (<em>Remove Directory</em>) est utilisée pour supprimer un répertoire <strong>vide</strong>. Si le répertoire contient des fichiers ou d'autres sous-dossiers, <code>rmdir</code> échouera en affichant une erreur :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="gp">$ </span>rmdir<span class="w"> </span>empty_directory
+</span></code></pre></div>
+<p>Pour supprimer simultanément plusieurs répertoires vides :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="gp">$ </span>rmdir<span class="w"> </span>dir1<span class="w"> </span>dir2
+</span></code></pre></div>
+<p>Pour supprimer un sous-répertoire vide :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="gp">$ </span>rmdir<span class="w"> </span>dir1/subdir
+</span></code></pre></div>
+<p>Pour supprimer une hiérarchie complète de répertoires imbriqués devenus vides, utilisez l'option <code>-p</code> (<em>parents</em>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-21-1"><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="gp">$ </span>rmdir<span class="w"> </span>-p<span class="w"> </span>dir1/subdir
+</span></code></pre></div>
+<h3 id="touch"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.1.9</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.1.9</span> touch</h3>
+<p>La commande <code>touch</code> est utilisée pour créer un fichier vide ou pour mettre à jour les horodatages d'un fichier existant : </p>
+<ul>
+<li>Si le fichier spécifié n'existe pas, <code>touch</code> le crée (taille de 0 octet). </li>
+<li>Si le fichier existe déjà, <code>touch</code> met à jour ses horodatages d'accès et de modification avec la date et l'heure actuelles. </li>
+</ul>
+<p>Par exemple, pour créer un fichier nommé <code>new_file.txt</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-22-1"><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="gp">$ </span>ls<span class="w"> </span>-l<span class="w"> </span>new_file.txt
+</span><span id="__span-22-2"><a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="go">ls: cannot access 'new_file.txt': No such file or directory</span>
+</span><span id="__span-22-3"><a href="#__codelineno-22-3" id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="gp">$ </span>touch<span class="w"> </span>new_file.txt
+</span><span id="__span-22-4"><a href="#__codelineno-22-4" id="__codelineno-22-4" name="__codelineno-22-4"></a><span class="gp">$ </span>ls<span class="w"> </span>-l<span class="w"> </span>new_file.txt
+</span><span id="__span-22-5"><a href="#__codelineno-22-5" id="__codelineno-22-5" name="__codelineno-22-5"></a><span class="go">-rw-r--r-- 1 frank frank 0 Sep 7 13:30 new_file.txt</span>
+</span></code></pre></div>
+<p>Certaines options de <code>touch</code> permettent de cibler un horodatage précis : l’option <code>-a</code> ne modifie que l’horodatage d’accès (<em>access time</em>), tandis que l’option <code>-m</code> ne modifie que l’horodatage de modification (<em>modification time</em>). Invoquées conjointement, les deux options mettent à jour ces deux dates à l’instant présent :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-23-1"><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="gp">$ </span>touch<span class="w"> </span>-a<span class="w"> </span>-m<span class="w"> </span>new_file.txt
+</span></code></pre></div>
+<h2 id="gestion-recursive-des-fichiers-et-des-repertoires"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.2</span> Gestion récursive des fichiers et des répertoires</h2>
+<p>Pour manipuler un répertoire ainsi que l'ensemble de son contenu arborescent, on applique le principe de récursion. La récursion signifie que l'action est répétée à tous les niveaux de l'arborescence descendante. Sous Linux, les options <code>-r</code>, <code>-R</code> ou <code>--recursive</code> sont généralement associées à ce comportement.</p>
+<p>Supposons que vous ayez une structure comme suit dans le répertoire <code>frank</code> :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a>frank
+</span><span id="__span-24-2"><a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a>|_fichier1
+</span><span id="__span-24-3"><a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a>|_dossier2
+</span><span id="__span-24-4"><a href="#__codelineno-24-4" id="__codelineno-24-4" name="__codelineno-24-4"></a>|    |_file2
+</span><span id="__span-24-5"><a href="#__codelineno-24-5" id="__codelineno-24-5" name="__codelineno-24-5"></a>|    |_sousdossier2
+</span><span id="__span-24-6"><a href="#__codelineno-24-6" id="__codelineno-24-6" name="__codelineno-24-6"></a>|        |_lastdir2
+</span><span id="__span-24-7"><a href="#__codelineno-24-7" id="__codelineno-24-7" name="__codelineno-24-7"></a>|_dossier3
+</span><span id="__span-24-8"><a href="#__codelineno-24-8" id="__codelineno-24-8" name="__codelineno-24-8"></a>    |_file3
+</span><span id="__span-24-9"><a href="#__codelineno-24-9" id="__codelineno-24-9" name="__codelineno-24-9"></a>    |_sousdossier3
+</span><span id="__span-24-10"><a href="#__codelineno-24-10" id="__codelineno-24-10" name="__codelineno-24-10"></a>        |_lastdir3
+</span></code></pre></div>
+<p>La commande <code>ls -R frank</code> ou <code>ls -R frank/</code> affichera le contenu de <code>frank</code> ainsi que tous les fichiers et sous-répertoires qu’il contient en descendant dans chaque niveau.</p>
+<p>Il est également possible de copier ou de supprimer un répertoire complet avec son contenu grâce aux options récursives de <code>cp</code> et <code>rm</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-25-1"><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="gp">$ </span>cp<span class="w"> </span>-r<span class="w"> </span>frank<span class="w"> </span>backup
+</span></code></pre></div>
+<p>Pour supprimer le répertoire <code>frank</code> et l'ensemble de son contenu :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-26-1"><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="gp">$ </span>rm<span class="w"> </span>-r<span class="w"> </span>frank
+</span></code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Attention</p>
+<p>Soyez extrêmement vigilant avec l’option <code>-r</code>, particulièrement lorsqu’elle est combinée avec l'option <code>-f</code>. La commande <code>rm -rf</code> supprime récursivement l'ensemble du dossier et de ses éléments sans aucune demande de confirmation. </p>
+<p>Une suppression récursive involontaire sur un répertoire système ou personnel peut rendre le système inopérant ou détruire définitivement vos données.</p>
+<p><strong>N'utilisez <code>rm -rf</code> que lorsque vous avez vérifié avec certitude le chemin ciblé.</strong></p>
+</div>
+<h2 id="guillemets-et-echappement-des-caracteres-speciaux"><span class="enumerate-headings-plugin enumerate-heading-plugin">11.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">II.4.3</span> Guillemets et échappement des caractères spéciaux</h2>
+<p>Lorsque vous travaillez avec des fichiers et des répertoires, il est important de savoir gérer les caractères spéciaux dans les noms de fichiers. Les guillemets simples (<code>' '</code>) et doubles (<code>" "</code>) permettent d'entourer les noms contenant des espaces ou des caractères réservés, tandis que la barre oblique inversée (<code>\</code>, ou <em>backslash</em>) sert de caractère d'échappement pour neutraliser un caractère spécial individuel.</p>
+<p>Ci-dessous quelques exemples pour illustrer ces mécanismes :</p>
+<ul>
+<li>
+<p>La commande suivante crée trois fichiers distincts (<code>my</code>, <code>big</code> et <code>file</code>), car l'espace sert de séparateur d'arguments pour le shell :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-27-1"><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="gp">$ </span>touch<span class="w"> </span>my<span class="w"> </span>big<span class="w"> </span>file
+</span><span id="__span-27-2"><a href="#__codelineno-27-2" id="__codelineno-27-2" name="__codelineno-27-2"></a><span class="gp">$ </span>ls
+</span><span id="__span-27-3"><a href="#__codelineno-27-3" id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="go">my big file</span>
+</span></code></pre></div>
+<p>En revanche, les syntaxes suivantes créent un seul et unique fichier nommé <code>my big file</code> :</p>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-28-1"><a href="#__codelineno-28-1" id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="gp">$ </span>touch<span class="w"> </span><span class="s2">"my big file"</span>
+</span><span id="__span-28-2"><a href="#__codelineno-28-2" id="__codelineno-28-2" name="__codelineno-28-2"></a><span class="gp">$ </span>ls
+</span><span id="__span-28-3"><a href="#__codelineno-28-3" id="__codelineno-28-3" name="__codelineno-28-3"></a><span class="go">my big file</span>
+</span></code></pre></div>
+ou 
+<div class="language-console highlight"><pre><span></span><code><span id="__span-29-1"><a href="#__codelineno-29-1" id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="gp">$ </span>touch<span class="w"> </span><span class="s1">'my big file'</span>
+</span><span id="__span-29-2"><a href="#__codelineno-29-2" id="__codelineno-29-2" name="__codelineno-29-2"></a><span class="gp">$ </span>ls
+</span><span id="__span-29-3"><a href="#__codelineno-29-3" id="__codelineno-29-3" name="__codelineno-29-3"></a><span class="go">my big file</span>
+</span></code></pre></div>
+ou encore avec échappement des espaces :
+<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a href="#__codelineno-30-1" id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="gp">$ </span>touch<span class="w"> </span>my<span class="se">\ </span>big<span class="se">\ </span>file
+</span><span id="__span-30-2"><a href="#__codelineno-30-2" id="__codelineno-30-2" name="__codelineno-30-2"></a><span class="gp">$ </span>ls
+</span><span id="__span-30-3"><a href="#__codelineno-30-3" id="__codelineno-30-3" name="__codelineno-30-3"></a><span class="go">my big file </span>
+</span></code></pre></div>
+<p>Pour supprimer un fichier nommé <code>my big file</code>, vous pouvez utiliser l'une des syntaxes équivalentes :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-31-1"><a href="#__codelineno-31-1" id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="gp">$ </span>rm<span class="w"> </span><span class="s2">"my big file"</span>
+</span><span id="__span-31-2"><a href="#__codelineno-31-2" id="__codelineno-31-2" name="__codelineno-31-2"></a><span class="gp">$ </span>rm<span class="w"> </span><span class="s1">'my big file'</span>
+</span><span id="__span-31-3"><a href="#__codelineno-31-3" id="__codelineno-31-3" name="__codelineno-31-3"></a><span class="gp">$ </span>rm<span class="w"> </span>my<span class="se">\ </span>big<span class="se">\ </span>file
+</span></code></pre></div>
+</li>
+</ul>
+<p>L’encadrement par des guillemets doubles (<code>"</code>) préserve l'interprétation de certains caractères spéciaux comme le signe dollar <code>$</code>, les accents graves (backticks <code>`</code>) et la barre oblique inversée <code>\</code>. À l'inverse, l’encadrement par des apostrophes simples (<code>'</code>) neutralise absolument tous les caractères spéciaux et les traite de manière littérale.</p>
+<div class="admonition tip">
+<p class="admonition-title">Caractères réservés du shell</p>
+<p>Les principaux caractères spéciaux et métacaractères du shell sont : <code>&amp; ; | * ? " ' [ ] ( ) $ &lt; &gt; { } # / \ ! ~</code>.</p>
+</div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: II.3 Arborescence et Fichiers" class="md-footer__link md-footer__link--prev" href="../3-arborescence-fichiers/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                II.3 Arborescence et Fichiers
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: II.5 Filtres et caractères de substitution" class="md-footer__link md-footer__link--next" href="../5-caratere-substitution/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                II.5 Filtres et caractères de substitution
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

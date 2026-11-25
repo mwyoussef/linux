@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Chapitre de révision aligné sur les objectifs LPIC-1 101.1, 101.2 et 101.3" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>Architecture Linux et démarrage - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#architecture-linux-et-demarrage-du-systeme">
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Architecture Linux et démarrage
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="Architecture Linux et démarrage.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="architecture-linux-et-demarrage-du-systeme">Architecture Linux et démarrage du système</h1>
+<blockquote>
+<p><strong>Périmètre :</strong> objectifs LPIC-1 101.1 (matériel), 101.2 (démarrage)
+et 101.3 (niveaux/cibles, arrêt et redémarrage). Ce chapitre ne couvre
+pas l'intégralité du programme LPIC-1.</p>
+</blockquote>
+<h2 id="1-objectifs-pedagogiques">1. Objectifs pédagogiques</h2>
+<p>À la fin du chapitre, vous devez pouvoir expliquer le rôle du noyau,
+identifier les périphériques, examiner les informations matérielles,
+décrire les étapes du démarrage et gérer les services, cibles, arrêts et
+redémarrages.</p>
+<h2 id="2-composants-materiels">2. Composants matériels</h2>
+<h3 id="21-cpu-memoire-et-stockage">2.1 CPU, mémoire et stockage</h3>
+<ul>
+<li><strong>CPU</strong> : exécute les instructions des programmes. Un processeur
+    peut posséder plusieurs cœurs.</li>
+<li><strong>Thread</strong> : fil d'exécution. Le SMT (par exemple Intel
+    Hyper-Threading) peut permettre à un cœur physique d'exposer
+    plusieurs processeurs logiques.</li>
+<li><strong>RAM</strong> : mémoire volatile utilisée pendant l'exécution.</li>
+<li><strong>Firmware</strong> : logiciel de bas niveau stocké dans une mémoire non
+    volatile.</li>
+<li><strong>Stockage</strong> : HDD, SSD SATA, SSD NVMe, supports USB et cartes
+    mémoire.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>lscpu
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>free<span class="w"> </span>-h
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>lsblk
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>lsblk<span class="w"> </span>-f
+</span></code></pre></div>
+<h3 id="22-bios-et-uefi">2.2 BIOS et UEFI</h3>
+<p>Le firmware initialise le matériel et lance la procédure d'amorçage.</p>
+<ul>
+<li><strong>BIOS</strong> : firmware historique, souvent associé au démarrage BIOS et
+    aux disques MBR.</li>
+<li><strong>UEFI</strong> : interface plus récente qui peut lancer un programme EFI
+    depuis la partition système EFI (ESP), habituellement formatée en
+    FAT.</li>
+<li><strong>POST</strong> : vérifications initiales du matériel.</li>
+<li><strong>Secure Boot</strong> : mécanisme UEFI de vérification de la signature de
+    certains composants d'amorçage.</li>
+</ul>
+<p>Ne pas confondre firmware (BIOS/UEFI), chargeur d'amorçage (GRUB) et
+table de partitions (MBR/GPT). UEFI utilise souvent GPT, mais ces
+notions ne sont pas synonymes.</p>
+<h3 id="23-bus-interruptions-et-es">2.3 Bus, interruptions et E/S</h3>
+<p>Les systèmes actuels utilisent notamment PCI Express, SATA, USB et NVMe.
+ISA et AGP sont des technologies historiques.</p>
+<ul>
+<li><strong>IRQ</strong> : interruption signalant un événement nécessitant
+    l'attention du processeur.</li>
+<li><strong>DMA</strong> : transfert de données entre un périphérique et la mémoire
+    avec moins d'intervention du CPU.</li>
+<li><strong>E/S</strong> : opérations d'entrée/sortie.</li>
+<li><strong>Hotplug</strong> : ajout ou retrait d'un périphérique pendant que le
+    système fonctionne, si le matériel et le pilote le permettent.</li>
+</ul>
+<p>Les débits dépendent de la version, de l'implémentation et de la
+configuration. Pour LPIC-1, la reconnaissance des technologies et des
+outils de diagnostic est plus importante que la mémorisation de débits
+anciens.</p>
+<h2 id="3-peripheriques-et-interfaces-linux">3. Périphériques et interfaces Linux</h2>
+<h3 id="31-dev-proc-et-sys">3.1 <code>/dev</code>, <code>/proc</code> et <code>/sys</code></h3>
+<hr/>
+<p>Chemin                              Fonction</p>
+<hr/>
+<p><code>/dev/</code>                             Fichiers spéciaux représentant les
+                                      périphériques.</p>
+<p><code>/proc/</code>                            Informations virtuelles sur les
+                                      processus et le noyau.</p>
+<p><code>/sys/</code>                             Interface <code>sysfs</code> exposant le
+                                      modèle de périphériques, les
+                                      pilotes et des attributs du noyau.</p>
+<hr/>
+<p>Le contenu de ces interfaces est en grande partie fourni dynamiquement
+par le noyau.</p>
+<h3 id="32-noms-des-peripheriques-de-stockage">3.2 Noms des périphériques de stockage</h3>
+<hr/>
+<p>Exemple                             Signification habituelle</p>
+<hr/>
+<p><code>/dev/sda</code>                          Disque présenté par la pile de
+                                      périphériques <code>sd</code> (SATA, USB ou
+                                      autre selon le système).</p>
+<p><code>/dev/sda1</code>                         Première partition de <code>/dev/sda</code>.</p>
+<p><code>/dev/nvme0n1</code>                      Premier périphérique de
+                                      bloc/namespace du contrôleur NVMe
+                                      0.</p>
+<p><code>/dev/nvme0n1p1</code>                    Première partition de ce
+                                      périphérique NVMe.</p>
+<p><code>/dev/mmcblk0p1</code>                    Première partition d'un
+                                      périphérique MMC/SD.</p>
+<p><code>/dev/sr0</code>                          Premier lecteur optique, s'il
+                                      existe.</p>
+<hr/>
+<p>Les anciens noms IDE comme <code>/dev/hda</code> sont historiques. L'ordre <code>sda</code>,
+<code>sdb</code>, etc. peut changer selon la détection ; des UUID ou des liens sous
+<code>/dev/disk/</code> permettent souvent une identification plus stable.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>lsblk
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>lsblk<span class="w"> </span>-f
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>blkid
+</span></code></pre></div>
+<h3 id="33-identifier-le-materiel">3.3 Identifier le matériel</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>lspci
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>lspci<span class="w"> </span>-nn
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>lsusb
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>lsusb<span class="w"> </span>-t
+</span></code></pre></div>
+<ul>
+<li><code>lspci</code> liste les périphériques PCI/PCIe.</li>
+<li><code>lspci -nn</code> affiche les identifiants numériques
+    fabricant/périphérique.</li>
+<li><code>lsusb</code> liste les périphériques USB.</li>
+<li><code>lsusb -t</code> montre la topologie USB.</li>
+</ul>
+<h3 id="34-pilotes-et-modules-du-noyau">3.4 Pilotes et modules du noyau</h3>
+<p>Un pilote permet au noyau de gérer un périphérique. Il peut être intégré
+au noyau ou chargé comme module.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>lsmod
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>modinfo<span class="w"> </span>nom_module
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>nom_module
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>-r<span class="w"> </span>nom_module
+</span></code></pre></div>
+<p><code>lsmod</code> liste les modules chargés, <code>modinfo</code> affiche les informations
+d'un module et <code>modprobe</code> gère son chargement et généralement ses
+dépendances. Le retrait d'un module peut échouer s'il est utilisé ; ne
+manipulez pas les modules au hasard sur un système de production.</p>
+<h3 id="35-udev-d-bus-et-journaux-materiels">3.5 udev, D-Bus et journaux matériels</h3>
+<ul>
+<li><strong>udev</strong> traite les événements des périphériques et contribue à la
+    gestion des noms et liens dans <code>/dev</code>.</li>
+<li><strong>D-Bus</strong> fournit un mécanisme de communication interprocessus
+    utilisé par des composants système.</li>
+<li><strong>sysfs</strong> expose des informations sur les périphériques et les
+    pilotes.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>dmesg<span class="w"> </span>--level<span class="o">=</span>err,warn
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>journalctl<span class="w"> </span>-k
+</span></code></pre></div>
+<p><code>dmesg</code> affiche le tampon de messages du noyau. Ce n'est pas simplement
+la lecture garantie d'un fichier <code>/var/log/dmesg</code> : les fichiers et la
+persistance des journaux varient selon les distributions.</p>
+<h2 id="4-architecture-dun-systeme-dexploitation">4. Architecture d'un système d'exploitation</h2>
+<p>Le système d'exploitation arbitre l'accès aux ressources matérielles et
+fournit des services aux applications.</p>
+<ul>
+<li><strong>Noyau (<em>kernel</em>)</strong> : gère processus, mémoire, périphériques,
+    systèmes de fichiers, réseau et appels système.</li>
+<li><strong>Pilotes</strong> : permettent au noyau de contrôler le matériel.</li>
+<li><strong>Bibliothèques système</strong> : fournissent des fonctions aux
+    applications.</li>
+<li><strong>Shell</strong> : interprète les commandes, par exemple Bash ou Zsh.</li>
+<li><strong>Utilitaires et services</strong> : assurent l'administration et le
+    fonctionnement du système.</li>
+<li><strong>Système de fichiers</strong> : organise les données dans une arborescence
+    dont la racine est <code>/</code>.</li>
+<li><strong>Environnement graphique</strong> : facultatif, notamment sur un serveur.</li>
+</ul>
+<p>Une application utilise généralement des bibliothèques et des <strong>appels
+système</strong> pour demander au noyau d'effectuer des opérations. Le noyau
+s'appuie sur ses sous-systèmes et ses pilotes pour communiquer avec le
+matériel. Le multitâche permet de partager le temps processeur entre les
+processus.</p>
+<h2 id="5-sequence-de-demarrage-linux">5. Séquence de démarrage Linux</h2>
+<p>Le processus exact dépend du firmware, du chargeur, de la distribution
+et de la configuration. Le modèle général est :</p>
+<ol>
+<li>BIOS ou UEFI initialise le matériel et sélectionne une entrée de
+    démarrage.</li>
+<li>Le chargeur d'amorçage, souvent GRUB 2, est lancé.</li>
+<li>Le chargeur place le noyau et l'image <code>initramfs</code> en mémoire et
+    transmet les paramètres du noyau.</li>
+<li>Le noyau initialise les composants essentiels et détecte le
+    matériel.</li>
+<li><code>initramfs</code> peut charger les pilotes nécessaires et préparer l'accès
+    au système de fichiers racine.</li>
+<li>Le noyau lance le premier processus utilisateur, généralement PID 1
+    (<code>systemd</code> ou une autre implémentation d'init).</li>
+<li>Le système d'initialisation lance les services et atteint le mode de
+    fonctionnement demandé.</li>
+</ol>
+<h3 id="51-biosmbr-et-uefigpt">5.1 BIOS/MBR et UEFI/GPT</h3>
+<p>En mode BIOS avec MBR, le firmware exécute du code d'amorçage depuis le
+disque. Le MBR classique occupe le premier secteur de 512 octets et
+comprend du code d'amorçage ainsi qu'une table de quatre entrées de
+partitions primaires.</p>
+<p>En mode UEFI, le firmware lance habituellement un programme EFI depuis
+la partition système EFI (ESP). GRUB 2 peut être installé sous forme de
+programme EFI. Le MBR n'est donc pas une étape obligatoire de tout
+démarrage Linux moderne.</p>
+<p><strong>MBR et GPT</strong> sont des formats de table de partitions. GPT est courant
+sur les systèmes modernes, notamment avec UEFI ; MBR reste présent dans
+des environnements anciens ou de compatibilité.</p>
+<h3 id="52-grub-2">5.2 GRUB 2</h3>
+<p>GRUB 2 peut proposer plusieurs systèmes ou noyaux. Il charge le noyau
+choisi, l'image <code>initramfs</code> si nécessaire, puis transmet les paramètres
+de démarrage.</p>
+<p>Selon la distribution, les fichiers générés se trouvent sous
+<code>/boot/grub/</code> ou <code>/boot/grub2/</code>. <code>/etc/default/grub</code> contient souvent
+des paramètres utilisés pour générer la configuration, mais n'est
+généralement pas le menu généré lui-même. La commande de régénération
+dépend de la distribution : consultez sa documentation avant toute
+modification.</p>
+<h3 id="53-noyau-initramfs-et-pid-1">5.3 Noyau, <code>initramfs</code> et PID 1</h3>
+<ul>
+<li><strong>Noyau Linux</strong> : initialise les ressources et les composants
+    essentiels.</li>
+<li><strong><code>initramfs</code></strong> : système de fichiers minimal chargé en mémoire,
+    pouvant contenir des pilotes et outils pour détecter le stockage,
+    déverrouiller un volume chiffré ou préparer la racine réelle.</li>
+<li><strong>PID 1</strong> : premier processus de l'espace utilisateur lancé par le
+    noyau. Il s'agit généralement de <code>systemd</code> sur les distributions qui
+    l'utilisent.</li>
+</ul>
+<p><code>initramfs</code> est un environnement initial, pas nécessairement la racine
+définitive du système.</p>
+<h3 id="54-consulter-les-journaux-du-demarrage">5.4 Consulter les journaux du démarrage</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>journalctl<span class="w"> </span>-b
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>journalctl<span class="w"> </span>-b<span class="w"> </span>-p<span class="w"> </span>warning
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>journalctl<span class="w"> </span>-k<span class="w"> </span>-b
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>journalctl<span class="w"> </span>--list-boots
+</span></code></pre></div>
+<p><code>journalctl -b</code> affiche les journaux du démarrage courant ;
+<code>journalctl -k -b</code> cible les messages du noyau.
+<code>journalctl --list-boots</code> liste les démarrages disponibles si les
+journaux correspondants ont été conservés. La persistance dépend de la
+configuration.</p>
+<h2 id="6-sysvinit-et-systemd">6. SysVinit et systemd</h2>
+<h3 id="61-niveaux-dexecution-sysvinit">6.1 Niveaux d'exécution SysVinit</h3>
+<p>SysVinit utilise traditionnellement <code>/etc/inittab</code> et des scripts de
+services, souvent sous <code>/etc/init.d/</code>. Les scripts liés aux niveaux
+d'exécution peuvent se trouver dans <code>/etc/rc.d/rcN.d/</code> ou <code>/etc/rcN.d/</code>
+selon la distribution.</p>
+<p>Niveau   Signification habituelle</p>
+<hr/>
+<p><code>0</code>      Arrêt
+  <code>1</code>      Mode mono-utilisateur / maintenance
+  <code>2</code>      Multi-utilisateur ; sens dépendant de la distribution
+  <code>3</code>      Multi-utilisateur, généralement en mode texte
+  <code>4</code>      Généralement non affecté ou défini localement
+  <code>5</code>      Mode graphique sur de nombreuses distributions
+  <code>6</code>      Redémarrage</p>
+<p>Les niveaux <code>2</code>, <code>3</code> et <code>5</code> ne sont pas configurés de façon identique
+partout. Sur SysVinit, les liens commençant par <code>S</code> lancent généralement
+des services et ceux commençant par <code>K</code> les arrêtent. Ce modèle ne
+s'applique pas tel quel à systemd.</p>
+<h3 id="62-cibles-systemd">6.2 Cibles systemd</h3>
+<p><code>systemd</code> est un système d'initialisation et gestionnaire de services
+utilisé par de nombreuses distributions actuelles. Il organise le
+démarrage autour d'unités et de dépendances. Les <em>targets</em> jouent un
+rôle comparable aux niveaux d'exécution.</p>
+<hr/>
+<p>Niveau SysVinit         Cible systemd courante  Usage</p>
+<hr/>
+<p><code>0</code> <code>poweroff.target</code>       Arrêt</p>
+<p><code>1</code> <code>rescue.target</code>         Secours</p>
+<p><code>3</code> <code>multi-user.target</code>     Multi-utilisateur,
+                                                  généralement sans
+                                                  interface graphique</p>
+<p><code>5</code> <code>graphical.target</code>      Mode graphique</p>
+<p><code>6</code> <code>reboot.target</code>         Redémarrage</p>
+<hr/>
+<p>Ces correspondances sont indicatives ; les cibles disponibles et la
+configuration varient.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>systemctl<span class="w"> </span>get-default
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>systemctl<span class="w"> </span>list-units<span class="w"> </span>--type<span class="o">=</span>service
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>systemctl<span class="w"> </span>list-units<span class="w"> </span>--type<span class="o">=</span>target
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>systemctl<span class="w"> </span>status<span class="w"> </span>ssh
+</span></code></pre></div>
+<p>Le service SSH peut s'appeler <code>ssh</code> ou <code>sshd</code> selon la distribution.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nom.service
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>nom.service
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>nom.service
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>nom.service
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>nom.service
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>nom.service
+</span></code></pre></div>
+<ul>
+<li><code>start</code>, <code>stop</code>, <code>restart</code> modifient l'état courant du service.</li>
+<li><code>enable</code> configure le démarrage automatique.</li>
+<li><code>disable</code> désactive le démarrage automatique, mais n'arrête pas
+    nécessairement le service courant.</li>
+<li><code>enable --now</code> active le démarrage automatique et démarre le service
+    immédiatement.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>set-default<span class="w"> </span>multi-user.target
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>isolate<span class="w"> </span>multi-user.target
+</span></code></pre></div>
+<p><code>set-default</code> définit la cible par défaut des prochains démarrages.
+<code>isolate</code> bascule immédiatement vers une cible et peut arrêter des
+services non requis : prudence, notamment lors d'une connexion distante.</p>
+<h3 id="63-upstart">6.3 Upstart</h3>
+<p>Upstart est un système d'initialisation historique rencontré sur
+d'anciennes distributions. Pour LPIC-1, retenez son existence ; les
+notions centrales à distinguer ici sont SysVinit et systemd.</p>
+<h2 id="7-arret-redemarrage-et-maintenance">7. Arrêt, redémarrage et maintenance</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>sudo<span class="w"> </span>shutdown<span class="w"> </span>-r<span class="w"> </span>now
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>sudo<span class="w"> </span>shutdown<span class="w"> </span>+10<span class="w"> </span><span class="s2">"Maintenance planifiée dans 10 minutes"</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>sudo<span class="w"> </span>shutdown<span class="w"> </span>-c
+</span></code></pre></div>
+<ul>
+<li><code>-h</code> demande l'arrêt.</li>
+<li><code>-r</code> demande le redémarrage.</li>
+<li><code>+10</code> planifie l'opération dans dix minutes.</li>
+<li><code>-c</code> annule une opération planifiée si elle peut encore l'être.</li>
+</ul>
+<p>Autres commandes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>poweroff
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>reboot
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>rescue
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>emergency
+</span></code></pre></div>
+<p>Les modes <code>rescue</code> et <code>emergency</code> servent à la maintenance et ont des
+comportements différents. Un arrêt ou un changement de cible peut
+interrompre les sessions et services : prévenez les utilisateurs et
+vérifiez les conséquences avant l'opération.</p>
+<p><code>exit</code> termine généralement le shell courant ; <code>logout</code> termine une
+session de connexion dans les contextes où la commande est disponible.
+Ces commandes ne remplacent pas l'arrêt du système.</p>
+<h2 id="8-atelier-pratique">8. Atelier pratique</h2>
+<p>À effectuer sur une machine de laboratoire ou une machine virtuelle. Les
+commandes avec <code>sudo</code> nécessitent des privilèges administrateur.</p>
+<h3 id="exercice-1-inventaire-materiel">Exercice 1 --- Inventaire matériel</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>lscpu
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a>free<span class="w"> </span>-h
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a>lsblk<span class="w"> </span>-f
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>lspci<span class="w"> </span>-nn
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>lsusb
+</span></code></pre></div>
+<p>Relevez les informations CPU, la mémoire, les disques et partitions, les
+contrôleurs PCI/PCIe et les périphériques USB.</p>
+<h3 id="exercice-2-explorer-le-noyau">Exercice 2 --- Explorer le noyau</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>ls<span class="w"> </span>/dev
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>ls<span class="w"> </span>/sys/class
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>cat<span class="w"> </span>/proc/cpuinfo
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>cat<span class="w"> </span>/proc/meminfo
+</span></code></pre></div>
+<p>Expliquez les rôles respectifs de <code>/dev</code>, <code>/sys</code> et <code>/proc</code>.</p>
+<h3 id="exercice-3-examiner-le-demarrage">Exercice 3 --- Examiner le démarrage</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>journalctl<span class="w"> </span>-b
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a>journalctl<span class="w"> </span>-k<span class="w"> </span>-b
+</span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a>systemctl<span class="w"> </span>get-default
+</span></code></pre></div>
+<p>Relevez des messages de détection matérielle, les avertissements
+éventuels et la cible systemd par défaut.</p>
+<h3 id="exercice-4-examiner-un-service-sans-le-modifier">Exercice 4 --- Examiner un service sans le modifier</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a>systemctl<span class="w"> </span>status<span class="w"> </span>nom.service
+</span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a>systemctl<span class="w"> </span>is-enabled<span class="w"> </span>nom.service
+</span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a>systemctl<span class="w"> </span>is-active<span class="w"> </span>nom.service
+</span></code></pre></div>
+<p>Remplacez <code>nom.service</code> par un service existant. Distinguez état courant
+et activation au démarrage.</p>
+<h3 id="exercice-5-comparer-les-cibles">Exercice 5 --- Comparer les cibles</h3>
+<ol>
+<li>Affichez la cible par défaut.</li>
+<li>Expliquez la différence entre <code>multi-user.target</code> et
+    <code>graphical.target</code>.</li>
+<li>Expliquez la différence entre <code>systemctl set-default</code> et
+    <code>systemctl isolate</code> sans effectuer de changement sur une machine
+    importante.</li>
+</ol>
+<h2 id="9-questions-de-revision">9. Questions de révision</h2>
+<ol>
+<li>Quel est le rôle du noyau Linux ?</li>
+<li>Quelle différence existe-t-il entre <code>/dev</code>, <code>/proc</code> et <code>/sys</code> ?</li>
+<li>Quelles commandes listent les périphériques PCI et USB ?</li>
+<li>À quoi servent <code>lsmod</code> et <code>modprobe</code> ?</li>
+<li>Quelles sont les grandes étapes du démarrage Linux ?</li>
+<li>Quelle différence existe-t-il entre BIOS et UEFI ?</li>
+<li>Pourquoi le MBR n'est-il pas obligatoire en mode UEFI ?</li>
+<li>Quel est le rôle d'<code>initramfs</code> ?</li>
+<li>Quel est le PID du premier processus utilisateur ?</li>
+<li>Quelle différence existe-t-il entre <code>systemctl start</code> et
+    <code>systemctl enable</code> ?</li>
+<li>Quelle différence existe-t-il entre une cible systemd et un niveau
+    SysVinit ?</li>
+<li>Quelles commandes permettent d'arrêter ou de redémarrer le système ?</li>
+</ol>
+<h3 id="corrige-succinct">Corrigé succinct</h3>
+<ol>
+<li>Il gère les ressources et fournit des services aux applications.</li>
+<li><code>/dev</code> représente les périphériques ; <code>/proc</code> expose des
+    informations sur les processus et le noyau ; <code>/sys</code> expose le modèle
+    de périphériques et des attributs du noyau.</li>
+<li><code>lspci</code> et <code>lsusb</code>.</li>
+<li><code>lsmod</code> liste les modules chargés ; <code>modprobe</code> charge ou retire des
+    modules en gérant généralement leurs dépendances.</li>
+<li>Firmware, chargeur, noyau et initramfs, préparation de la racine,
+    PID 1, services et cible finale.</li>
+<li>Ce sont deux interfaces de firmware ; UEFI peut lancer un programme
+    EFI depuis l'ESP.</li>
+<li>En mode UEFI, le firmware lance habituellement un programme EFI au
+    lieu d'exécuter le code d'amorçage du MBR.</li>
+<li>Il fournit un environnement initial pour préparer l'accès au système
+    de fichiers racine.</li>
+<li>PID 1.</li>
+<li><code>start</code> démarre maintenant ; <code>enable</code> configure le démarrage
+    automatique.</li>
+<li>Les deux représentent des modes de fonctionnement ; systemd utilise
+    des cibles et des unités, SysVinit des niveaux et des scripts.</li>
+<li><code>shutdown -h now</code>, <code>shutdown -r now</code>, <code>systemctl poweroff</code> et
+    <code>systemctl reboot</code>.</li>
+</ol>
+<h2 id="10-correspondance-avec-les-objectifs-lpic-1">10. Correspondance avec les objectifs LPIC-1</h2>
+<hr/>
+<p>Objectif                            Contenu couvert</p>
+<hr/>
+<p><strong>101.1 --- Matériel</strong>              Stockage, <code>/dev</code>, <code>/proc</code>, <code>/sys</code>,
+                                      <code>lspci</code>, <code>lsusb</code>, <code>lsmod</code>,
+                                      <code>modprobe</code>, udev et D-Bus.</p>
+<p><strong>101.2 --- Démarrage</strong>             BIOS/UEFI, GRUB, noyau, paramètres
+                                      de démarrage, <code>initramfs</code>, PID 1,
+                                      <code>dmesg</code>, <code>journalctl</code>.</p>
+<p><strong>101.3 --- Niveaux/cibles et       SysVinit, niveaux d'exécution,
+  arrêt</strong>                             cibles systemd, <code>systemctl</code>,
+                                      <code>shutdown</code>.</p>
+<hr/>
+<p>Ce chapitre ne couvre pas tous les objectifs LPIC-1 : gestion des
+paquets, commandes GNU/Unix, systèmes de fichiers, réseau et sécurité
+nécessitent d'autres chapitres.</p>
+<h2 id="11-sources-officielles">11. Sources officielles</h2>
+<ul>
+<li><a href="https://www.lpi.org/fr/our-certifications/lpic-1-overview/">Présentation LPIC-1 --- Linux Professional
+    Institute</a></li>
+<li><a href="https://www.lpi.org/fr/exam-101-102-objectives/">Objectifs officiels LPIC-1 101 et 102 ---
+    LPI</a></li>
+<li><a href="https://learning.lpi.org/pdfstore/LPI-Learning-Material-101-500-en.pdf">Matériel pédagogique officiel LPI --- objectif 101.2 (PDF,
+    anglais)</a></li>
+</ul>
+<blockquote>
+<p><strong>Version :</strong> les pages LPI consultées présentent les objectifs LPIC-1
+version 5.0, codes 101-500 et 102-500. Vérifiez la version d'examen
+officielle au moment de votre préparation.</p>
+</blockquote>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

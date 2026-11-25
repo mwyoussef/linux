@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../" rel="prev"/>
+<link href="../2-schema-partitionnement/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>V.1 Disques et partitions - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#disques-et-tables-de-partitionnement">30. V.1 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              V.1 Disques et partitions
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#nommage-des-disques-sous-dev">30.1 V.1.1 
+<span class="md-ellipsis">
+      
+        Nommage des disques sous /dev
+      
+    </span>
+</a>
+<nav aria-label="Nommage des disques sous /dev" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#disques-sata-scsi-sas-et-supports-usb-devsd">30.1.1 V.1.1.1 
+<span class="md-ellipsis">
+      
+        Disques SATA, SCSI, SAS et supports USB (/dev/sd*)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#disques-nvme-pcie-devnvme">30.1.2 V.1.1.2 
+<span class="md-ellipsis">
+      
+        Disques NVMe PCIe (/dev/nvme*)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#peripheriques-virtualises-devvd-et-devxvd">30.1.3 V.1.1.3 
+<span class="md-ellipsis">
+      
+        Périphériques virtualisés (/dev/vd* et /dev/xvd*)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#disques-ide-pata-historiques-devhd">30.1.4 V.1.1.4 
+<span class="md-ellipsis">
+      
+        Disques IDE / PATA historiques (/dev/hd*)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#outils-dinventaire-et-de-decouverte">30.2 V.1.2 
+<span class="md-ellipsis">
+      
+        Outils d'inventaire et de découverte
+      
+    </span>
+</a>
+<nav aria-label="Outils d'inventaire et de découverte" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-commande-lsblk">30.2.1 V.1.2.1 
+<span class="md-ellipsis">
+      
+        La commande lsblk
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-commande-fdisk-l">30.2.2 V.1.2.2 
+<span class="md-ellipsis">
+      
+        La commande fdisk -l
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#la-commande-lsusb">30.2.3 V.1.2.3 
+<span class="md-ellipsis">
+      
+        La commande lsusb
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tables-de-partitionnement-mbr-vs-gpt">30.3 V.1.3 
+<span class="md-ellipsis">
+      
+        Tables de partitionnement : MBR vs GPT
+      
+    </span>
+</a>
+<nav aria-label="Tables de partitionnement : MBR vs GPT" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#le-format-mbr-master-boot-record">30.3.1 V.1.3.1 
+<span class="md-ellipsis">
+      
+        Le format MBR (Master Boot Record)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#le-format-gpt-guid-partition-table">30.3.2 V.1.3.2 
+<span class="md-ellipsis">
+      
+        Le format GPT (GUID Partition Table)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#synthese-comparative-mbr-vs-gpt">30.3.3 V.1.3.3 
+<span class="md-ellipsis">
+      
+        Synthèse comparative MBR vs GPT
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#outils-de-partitionnement-sous-linux">30.4 V.1.4 
+<span class="md-ellipsis">
+      
+        Outils de partitionnement sous Linux
+      
+    </span>
+</a>
+<nav aria-label="Outils de partitionnement sous Linux" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilitaire-fdisk-partitionnement-mbr-et-gpt">30.4.1 V.1.4.1 
+<span class="md-ellipsis">
+      
+        Utilitaire fdisk (Partitionnement MBR et GPT)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilitaire-gdisk-partitionnement-gpt-dedie">30.4.2 V.1.4.2 
+<span class="md-ellipsis">
+      
+        Utilitaire gdisk (Partitionnement GPT dédié)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#utilitaire-parted-mode-interactif-et-scriptable">30.4.3 V.1.4.3 
+<span class="md-ellipsis">
+      
+        Utilitaire parted (Mode interactif et scriptable)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#prise-en-compte-immediate-des-partitions-partprobe">30.5 V.1.5 
+<span class="md-ellipsis">
+      
+        Prise en compte immédiate des partitions : partprobe
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH V – Gestion du stockage
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="V.1 Disques et partitions.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="disques-et-tables-de-partitionnement"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1</span> Disques et tables de partitionnement</h1>
+<p>Sous Linux, la gestion du stockage repose sur l'abstraction des périphériques en <strong>fichiers spéciaux</strong>, regroupés dans le répertoire <code>/dev</code>. Pour organiser l'espace de stockage d'un disque physique ou virtuel, on le découpe en <strong>partitions</strong>, dont la structure est définie par une <strong>table de partitionnement</strong> (de type <strong>MBR</strong> ou <strong>GPT</strong>).</p>
+<p>Cette section examine le nommage des disques sous Linux, la comparaison détaillée entre les tables MBR et GPT, ainsi que les utilitaires d'administration requis pour la certification LPIC-1 (Objectif 104.1).</p>
+<h2 id="nommage-des-disques-sous-dev"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.1</span> Nommage des disques sous <code>/dev</code></h2>
+<p>Linux applique le principe fondamental selon lequel <em>« tout est fichier »</em>. Les périphériques de stockage de masse sont identifiés comme des <strong>périphériques en mode bloc</strong> (<em>block devices</em>) caractérisés par la lettre <code>b</code> dans le résultat de la commande <code>ls -l /dev</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>ls<span class="w"> </span>-l<span class="w"> </span>/dev/sda<span class="w"> </span>/dev/nvme0n1
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">brw-rw---- 1 root disk   8, 0 nov.  10 10:00 /dev/sda</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="go">brw-rw---- 1 root disk 259, 0 nov.  10 10:00 /dev/nvme0n1</span>
+</span></code></pre></div>
+<p>La désignation du fichier de périphérique dépend de la technologie du contrôleur de disque et du bus utilisé :</p>
+<p><img align="center" alt="disque dur avec bus IDE (ancien) et SATA" src="../img/ide-sata.png"/></p>
+<p><img align="center" alt="Type de disque / bus" src="../img/type-ssd.png"/>
+src : https://www.linkedin.com/pulse/different-types-hard-drives-mohamed-ibrahimsha/</p>
+<h3 id="disques-sata-scsi-sas-et-supports-usb-devsd"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.1.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.1.1</span> Disques SATA, SCSI, SAS et supports USB (<code>/dev/sd*</code>)</h3>
+<p>La norme actuelle pour les disques durs magnétiques (HDD), disques SSD connectés en SATA/SAS, périphériques SCSI et supports USB amovibles utilise le préfixe <strong><code>sd</code></strong> (<em>SCSI Disk</em>) :</p>
+<ul>
+<li><code>/dev/sda</code> : Premier disque détecté sur le bus.</li>
+<li><code>/dev/sdb</code> : Deuxième disque détecté.</li>
+<li><code>/dev/sdc</code> : Troisième disque, et ainsi de suite suivant l'alphabet latin.</li>
+</ul>
+<p>Les partitions créées sur ces disques sont désignées par un chiffre ajouté directement au nom du disque :</p>
+<ul>
+<li><code>/dev/sda1</code> : Première partition du premier disque SATA.</li>
+<li><code>/dev/sda2</code> : Deuxième partition du premier disque SATA.</li>
+<li><code>/dev/sdb1</code> : Première partition du deuxième disque SATA.</li>
+</ul>
+<p><img align="center" alt="Nommage disques SATA" src="../img/nommage-sata.png"/></p>
+<h3 id="disques-nvme-pcie-devnvme"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.1.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.1.2</span> Disques NVMe PCIe (<code>/dev/nvme*</code>)</h3>
+<p>Les SSD modernes connectés directement au bus PCI Express utilisent le protocole <strong>NVMe</strong> (<em>Non-Volatile Memory Express</em>). Leur nomenclature suit une structure hiérarchique basée sur le numéro du contrôleur et l'espace de noms (<em>namespace</em>) :</p>
+<ul>
+<li><code>/dev/nvme0n1</code> : Contrôleur 0, premier <em>namespace</em> (disque physique 1).</li>
+<li><code>/dev/nvme1n1</code> : Contrôleur 1, premier <em>namespace</em> (disque physique 2).</li>
+</ul>
+<p>Pour les partitions, une lettre <strong><code>p</code></strong> (<em>partition</em>) est intercalée avant le numéro :</p>
+<ul>
+<li><code>/dev/nvme0n1p1</code> : Première partition du disque NVMe 0.</li>
+<li><code>/dev/nvme0n1p2</code> : Deuxième partition du disque NVMe 0.</li>
+</ul>
+<h3 id="peripheriques-virtualises-devvd-et-devxvd"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.1.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.1.3</span> Périphériques virtualisés (<code>/dev/vd*</code> et <code>/dev/xvd*</code>)</h3>
+<p>Dans un environnement virtualisé (machines virtuelles cloud ou hyperviseurs) :</p>
+<ul>
+<li><code>/dev/vda</code>, <code>/dev/vdb</code> : Disques virtuels exploitant les pilotes paravirtualisés <strong>VirtIO</strong> (KVM, Proxmox, QEMU, OpenStack).</li>
+<li><code>/dev/xvda</code>, <code>/dev/xvdb</code> : Disques paravirtualisés sous hyperviseur <strong>Xen</strong> (notamment sur AWS EC2 historique).</li>
+</ul>
+<h3 id="disques-ide-pata-historiques-devhd"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.1.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.1.4</span> Disques IDE / PATA historiques (<code>/dev/hd*</code>)</h3>
+<p>Bien qu'obsolète sur le matériel moderne, la convention IDE reste au programme théorique LPIC-1 pour comprendre l'historique du noyau :</p>
+<ul>
+<li>Les disques IDE utilisaient le préfixe <strong><code>hd</code></strong> (<em>Hard Disk</em>).</li>
+<li>Sur la première nappe IDE (Primary) : <code>/dev/hda</code> (Maître / <em>Master</em>), <code>/dev/hdb</code> (Esclave / <em>Slave</em>).</li>
+<li>Sur la deuxième nappe IDE (Secondary) : <code>/dev/hdc</code> (Maître), <code>/dev/hdd</code> (Esclave).</li>
+</ul>
+<p><img align="center" alt="Nommage disques IDE" src="../img/nommage-ide.png"/></p>
+<hr/>
+<h2 id="outils-dinventaire-et-de-decouverte"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.2</span> Outils d'inventaire et de découverte</h2>
+<p>Avant toute opération sur le stockage, il est essentiel d'inventorier les périphériques reconnus par le noyau.</p>
+<h3 id="la-commande-lsblk"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.2.1</span> La commande <code>lsblk</code></h3>
+<p>La commande <code>lsblk</code> (<em>list block devices</em>) affiche l'arborescence complète des disques, partitions et points de montage associés :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>lsblk
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="go">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="go">sda           8:0    0 223,6G  0 disk </span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">├─sda1        8:1    0   512M  0 part /boot/efi</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="go">├─sda2        8:2    0     1G  0 part /boot</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="go">└─sda3        8:3    0 222,1G  0 part </span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="go">  ├─vg-root 253:0    0    50G  0 lvm  /</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="go">  ├─vg-swap 253:1    0     4G  0 lvm  [SWAP]</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="go">  └─vg-home 253:2    0 168,1G  0 lvm  /home</span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="go">sdb           8:16   0   1,8T  0 disk </span>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="go">└─sdb1        8:17   0   1,8T  0 part /data</span>
+</span></code></pre></div>
+<p>L'option <code>-f</code> (<em>filesystem</em>) est particulièrement utile pour afficher le type de système de fichiers, le label et l'identifiant unique universel (<strong>UUID</strong>) :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>lsblk<span class="w"> </span>-f
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">NAME        FSTYPE      FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">sda                                                                                     </span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="go">├─sda1      vfat        FAT32       B14E-0A33                             505,8M     1% /boot/efi</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="go">├─sda2      ext4        1.0         89a7f342-30e4-4d8b-90f7-111111111111  742,4M    20% /boot</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="go">└─sda3      LVM2_member             3V9u7Q-zQpE-vUfT-7B7W-0123-4567-89abcd              </span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="go">  ├─vg-root ext4        1.0         df5a0256-42bc-442a-9cb6-222222222222   34,2G    28% /</span>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="go">  ├─vg-swap swap        1           59e850b5-e427-4a0b-8524-333333333333                [SWAP]</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="go">  └─vg-home ext4        1.0         97cf2984-7e9b-4395-8859-444444444444  142,5G     9% /home</span>
+</span></code></pre></div>
+<h3 id="la-commande-fdisk-l"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.2.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.2.2</span> La commande <code>fdisk -l</code></h3>
+<p>Pour consulter les tables de partitions et les caractéristiques physiques (secteurs, géométrie) de tous les disques :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w"> </span>/dev/sda
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">Disk /dev/sda: 223.57 GiB, 240057409536 bytes, 468862128 sectors</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="go">Disk model: KINGSTON SA400S3</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="go">Units: sectors of 1 * 512 = 512 bytes</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="go">Sector size (logical/physical): 512 bytes / 512 bytes</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="go">Disklabel type: gpt</span>
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="go">Disk identifier: B5092A72-9E11-4712-B67B-647900AC4A72</span>
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="go">Device         Start       End   Sectors   Size Type</span>
+</span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="go">/dev/sda1       2048   1050623   1048576   512M EFI System</span>
+</span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="go">/dev/sda2    1050624   3147775   2097152     1G Linux filesystem</span>
+</span><span id="__span-3-12"><a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="go">/dev/sda3    3147776 468860927 465713152 222.1G Linux LVM</span>
+</span></code></pre></div>
+<h3 id="la-commande-lsusb"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.2.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.2.3</span> La commande <code>lsusb</code></h3>
+<p>La commande <code>lsusb</code> (<em>list USB</em>) recense les contrôleurs et l'ensemble des périphériques branchés sur les bus USB (clés USB, disques durs externes, lecteurs de cartes, etc.). Elle permet de confirmer qu'un support amovible est bien reconnu par le matériel avant de le manipuler avec <code>lsblk</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span>lsusb
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="go">Bus 001 Device 003: ID 0781:5581 SanDisk Corp. Ultra</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="go">Bus 001 Device 002: ID 046d:c52b Logitech, Inc. Unifying Receiver</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="go">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span>
+</span></code></pre></div>
+<p>Options utiles :</p>
+<ul>
+<li><strong><code>-t</code></strong> : Affiche la hiérarchie des bus USB sous forme d'arborescence avec les pilotes du noyau utilisés (ex. <code>usb-storage</code>) et le débit négocié.</li>
+<li><strong><code>-v</code></strong> : Affiche les informations techniques complètes (<em>verbose</em>) sur les descripteurs des périphériques.</li>
+</ul>
+<hr/>
+<h2 id="tables-de-partitionnement-mbr-vs-gpt"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.3</span> Tables de partitionnement : MBR vs GPT</h2>
+<p>Une table de partitionnement est une zone réservée sur le support qui enregistre l'emplacement de début, de fin et le type de chaque partition.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>       +-------------------------+-------------------------+
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>       | MBR (Historique / BIOS) | GPT (Moderne / UEFI)    |
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>       +-------------------------+-------------------------+
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>LBA 0  | Code Bootstrap (446 o)  | Protective MBR (512 o)  |
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>       | Table Partitions (64 o) |                         |
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>       | Signature (0x55AA)      |                         |
+</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a>       +-------------------------+-------------------------+
+</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a>LBA 1  |                         | Primary GPT Header      |
+</span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a>       +-------------------------+-------------------------+
+</span><span id="__span-5-10"><a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a>LBA 2  |                         | Entrées Partitions      |
+</span><span id="__span-5-11"><a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a>..33   |                         | (128 entrées de 128 o)  |
+</span><span id="__span-5-12"><a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a>       +-------------------------+-------------------------+
+</span><span id="__span-5-13"><a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a>       | Données &amp; Partitions    | Données &amp; Partitions    |
+</span><span id="__span-5-14"><a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a>       |                         |                         |
+</span><span id="__span-5-15"><a href="#__codelineno-5-15" id="__codelineno-5-15" name="__codelineno-5-15"></a>       +-------------------------+-------------------------+
+</span><span id="__span-5-16"><a href="#__codelineno-5-16" id="__codelineno-5-16" name="__codelineno-5-16"></a>LBA -1 |                         | Backup GPT Header       |
+</span><span id="__span-5-17"><a href="#__codelineno-5-17" id="__codelineno-5-17" name="__codelineno-5-17"></a>       |                         | &amp; Entrées de sauvegarde |
+</span><span id="__span-5-18"><a href="#__codelineno-5-18" id="__codelineno-5-18" name="__codelineno-5-18"></a>       +-------------------------+-------------------------+
+</span></code></pre></div>
+<h3 id="le-format-mbr-master-boot-record"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.3.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.3.1</span> Le format MBR (<em>Master Boot Record</em>)</h3>
+<p>Introduit par IBM en 1983, le MBR réside sur le tout premier secteur du disque (<strong>LBA 0</strong>, soit 512 octets) :</p>
+<ol>
+<li><strong>446 octets</strong> : Code de démarrage du chargeur d'amorçage (<em>Bootstrap code</em>).</li>
+<li><strong>64 octets</strong> : Table de partitionnement proprement dite (composée de <strong>4 entrées de 16 octets</strong> chacune).</li>
+<li><strong>2 octets</strong> : Signature magique de validation (<code>0x55AA</code>).</li>
+</ol>
+<p><strong>Limitations structurelles du MBR</strong></p>
+<ul>
+<li><strong>Limite de 4 partitions primaires</strong> : En raison des 64 octets disponibles (4 × 16 octets), un disque MBR ne peut contenir au maximum que 4 partitions dites <strong>primaires</strong> (<em>primary</em>).</li>
+<li><strong>Partition étendue (<em>extended</em>) et lecteurs logiques</strong> : Pour contourner cette limite, une des 4 entrées primaires peut être définie comme une <strong>partition étendue</strong>. Celle-ci ne contient pas directement de système de fichiers, mais sert de conteneur pour des <strong>partitions logiques</strong> (<em>logical partitions</em>).</li>
+<li><strong>Numérotation stricte des partitions en MBR</strong> :<ul>
+<li>Les partitions <strong>primaires</strong> et la partition <strong>étendue</strong> sont obligatoirement numérotées de <strong>1 à 4</strong> (<code>sda1</code> à <code>sda4</code>).</li>
+<li>Les partitions <strong>logiques</strong> sont <strong>impérativement numérotées à partir de 5</strong> (<code>sda5</code>, <code>sda6</code>, etc.), même si le disque ne compte qu'une seule partition primaire !</li>
+</ul>
+</li>
+<li>
+<p><strong>Limite de capacité à 2,2 To</strong> : L'adresse de bloc logique (LBA) étant codée sur un entier 32 bits avec des secteurs de 512 octets :
+    Taille maximale = 2^32 x 512 octets soit approx 2,19 To (2 TiB). Tout espace situé au-delà de 2,2 To est inaccessible en MBR.</p>
+</li>
+<li>
+<p><strong>Aucune redondance</strong> : La corruption du secteur 0 entraîne la perte immédiate de la table de partitionnement.</p>
+</li>
+</ul>
+<h3 id="le-format-gpt-guid-partition-table"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.3.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.3.2</span> Le format GPT (<em>GUID Partition Table</em>)</h3>
+<p>Le format GPT fait partie intégrante de la spécification <strong>UEFI</strong> (<em>Unified Extensible Firmware Interface</em>) et s'affranchit de l'ensemble des limites du MBR :</p>
+<ul>
+<li><strong>Capacités gigantissimes</strong> : Adressage LBA sur 64 bits. Avec des secteurs de 512 octets, la limite théorique atteint 2^64 x 512 octets = 9,44 Zo (Zettaoctets).</li>
+<li><strong>128 partitions par défaut</strong> : Aucune distinction entre primaire, étendue ou logique. Chaque partition est identifiée par un identifiant global unique (<strong>GUID / UUID</strong>).</li>
+<li><strong>Sécurité et intégrité</strong> :<ul>
+<li><strong>Protective MBR</strong> : Le secteur LBA 0 conserve un MBR factice recouvrant tout le disque comme une seule partition inconnue de type <code>0xEE</code>. Cela empêche les anciens outils MBR de considérer le disque comme vierge et de l'écraser.</li>
+<li><strong>Sauvegarde en fin de disque</strong> : L'en-tête GPT et la table des partitions sont dupliqués à la toute fin du support physique (<em>Backup GPT</em>). Si le début du disque est altéré, les données peuvent être automatiquement restaurées.</li>
+<li><strong>Sommes de contrôle CRC32</strong> : Permettent de détecter instantanément toute altération matérielle de la table.</li>
+</ul>
+</li>
+</ul>
+<h3 id="synthese-comparative-mbr-vs-gpt"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.3.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.3.3</span> Synthèse comparative MBR vs GPT</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Critère</th>
+<th style="text-align: left;">MBR (<em>Master Boot Record</em>)</th>
+<th style="text-align: left;">GPT (<em>GUID Partition Table</em>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Norme associée</strong></td>
+<td style="text-align: left;">BIOS Legacy</td>
+<td style="text-align: left;">UEFI</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Capacité maximale</strong></td>
+<td style="text-align: left;">~ 2,2 To (2 TiB)</td>
+<td style="text-align: left;">~ 9,4 Zo (Zettaoctets)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Nombre de partitions</strong></td>
+<td style="text-align: left;">4 primaires (ou 3 primaires + 1 étendue)</td>
+<td style="text-align: left;">128 par défaut (extensible)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Types de partitions</strong></td>
+<td style="text-align: left;">Primaires, Étendue, Logiques</td>
+<td style="text-align: left;">Unifiées (identifiées par GUID)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Numérotation logiques</strong></td>
+<td style="text-align: left;">Commence obligatoirement à <strong>5</strong></td>
+<td style="text-align: left;">Séquentielle (1, 2, 3...)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tolérance aux pannes</strong></td>
+<td style="text-align: left;">Aucune (secteur 0 unique)</td>
+<td style="text-align: left;">En-tête de sauvegarde en fin de disque + CRC32</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Rétrocompatibilité</strong></td>
+<td style="text-align: left;">Anciens matériels</td>
+<td style="text-align: left;">Protégé par <em>Protective MBR</em> (type <code>EE</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="outils-de-partitionnement-sous-linux"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.4</span> Outils de partitionnement sous Linux</h2>
+<p>La certification LPIC-1 attend de l'administrateur la maîtrise de trois utilitaires fondamentaux : <code>fdisk</code>, <code>gdisk</code> et <code>parted</code>.</p>
+<h3 id="utilitaire-fdisk-partitionnement-mbr-et-gpt"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.4.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.4.1</span> Utilitaire <code>fdisk</code> (Partitionnement MBR et GPT)</h3>
+<p><code>fdisk</code> est l'utilitaire interactif historique. Bien qu'initialement conçu pour le MBR, les versions modernes d'<code>util-linux</code> permettent également de manipuler les tables GPT.</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>fdisk<span class="w"> </span>/dev/sdb
+</span></code></pre></div>
+<p>Une fois entré dans le shell interactif de <code>fdisk</code>, les commandes s'exécutent par une lettre :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Touche</th>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>m</code></td>
+<td style="text-align: left;"><em>menu</em></td>
+<td style="text-align: left;">Affiche l'aide complète des commandes interactives.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>p</code></td>
+<td style="text-align: left;"><em>print</em></td>
+<td style="text-align: left;">Affiche la table des partitions actuelle du disque.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>n</code></td>
+<td style="text-align: left;"><em>new</em></td>
+<td style="text-align: left;">Crée une nouvelle partition (demande type, premier et dernier secteur).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>d</code></td>
+<td style="text-align: left;"><em>delete</em></td>
+<td style="text-align: left;">Supprime une partition existante.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>t</code></td>
+<td style="text-align: left;"><em>type</em></td>
+<td style="text-align: left;">Modifie le code d'identification du type de partition (ex. <code>82</code> pour swap, <code>8e</code> pour LVM).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>l</code></td>
+<td style="text-align: left;"><em>list types</em></td>
+<td style="text-align: left;">Liste l'ensemble des codes hexadécimaux de types de partitions.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>w</code></td>
+<td style="text-align: left;"><em>write</em></td>
+<td style="text-align: left;">Écrit définitivement les modifications sur le disque et quitte.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>q</code></td>
+<td style="text-align: left;"><em>quit</em></td>
+<td style="text-align: left;">Quitte l'utilitaire <strong>sans enregistrer</strong> les modifications.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Indication de taille relative avec <code>+</code></p>
+<p>Lors de la création d'une partition avec <code>n</code>, après avoir validé le premier secteur par défaut, vous pouvez spécifier directement la taille souhaitée plutôt que de calculer le secteur de fin :<br/>
+<code>Last sector: +5G</code> (pour allouer 5 Gio) ou <code>+500M</code> (pour 500 Mio).</p>
+</div>
+<h3 id="utilitaire-gdisk-partitionnement-gpt-dedie"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.4.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.4.2</span> Utilitaire <code>gdisk</code> (Partitionnement GPT dédié)</h3>
+<p><code>gdisk</code> (<em>GPT fdisk</em>) reproduit fidèlement la même interface interactive que <code>fdisk</code>, mais il est exclusivement optimisé pour les disques GPT.</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>gdisk<span class="w"> </span>/dev/sdb
+</span></code></pre></div>
+<p>Les raccourcis essentiels (<code>p</code>, <code>n</code>, <code>d</code>, <code>w</code>, <code>q</code>) sont identiques à ceux de <code>fdisk</code>. La différence principale réside dans les codes de types de partitions, représentés sur 4 caractères hexadécimaux :</p>
+<ul>
+<li><code>8300</code> : Partition de données Linux standard (<em>Linux filesystem</em>).</li>
+<li><code>8200</code> : Partition d'échange (<em>Linux swap</em>).</li>
+<li><code>8e00</code> : Volume physique LVM (<em>Linux LVM</em>).</li>
+<li><code>ef00</code> : Partition système EFI (<em>EFI System Partition</em> - ESP).</li>
+</ul>
+<h3 id="utilitaire-parted-mode-interactif-et-scriptable"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.4.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.4.3</span> Utilitaire <code>parted</code> (Mode interactif et scriptable)</h3>
+<p><code>parted</code> (<em>GNU Parted</em>) est un outil très puissant capable de manipuler aussi bien les disques MBR (appelés <code>msdos</code>) que GPT. Il présente l'avantage majeur de pouvoir être exécuté de façon non interactive au sein de scripts d'automatisation grâce à son option <code>-s</code> (<em>script</em>) :</p>
+<ul>
+<li>
+<p>Création d'une table de partitionnement GPT sur /dev/sdb</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>mklabel<span class="w"> </span>gpt
+</span></code></pre></div>
+</li>
+<li>
+<p>Création d'une partition ext4 de 10 Gio commençant à 1 Mio (alignement optimal)</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>parted<span class="w"> </span>-a<span class="w"> </span>optimal<span class="w"> </span>/dev/sdb<span class="w"> </span>mkpart<span class="w"> </span>primary<span class="w"> </span>ext4<span class="w"> </span>1MiB<span class="w"> </span>10GiB
+</span></code></pre></div>
+</li>
+<li>
+<p>Affichage de la table des partitions</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>parted<span class="w"> </span>/dev/sdb<span class="w"> </span>print
+</span></code></pre></div>
+</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Attention avec <code>parted</code></p>
+<p>Contrairement à <code>fdisk</code> et <code>gdisk</code> qui conservent vos actions en mémoire tampon tant que vous n'avez pas tapé <code>w</code>, <strong><code>parted</code> applique immédiatement chaque commande sur le disque physique</strong>. Toute modification est instantanée et irréversible !</p>
+</div>
+<hr/>
+<h2 id="prise-en-compte-immediate-des-partitions-partprobe"><span class="enumerate-headings-plugin enumerate-heading-plugin">30.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.1.5</span> Prise en compte immédiate des partitions : <code>partprobe</code></h2>
+<p>Lorsqu'un disque contenant des partitions en cours d'utilisation est repartitionné, le noyau Linux continue d'utiliser en mémoire l'ancienne table des partitions pour des raisons de sécurité.</p>
+<p>Pour forcer le noyau à relire la nouvelle table des partitions sans nécessiter de redémarrage complet de la machine, on utilise la commande <code>partprobe</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>partprobe<span class="w"> </span>/dev/sdb
+</span></code></pre></div>
+<p>Alternativement, l'utilitaire <code>partx</code> permet de mettre à jour la vue du noyau :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>partx<span class="w"> </span>-u<span class="w"> </span>/dev/sdb
+</span></code></pre></div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: Index" class="md-footer__link md-footer__link--prev" href="../">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                Index
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: V.2 Schéma de partitionnement" class="md-footer__link md-footer__link--next" href="../2-schema-partitionnement/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                V.2 Schéma de partitionnement
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

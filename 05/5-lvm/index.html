@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../4-gestion-swap/" rel="prev"/>
+<link href="../6-montage-fstab/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>V.5 Gestion des volumes LVM - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#gestion-des-volumes-logiques-lvm">34. V.5 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              V.5 Gestion des volumes LVM
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pourquoi-utiliser-lvm">34.1 V.5.1 
+<span class="md-ellipsis">
+      
+        Pourquoi utiliser LVM ?
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#larchitecture-lvm-a-3-couches">34.2 V.5.2 
+<span class="md-ellipsis">
+      
+        L'architecture LVM à 3 couches
+      
+    </span>
+</a>
+<nav aria-label="L'architecture LVM à 3 couches" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#volumes-physiques-pv-physical-volumes">34.2.1 V.5.2.1 
+<span class="md-ellipsis">
+      
+        Volumes Physiques (PV - Physical Volumes)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#groupe-de-volumes-vg-volume-group">34.2.2 V.5.2.2 
+<span class="md-ellipsis">
+      
+        Groupe de Volumes (VG - Volume Group)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#volumes-logiques-lv-logical-volumes">34.2.3 V.5.2.3 
+<span class="md-ellipsis">
+      
+        Volumes Logiques (LV - Logical Volumes)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#nommage-et-acces-aux-volumes-logiques">34.3 V.5.3 
+<span class="md-ellipsis">
+      
+        Nommage et accès aux volumes logiques
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#commandes-dadministration-lvm">34.4 V.5.4 
+<span class="md-ellipsis">
+      
+        Commandes d'administration LVM
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#deploiement-pas-a-pas-dun-environnement-lvm">34.5 V.5.5 
+<span class="md-ellipsis">
+      
+        Déploiement pas-à-pas d'un environnement LVM
+      
+    </span>
+</a>
+<nav aria-label="Déploiement pas-à-pas d'un environnement LVM" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-1-initialiser-les-volumes-physiques-pvcreate">34.5.1 V.5.5.1 
+<span class="md-ellipsis">
+      
+        Étape 1 : Initialiser les Volumes Physiques (pvcreate)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-2-creer-le-groupe-de-volumes-vgcreate">34.5.2 V.5.5.2 
+<span class="md-ellipsis">
+      
+        Étape 2 : Créer le Groupe de Volumes (vgcreate)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-3-creer-les-volumes-logiques-lvcreate">34.5.3 V.5.5.3 
+<span class="md-ellipsis">
+      
+        Étape 3 : Créer les Volumes Logiques (lvcreate)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#etape-4-formater-et-monter-le-volume">34.5.4 V.5.5.4 
+<span class="md-ellipsis">
+      
+        Étape 4 : Formater et monter le volume
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#extension-dun-volume-logique-a-chaud">34.6 V.5.6 
+<span class="md-ellipsis">
+      
+        Extension d'un volume logique à chaud
+      
+    </span>
+</a>
+<nav aria-label="Extension d'un volume logique à chaud" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#methode-1-agrandissement-en-deux-commandes">34.6.1 V.5.6.1 
+<span class="md-ellipsis">
+      
+        Méthode 1 : Agrandissement en deux commandes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#methode-2-loption-tout-en-un-r-resizefs">34.6.2 V.5.6.2 
+<span class="md-ellipsis">
+      
+        Méthode 2 : L'option tout-en-un -r (resizefs)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ajouter-un-nouveau-disque-a-un-vg-existant-vgextend">34.7 V.5.7 
+<span class="md-ellipsis">
+      
+        Ajouter un nouveau disque à un VG existant (vgextend)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../6-montage-fstab/">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH V – Gestion du stockage
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="V.5 Gestion des volumes LVM.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="gestion-des-volumes-logiques-lvm"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5</span> Gestion des volumes logiques (LVM)</h1>
+<p>Le partitionnement standard de disques physiques présente une rigidité historique : une fois créée, la taille d'une partition physique contiguë est difficilement modulable, et une partition ne peut pas s'étendre sur plusieurs disques différents.</p>
+<p>Pour surmonter ces contraintes, Linux intègre <strong>LVM</strong> (<em>Logical Volume Manager</em>). LVM introduit une couche d'abstraction logicielle entre les disques physiques et les systèmes de fichiers, offrant une souplesse totale pour l'allocation, l'extension et la sauvegarde du stockage.</p>
+<p>Cette section couvre l'architecture de LVM et ses commandes d'exploitation requises pour le programme <strong>LPIC-1 (Objectif 102.1)</strong>.</p>
+<p>https://www.lasserre.net/blog/2</p>
+<hr/>
+<h2 id="pourquoi-utiliser-lvm"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.1</span> Pourquoi utiliser LVM ?</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Limites du partitionnement classique</th>
+<th style="text-align: left;">Avantages majeurs de LVM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Taille des partitions figée et contiguë sur un seul disque.</td>
+<td style="text-align: left;">Volumes redimensionnables à chaud sans interruption de service.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Impossible de fusionner deux disques physiques dans une même partition.</td>
+<td style="text-align: left;">Agrégation de disques hétérogènes (SSD, HDD, SAN) dans un même pool.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procédure complexe et risquée de déplacement de données lors du changement de disque.</td>
+<td style="text-align: left;">Migration de données à chaud d'un disque vers un autre (<code>pvmove</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sauvegardes à chaud difficiles sans geler les bases de données.</td>
+<td style="text-align: left;">Création d'instantanés (<em>snapshots</em>) instantanés pour les sauvegardes.</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="larchitecture-lvm-a-3-couches"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.2</span> L'architecture LVM à 3 couches</h2>
+<p>LVM structure le stockage en trois niveaux hiérarchiques distincts :</p>
+<ol>
+<li>Volumes Physiques (PV - <em>Physical Volumes</em>)</li>
+<li>Groupe de Volumes (VG - <em>Volume Group</em>)</li>
+<li>Volumes Logiques (LV - <em>Logical Volumes</em>)</li>
+</ol>
+<pre class="mermaid"><code>graph TD
+    subgraph "Niveau 1 : Stockage Physique (PV)"
+        DiskA["Partition /dev/sdb1 (100 Go)"]
+        DiskB["Partition /dev/sdc1 (100 Go)"]
+        PV1["PV 1 (/dev/sdb1)&lt;br/&gt;PE de 4 Mo"]
+        PV2["PV 2 (/dev/sdc1)&lt;br/&gt;PE de 4 Mo"]
+        DiskA --&gt; PV1
+        DiskB --&gt; PV2
+    end
+
+    subgraph "Niveau 2 : Pool d'agrégation (VG)"
+        VG["Volume Group (VG) : 'vg_data'&lt;br/&gt;Capacité totale : 200 Go (Pool de PE partagés)"]
+        PV1 --&gt; VG
+        PV2 --&gt; VG
+    end
+
+    subgraph "Niveau 3 : Volumes Virtuels Utilisables (LV)"
+        LV1["LV 'lv_web' (50 Go)&lt;br/&gt;Formaté en ext4 -&gt; /var/www"]
+        LV2["LV 'lv_mysql' (100 Go)&lt;br/&gt;Formaté en XFS -&gt; /var/lib/mysql"]
+        Free["Espace libre restant (50 Go)&lt;br/&gt;Disponible pour extensions futures"]
+        VG --&gt; LV1
+        VG --&gt; LV2
+        VG --&gt; Free
+    end</code></pre>
+<h3 id="volumes-physiques-pv-physical-volumes"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.2.1</span> Volumes Physiques (PV - <em>Physical Volumes</em>)</h3>
+<p>Un <strong>PV</strong> est un support de stockage brut initialisé pour être pris en charge par LVM. Il peut s'agir :</p>
+<ul>
+<li>D'un disque entier non partitionné (ex. <code>/dev/sdb</code>).</li>
+<li>D'une partition dédiée (ex. <code>/dev/sda3</code>), marquée avec le type <strong><code>8e</code></strong> sous <code>fdisk</code> (MBR) ou <strong><code>8e00</code></strong> sous <code>gdisk</code> (GPT).</li>
+</ul>
+<p>Dès son initialisation, LVM découpe virtuellement le PV en petits blocs élémentaires de taille fixe appelés <strong>PE (<em>Physical Extents</em>)</strong>. Par défaut, un PE mesure <strong>4 Mio</strong>.</p>
+<h3 id="groupe-de-volumes-vg-volume-group"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.2.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.2.2</span> Groupe de Volumes (VG - <em>Volume Group</em>)</h3>
+<p>Le <strong>VG</strong> est le conteneur central (le <em>pool</em> de stockage). Il réunit un ou plusieurs PV. LVM met en commun tous les PE de tous les disques du groupe. L'espace total du VG équivaut à la somme des capacités de ses volumes physiques.</p>
+<h3 id="volumes-logiques-lv-logical-volumes"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.2.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.2.3</span> Volumes Logiques (LV - <em>Logical Volumes</em>)</h3>
+<p>Le <strong>LV</strong> est la partition virtuelle découpée dans le VG. C'est l'équivalent d'une partition classique, mais dotée d'une flexibilité absolue :</p>
+<ul>
+<li>Il est constitué de <strong>LE (<em>Logical Extents</em>)</strong> qui pointent directement vers des PE disponibles dans le VG.</li>
+<li>Il peut recevoir n'importe quel système de fichiers (<code>ext4</code>, <code>XFS</code>, <code>swap</code>).</li>
+<li>Il peut être étendu en ajoutant simplement des extents supplémentaires prélevés dans le VG.</li>
+</ul>
+<hr/>
+<h2 id="nommage-et-acces-aux-volumes-logiques"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.3</span> Nommage et accès aux volumes logiques</h2>
+<p>Une fois un volume logique créé (par exemple le LV <code>lv_web</code> dans le VG <code>vg_data</code>), Linux l'expose sous deux chemins de fichiers de périphériques équivalents :</p>
+<ol>
+<li>
+<p><strong>Chemin conventionnel</strong> : <code>/dev/&lt;nom_du_vg&gt;/&lt;nom_du_lv&gt;</code><br/>
+<em>(Exemple : <code>/dev/vg_data/lv_web</code>)</em></p>
+</li>
+<li>
+<p><strong>Chemin Device Mapper</strong> : <code>/dev/mapper/&lt;nom_du_vg&gt;-&lt;nom_du_lv&gt;</code><br/>
+<em>(Exemple : <code>/dev/mapper/vg_data-lv_web</code>)</em></p>
+</li>
+</ol>
+<p>Ces deux chemins pointent vers le même périphérique bloc et peuvent être utilisés indifféremment dans vos commandes et dans <code>/etc/fstab</code>.</p>
+<hr/>
+<h2 id="commandes-dadministration-lvm"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.4</span> Commandes d'administration LVM</h2>
+<p>LVM dispose d'une nomenclature de commandes standardisée et mnémotechnique, déclinée pour chaque couche :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Physical Volume (PV)</th>
+<th style="text-align: left;">Volume Group (VG)</th>
+<th style="text-align: left;">Logical Volume (LV)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Créer</strong></td>
+<td style="text-align: left;"><code>pvcreate</code></td>
+<td style="text-align: left;"><code>vgcreate</code></td>
+<td style="text-align: left;"><code>lvcreate</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Afficher (résumé)</strong></td>
+<td style="text-align: left;"><code>pvs</code></td>
+<td style="text-align: left;"><code>vgs</code></td>
+<td style="text-align: left;"><code>lvs</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Afficher (détail)</strong></td>
+<td style="text-align: left;"><code>pvdisplay</code></td>
+<td style="text-align: left;"><code>vgdisplay</code></td>
+<td style="text-align: left;"><code>lvdisplay</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Scanner les disques</strong></td>
+<td style="text-align: left;"><code>pvscan</code></td>
+<td style="text-align: left;"><code>vgscan</code></td>
+<td style="text-align: left;"><code>lvscan</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Agrandir</strong></td>
+<td style="text-align: left;"><code>pvresize</code></td>
+<td style="text-align: left;"><code>vgextend</code></td>
+<td style="text-align: left;"><code>lvextend</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Réduire</strong></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><code>vgreduce</code></td>
+<td style="text-align: left;"><code>lvreduce</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Supprimer</strong></td>
+<td style="text-align: left;"><code>pvremove</code></td>
+<td style="text-align: left;"><code>vgremove</code></td>
+<td style="text-align: left;"><code>lvremove</code></td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="deploiement-pas-a-pas-dun-environnement-lvm"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.5</span> Déploiement pas-à-pas d'un environnement LVM</h2>
+<h3 id="etape-1-initialiser-les-volumes-physiques-pvcreate"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.5.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.5.1</span> Étape 1 : Initialiser les Volumes Physiques (<code>pvcreate</code>)</h3>
+<p><img align="center" alt="Étape 1 : Initialisation des Volumes Physiques (PV)" src="../img/lvm-etape1-pvcreate.png"/></p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sdb1<span class="w"> </span>/dev/sdc1
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">  Physical volume "/dev/sdb1" successfully created.</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="go">  Physical volume "/dev/sdc1" successfully created.</span>
+</span></code></pre></div>
+<p>Vérifions avec la commande concise <code>pvs</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>pvs
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="go">  PV         VG Fmt  Attr PSize   PFree  </span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="go">  /dev/sdb1     lvm2 ---  100,00g 100,00g</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">  /dev/sdc1     lvm2 ---  100,00g 100,00g</span>
+</span></code></pre></div>
+<h3 id="etape-2-creer-le-groupe-de-volumes-vgcreate"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.5.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.5.2</span> Étape 2 : Créer le Groupe de Volumes (<code>vgcreate</code>)</h3>
+<p><img align="center" alt="Étape 2 : Création du Groupe de Volumes (VG)" src="../img/lvm-etape2-vgcreate.png"/></p>
+<p>Créons un VG nommé <code>vg_data</code> regroupant nos deux disques :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>vgcreate<span class="w"> </span>vg_data<span class="w"> </span>/dev/sdb1<span class="w"> </span>/dev/sdc1
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">  Volume group "vg_data" successfully created</span>
+</span></code></pre></div>
+<p>Consultons le résultat :</p>
+<p></p><div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>vgs
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">  VG      #PV #LV #SN Attr   VSize   VFree  </span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="go">  vg_data   2   0   0 wz--n- 199,99g 199,99g</span>
+</span></code></pre></div>
+Le VG offre immédiatement 200 Gio d'espace agrégé.
+<h3 id="etape-3-creer-les-volumes-logiques-lvcreate"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.5.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.5.3</span> Étape 3 : Créer les Volumes Logiques (<code>lvcreate</code>)</h3>
+<p><img align="center" alt="Étape 3 : Découpage en Volumes Logiques (LV)" src="../img/lvm-etape3-lvcreate.png"/></p>
+<p>Créons un volume logique nommé <code>lv_web</code> d'une taille de 40 Gio :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>40G<span class="w"> </span>-n<span class="w"> </span>lv_web<span class="w"> </span>vg_data
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">  Logical volume "lv_web" created.</span>
+</span></code></pre></div>
+<p>Créons un deuxième volume <code>lv_mysql</code> occupant 80 Gio :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>lvcreate<span class="w"> </span>-L<span class="w"> </span>80G<span class="w"> </span>-n<span class="w"> </span>lv_mysql<span class="w"> </span>vg_data
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="go">  Logical volume "lv_mysql" created.</span>
+</span></code></pre></div>
+<p>Option très pratique : <strong>allouer tout l'espace libre restant</strong> avec <code>-l 100%FREE</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>lvcreate<span class="w"> </span>-l<span class="w"> </span><span class="m">100</span>%FREE<span class="w"> </span>-n<span class="w"> </span>lv_backup<span class="w"> </span>vg_data
+</span></code></pre></div>
+<p>Vérifions nos volumes :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>lvs
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="go">  LV       VG      Attr       LSize  Pool Origin Data% Meta% Move Log Cpy%Sync Convert</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="go">  lv_web   vg_data -wi-a----- 40,00g                                                 </span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="go">  lv_mysql vg_data -wi-a----- 80,00g                                                 </span>
+</span></code></pre></div>
+<h3 id="etape-4-formater-et-monter-le-volume"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.5.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.5.4</span> Étape 4 : Formater et monter le volume</h3>
+<p><img align="center" alt="Étape 4 : Formatage et montage du volume" src="../img/lvm-etape4-format-mount.png"/></p>
+<p>Le volume s'utilise exactement comme une partition classique :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="go">// Création du système de fichiers</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/vg_data/lv_web
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="go">// Montage dans l'arborescence</span>
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="gp">$ </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="gp">$ </span>sudo<span class="w"> </span>mount<span class="w"> </span>/dev/vg_data/lv_web<span class="w"> </span>/var/www
+</span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Utiliser plusieurs disques physiques dans un même VG</p>
+<p>Dans cet exemple, <code>/dev/sdb1</code> et <code>/dev/sdc1</code> appartiennent à <strong>deux disques physiques différents</strong>, réunis dans le même pool <code>vg_data</code> (200 Gio). Cela permet à un seul Volume Logique de <strong>dépasser la capacité d'un disque individuel</strong> (par exemple créer un LV de 150 Gio sur deux disques de 100 Gio).</p>
+<p>Lors du <code>lvcreate</code>, LVM peut répartir les blocs (<em>extents</em>) de plusieurs façons :</p>
+<ul>
+<li><strong>Linéaire (par défaut)</strong> : remplit les extents du premier PV, puis continue sur le second.</li>
+<li><strong>Striping (<code>-i 2</code>)</strong> : répartit les données en alternance sur les deux disques (façon RAID 0) pour augmenter les performances.</li>
+<li><strong>Miroir / RAID (<code>--type raid1</code> ou <code>-m 1</code>)</strong> : duplique les données sur les deux disques pour tolérer la panne d'un disque.</li>
+</ul>
+<p><strong>Point de vigilance :</strong> en mode linéaire ou <em>striping</em> (sans redondance), la panne d'un des deux disques entraîne la perte des données qui y résident. En production, on place généralement LVM au-dessus d'un RAID (matériel ou <code>mdadm</code>) ou on active le RAID intégré de LVM.</p>
+</div>
+<hr/>
+<h2 id="extension-dun-volume-logique-a-chaud"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.6</span> Extension d'un volume logique à chaud</h2>
+<p>L'atout majeur de LVM est de pouvoir agrandir un volume sans démonter le système de fichiers ni couper les services applicatifs.</p>
+<p>L'agrandissement s'effectue en deux étapes complémentaires :</p>
+<ol>
+<li><strong>Agrandir le conteneur logique (LV)</strong> avec <code>lvextend</code>.</li>
+<li><strong>Agrandir le système de fichiers</strong> sous-jacent pour qu'il reconnaisse les nouveaux blocs.</li>
+</ol>
+<h3 id="methode-1-agrandissement-en-deux-commandes"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.6.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.6.1</span> Méthode 1 : Agrandissement en deux commandes</h3>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="go">// 1. Agrandir le volume logique de +20 Gio</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>lvextend<span class="w"> </span>-L<span class="w"> </span>+20G<span class="w"> </span>/dev/vg_data/lv_web
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="go">  Size of logical volume vg_data/lv_web changed from 40,00 GiB to 60,00 GiB.</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="go">  Logical volume vg_data/lv_web successfully resized.</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="go">// 2. Agrandir le système de fichiers :</span>
+</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="go">// Si le format est ext4 (exécuté sur le périphérique) :</span>
+</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="gp">$ </span>sudo<span class="w"> </span>resize2fs<span class="w"> </span>/dev/vg_data/lv_web
+</span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="go">// Si le format est XFS (attention : s'exécute sur le POINT DE MONTAGE !) :</span>
+</span><span id="__span-9-11"><a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="go">// sudo xfs_growfs /var/www</span>
+</span></code></pre></div>
+<h3 id="methode-2-loption-tout-en-un-r-resizefs"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.6.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.6.2</span> Méthode 2 : L'option tout-en-un <code>-r</code> (<em>resizefs</em>)</h3>
+<p>L'option <strong><code>-r</code></strong> (ou <code>--resizefs</code>) de <code>lvextend</code> demande à LVM de détecter automatiquement le système de fichiers (ext4 ou XFS) et d'adapter sa taille immédiatement après l'extension du LV :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>lvextend<span class="w"> </span>-r<span class="w"> </span>-L<span class="w"> </span>+10G<span class="w"> </span>/dev/vg_data/lv_web
+</span></code></pre></div>
+<p>Cette commande unique étend le volume logique ET agrandit le système de fichiers à chaud en une seule opération sans aucun risque d'oubli.</p>
+<hr/>
+<h2 id="ajouter-un-nouveau-disque-a-un-vg-existant-vgextend"><span class="enumerate-headings-plugin enumerate-heading-plugin">34.7</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.5.7</span> Ajouter un nouveau disque à un VG existant (<code>vgextend</code>)</h2>
+<p>Si votre groupe de volumes n'a plus d'espace libre, vous pouvez brancher un nouveau disque physique (ex. <code>/dev/sdd</code>), l'initialiser et l'intégrer au pool sans arrêter le serveur :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="go">// 1. Déclarer le nouveau disque</span>
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>pvcreate<span class="w"> </span>/dev/sdd
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="go">// 2. Agrandir le pool de stockage du VG</span>
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="gp">$ </span>sudo<span class="w"> </span>vgextend<span class="w"> </span>vg_data<span class="w"> </span>/dev/sdd
+</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="go">  Volume group "vg_data" successfully extended</span>
+</span></code></pre></div>
+<p>Le VG dispose immédiatement de la capacité du nouveau disque pour continuer à agrandir vos volumes logiques.</p>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: V.4 Gestion du Swap" class="md-footer__link md-footer__link--prev" href="../4-gestion-swap/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                V.4 Gestion du Swap
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: V.6 Montage et fstab" class="md-footer__link md-footer__link--next" href="../6-montage-fstab/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                V.6 Montage et fstab
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>

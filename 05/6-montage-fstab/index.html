@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html class="no-js" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Module Linux LPI 101/102" name="description"/>
+<meta content="Wassim Youssef" name="author"/>
+<link href="../5-lvm/" rel="prev"/>
+<link href="../7-maintenance-integrite/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.7" name="generator"/>
+<title>V.6 Montage et fstab - Linux</title>
+<link href="../../assets/stylesheets/main.ec1eaa64.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Gabarito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Gabarito";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="amber" data-md-color-primary="teal" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#montage-des-systemes-de-fichiers-et-configuration-de-etcfstab">35. V.6 
+          Aller au contenu
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<nav aria-label="En-tête" class="md-header__inner md-grid">
+<a aria-label="Linux" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Linux
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              V.6 Montage et fstab
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="amber" data-md-color-media="" data-md-color-primary="teal" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-orange" data-md-color-media="" data-md-color-primary="brown" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Rechercher" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Rechercher" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Recherche" class="md-search__options">
+<button aria-label="Effacer" class="md-search__icon md-icon" tabindex="-1" title="Effacer" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Linux" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Linux">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Linux
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_2" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../01/">
+<span class="md-ellipsis">
+    
+  
+    CH I – Présentation Linux
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH I – Présentation Linux
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/1-presentation-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.1 Présentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/2-terminologie-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.2 Termes clefs
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/3-distributions-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.3 Distributions Linux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/4-chiffres-linux/">
+<span class="md-ellipsis">
+    
+  
+    I.4 Part de marché
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/5-quiz/">
+<span class="md-ellipsis">
+    
+  
+    I.5 Quiz CH1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../01/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    I.6 Récapitulatif CH1
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../02/">
+<span class="md-ellipsis">
+    
+  
+    CH II – Shell et commandes de base
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH II – Shell et commandes de base
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/1-terminologie/">
+<span class="md-ellipsis">
+    
+  
+    II.1 Terminologie
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/2-variables-environment/">
+<span class="md-ellipsis">
+    
+  
+    II.2 Variables d'environnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/3-arborescence-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.3 Arborescence et Fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/4-gestion-elementaire-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    II.4 Gestion fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/5-caratere-substitution/">
+<span class="md-ellipsis">
+    
+  
+    II.5 Filtres et caractères de substitution
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/6-compression/">
+<span class="md-ellipsis">
+    
+  
+    II.6 Compression
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/7-infos-cmd/">
+<span class="md-ellipsis">
+    
+  
+    II.7 Autres commandes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/8-quiz/">
+<span class="md-ellipsis">
+    
+  
+    II.8 Quiz CH2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../02/9-recap/">
+<span class="md-ellipsis">
+    
+  
+    II.9 Récapitulatif CH2
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../03/">
+<span class="md-ellipsis">
+    
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH III – Gestion des utilisateurs groupes et permissions
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/1-user-group/">
+<span class="md-ellipsis">
+    
+  
+    III.1 Utilisateurs et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/2-permissions/">
+<span class="md-ellipsis">
+    
+  
+    III.2 Permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/3-permissions-speciales/">
+<span class="md-ellipsis">
+    
+  
+    III.3 Permissions Spéciales
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/4-permissions-defaut/">
+<span class="md-ellipsis">
+    
+  
+    III.4 Permissions par défaut
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/5-quiz-user-grp/">
+<span class="md-ellipsis">
+    
+  
+    III.5 Quiz CH3 - user et groupes
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/6-quiz-perm/">
+<span class="md-ellipsis">
+    
+  
+    III.6 Quiz CH3 - permissions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../03/7-recap/">
+<span class="md-ellipsis">
+    
+  
+    III.7 Récapitulatif CH3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../04/">
+<span class="md-ellipsis">
+    
+  
+    CH IV – Gestion des Processus
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH IV – Gestion des Processus
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/1-introduction/">
+<span class="md-ellipsis">
+    
+  
+    IV.1 Introduction
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/2-gestion-jobs/">
+<span class="md-ellipsis">
+    
+  
+    IV.2 Gestion des Tâches
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/3-gestion-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.3 Gestion des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/4-priorite-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.4 Priorité des Processus
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/5-quiz-processus/">
+<span class="md-ellipsis">
+    
+  
+    IV.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../04/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    IV.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    CH V – Gestion du stockage
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH V – Gestion du stockage
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../1-disques-et-partitions/">
+<span class="md-ellipsis">
+    
+  
+    V.1 Disques et partitions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../2-schema-partitionnement/">
+<span class="md-ellipsis">
+    
+  
+    V.2 Schéma de partitionnement
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../3-systemes-fichiers/">
+<span class="md-ellipsis">
+    
+  
+    V.3 Systèmes de fichiers
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../4-gestion-swap/">
+<span class="md-ellipsis">
+    
+  
+    V.4 Gestion du Swap
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../5-lvm/">
+<span class="md-ellipsis">
+    
+  
+    V.5 Gestion des volumes LVM
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    V.6 Montage et fstab
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table des matières" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#le-montage-manuel-avec-la-commande-mount">35.1 V.6.1 
+<span class="md-ellipsis">
+      
+        Le montage manuel avec la commande mount
+      
+    </span>
+</a>
+<nav aria-label="Le montage manuel avec la commande mount" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#options-frequentes-de-la-commande-mount">35.1.1 V.6.1.1 
+<span class="md-ellipsis">
+      
+        Options fréquentes de la commande mount
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#le-demontage-avec-umount">35.2 V.6.2 
+<span class="md-ellipsis">
+      
+        Le démontage avec umount
+      
+    </span>
+</a>
+<nav aria-label="Le démontage avec umount" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#le-piege-classique-target-is-busy">35.2.1 V.6.2.1 
+<span class="md-ellipsis">
+      
+        Le piège classique : target is busy
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identification-des-peripheriques-device-uuid-et-label">35.3 V.6.3 
+<span class="md-ellipsis">
+      
+        Identification des périphériques : Device, UUID et LABEL
+      
+    </span>
+</a>
+<nav aria-label="Identification des périphériques : Device, UUID et LABEL" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identification-par-le-chemin-materiel-devsda1-devsdb1">35.3.1 V.6.3.1 
+<span class="md-ellipsis">
+      
+        Identification par le chemin matériel (/dev/sda1, /dev/sdb1)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identification-par-uuid-universally-unique-identifier">35.3.2 V.6.3.2 
+<span class="md-ellipsis">
+      
+        Identification par UUID (Universally Unique Identifier)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#identification-par-label-etiquette-de-volume">35.3.3 V.6.3.3 
+<span class="md-ellipsis">
+      
+        Identification par LABEL (Étiquette de volume)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration-permanente-le-fichier-etcfstab">35.4 V.6.4 
+<span class="md-ellipsis">
+      
+        Configuration permanente : Le fichier /etc/fstab
+      
+    </span>
+</a>
+<nav aria-label="Configuration permanente : Le fichier /etc/fstab" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#analyse-detaillee-des-6-champs">35.4.1 V.6.4.1 
+<span class="md-ellipsis">
+      
+        Analyse détaillée des 6 champs
+      
+    </span>
+</a>
+<nav aria-label="Analyse détaillée des 6 champs" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#colonne-1-peripherique-de-stockage">35.4.1.1 V.6.4.1.1 
+<span class="md-ellipsis">
+      
+        Colonne 1 : Périphérique de stockage
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#colonne-2-point-de-montage">35.4.1.2 V.6.4.1.2 
+<span class="md-ellipsis">
+      
+        Colonne 2 : Point de montage
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#colonne-3-type-de-systeme-de-fichiers">35.4.1.3 V.6.4.1.3 
+<span class="md-ellipsis">
+      
+        Colonne 3 : Type de système de fichiers
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#colonne-4-options-de-montage">35.4.1.4 V.6.4.1.4 
+<span class="md-ellipsis">
+      
+        Colonne 4 : Options de montage
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#colonne-5-frequence-de-sauvegarde-dump">35.4.1.5 V.6.4.1.5 
+<span class="md-ellipsis">
+      
+        Colonne 5 : Fréquence de sauvegarde dump
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#colonne-6-ordre-de-verification-fsck-pass-number">35.4.1.6 V.6.4.1.6 
+<span class="md-ellipsis">
+      
+        Colonne 6 : Ordre de vérification fsck (pass number)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#regle-de-securite-absolue-le-test-avec-mount-a">35.5 V.6.5 
+<span class="md-ellipsis">
+      
+        Règle de sécurité absolue : Le test avec mount -a
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#consultation-de-letat-des-montages">35.6 V.6.6 
+<span class="md-ellipsis">
+      
+        Consultation de l'état des montages
+      
+    </span>
+</a>
+<nav aria-label="Consultation de l'état des montages" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#arborescence-interactive-avec-findmnt">35.6.1 V.6.6.1 
+<span class="md-ellipsis">
+      
+        Arborescence interactive avec findmnt
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vue-du-noyau-procmounts-et-etcmtab">35.6.2 V.6.6.2 
+<span class="md-ellipsis">
+      
+        Vue du noyau : /proc/mounts et /etc/mtab
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../7-maintenance-integrite/">
+<span class="md-ellipsis">
+    
+  
+    V.7 Maintenance et intégrité
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../8-quiz-stockage/">
+<span class="md-ellipsis">
+    
+  
+    V.8 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../9-recap/">
+<span class="md-ellipsis">
+    
+  
+    V.9 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_7" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../06/">
+<span class="md-ellipsis">
+    
+  
+    CH VI – Gestion du réseau
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VI – Gestion du réseau
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/1-fondamentaux-tcpip/">
+<span class="md-ellipsis">
+    
+  
+    VI.1 Fondamentaux TCP/IP
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/2-configuration-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.2 Configuration et routage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/3-resolution-noms/">
+<span class="md-ellipsis">
+    
+  
+    VI.3 Résolution de noms
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/4-depannage-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.4 Dépannage réseau
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/5-quiz-reseau/">
+<span class="md-ellipsis">
+    
+  
+    VI.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../06/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VI.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--section md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="../../07/">
+<span class="md-ellipsis">
+    
+  
+    CH VII – Les scripts Shell
+  
+
+    
+  </span>
+</a>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    CH VII – Les scripts Shell
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/1-introduction-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.1 Introduction aux scripts
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/2-variables-parametres/">
+<span class="md-ellipsis">
+    
+  
+    VII.2 Variables et fonctions
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/3-conditions-tests/">
+<span class="md-ellipsis">
+    
+  
+    VII.3 Conditions et tests
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/4-boucles/">
+<span class="md-ellipsis">
+    
+  
+    VII.4 Boucles et flux
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/5-quiz-scripts/">
+<span class="md-ellipsis">
+    
+  
+    VII.5 Quiz
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../07/6-recap/">
+<span class="md-ellipsis">
+    
+  
+    VII.6 Récapitulatif
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<nav aria-label="Navigation" class="md-path">
+<ol class="md-path__list">
+<li class="md-path__item">
+<a class="md-path__link" href="../..">
+<span class="md-ellipsis">
+    Accueil
+  </span>
+</a>
+</li>
+<li class="md-path__item">
+<a class="md-path__link" href="../">
+<span class="md-ellipsis">
+    CH V – Gestion du stockage
+  </span>
+</a>
+</li>
+</ol>
+</nav>
+<article class="md-content__inner md-typeset"><a class="md-content__button md-icon" href="index.pdf" target="_blank" title="View as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 .41.12.8.34 1.12.07.11.16.21.25.29.36.37.86.59 1.41.59h7.53c-.53-.58-.92-1.25-1.18-2H6V4h7v5h5v3c.7 0 1.37.12 2 .34V8zm4 21 5-4.5-3-2.7-2-1.8v3h-4v3h4z"></path></svg></body></html></a><a class="md-content__button md-icon" download="V.6 Montage et fstab.pdf" href="index.pdf" title="Download as PDF"><html><body><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14 2 6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm4 18V9h-5V4H6v16zm-6-1-4-4h2.5v-3h3v3H16z"></path></svg></body></html></a>
+
+<h1 id="montage-des-systemes-de-fichiers-et-configuration-de-etcfstab"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6</span> Montage des systèmes de fichiers et configuration de <code>/etc/fstab</code></h1>
+<p>Sous Linux, il n'existe pas de lettres de lecteurs indépendantes (comme <code>C:</code> ou <code>D:</code> sous Windows). Le système s'articule autour d'une <strong>arborescence hiérarchique unifiée</strong> débutant à la racine unique <strong><code>/</code></strong>.</p>
+<p>Le <strong>montage</strong> (<em>mounting</em>) est le processus par lequel un système de fichiers hébergé sur une partition ou un volume logique est rattaché à un répertoire spécifique de cette arborescence, appelé <strong>point de montage</strong> (<em>mount point</em>).</p>
+<p>Cette section détaille les commandes de manipulation manuelle (<code>mount</code>, <code>umount</code>), les méthodes d'identification fiables (UUID, Label), l'architecture complète du fichier de configuration automatique <code>/etc/fstab</code> et les utilitaires de contrôle, conformément à l'objectif <strong>LPIC-1 104.3</strong>.</p>
+<hr/>
+<h2 id="le-montage-manuel-avec-la-commande-mount"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.1</span> Le montage manuel avec la commande <code>mount</code></h2>
+<p>La syntaxe canonique de la commande <code>mount</code> associe un périphérique source à un répertoire cible :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>mount<span class="w"> </span>&lt;périphérique&gt;<span class="w"> </span>&lt;point_de_montage&gt;
+</span></code></pre></div>
+<p>Par exemple, pour monter la partition <code>/dev/sdb1</code> dans le répertoire <code>/mnt/data</code> :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">// 1. Création préalable du point de montage (s'il n'existe pas)</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/data
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="go">// 2. Montage de la partition</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="gp">$ </span>sudo<span class="w"> </span>mount<span class="w"> </span>/dev/sdb1<span class="w"> </span>/mnt/data
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Attention aux dossiers non vides</p>
+<p>Le point de montage doit idéalement être un répertoire vide. Si vous montez un périphérique sur un répertoire contenant déjà des fichiers, ces derniers ne sont pas supprimés, mais ils deviennent <strong>totalement invisibles et inaccessibles</strong> tant que le périphérique reste monté.</p>
+</div>
+<h3 id="options-frequentes-de-la-commande-mount"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.1.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.1.1</span> Options fréquentes de la commande <code>mount</code></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Option</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>-t &lt;type&gt;</code></strong></td>
+<td style="text-align: left;">Spécifie explicitement le type de FS (<code>ext4</code>, <code>xfs</code>, <code>vfat</code>, <code>iso9660</code>). En son absence, le noyau tente une autodétection.</td>
+<td style="text-align: left;"><code>mount -t ext4 /dev/sdb1 /mnt/data</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-o &lt;options&gt;</code></strong></td>
+<td style="text-align: left;">Passe une liste d'options de montage séparées par des virgules.</td>
+<td style="text-align: left;"><code>mount -o ro,noexec /dev/sdb1 /mnt/data</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-o remount</code></strong></td>
+<td style="text-align: left;">Modifie les options d'un système de fichiers déjà monté <strong>sans le démonter</strong>.</td>
+<td style="text-align: left;"><code>mount -o remount,rw /</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-o loop</code></strong></td>
+<td style="text-align: left;">Monte une image disque brute ou un fichier ISO comme un périphérique bloc.</td>
+<td style="text-align: left;"><code>mount -o loop debian.iso /mnt/iso</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>-a</code></strong></td>
+<td style="text-align: left;">Tente de monter tous les systèmes de fichiers déclarés dans <code>/etc/fstab</code>.</td>
+<td style="text-align: left;"><code>sudo mount -a</code></td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="le-demontage-avec-umount"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.2</span> Le démontage avec <code>umount</code></h2>
+<p>Pour détacher proprement un système de fichiers, on utilise la commande <strong><code>umount</code></strong> (attention à l'orthographe : il n'y a pas de lettre « n » après le « u » !).</p>
+<p>On peut indifféremment spécifier le point de montage ou le périphérique :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>umount<span class="w"> </span>/mnt/data
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">// ou :</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="gp">$ </span>sudo<span class="w"> </span>umount<span class="w"> </span>/dev/sdb1
+</span></code></pre></div>
+<h3 id="le-piege-classique-target-is-busy"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.2.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.2.1</span> Le piège classique : <code>target is busy</code></h3>
+<p>Lors d'une tentative de démontage, Linux refuse fréquemment l'opération avec le message d'erreur :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">umount: /mnt/data: target is busy.</span>
+</span></code></pre></div>
+<p>Cette protection empêche la corruption des données lorsqu'au moins un processus utilise la partition :</p>
+<ul>
+<li>Un terminal d'un utilisateur a pour répertoire courant <code>/mnt/data</code> (ou l'un de ses sous-dossiers).</li>
+<li>Un démon système maintient un fichier ouvert en lecture ou écriture.</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">// Identifier les processus bloquants avec lsof</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>lsof<span class="w"> </span>+f<span class="w"> </span>--<span class="w"> </span>/mnt/data
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="go">COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="go">bash    14208 wassim  cwd    DIR   8,17     4096    2 /mnt/data</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="go">// Ou avec la commande fuser</span>
+</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="gp">$ </span>sudo<span class="w"> </span>fuser<span class="w"> </span>-vm<span class="w"> </span>/mnt/data
+</span></code></pre></div>
+<p>Une fois que l'utilisateur a quitté le dossier (<code>cd ~</code>) ou que le processus est arrêté, le démontage réussit.</p>
+<p>En cas d'urgence sur un support réseau ou un disque inaccessible, le démontage différé (<em>lazy unmount</em>) avec l'option <strong><code>-l</code></strong> détache immédiatement le système de fichiers de l'arborescence et libère les ressources dès que les accès en cours s'achèvent :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>umount<span class="w"> </span>-l<span class="w"> </span>/mnt/data
+</span></code></pre></div>
+<hr/>
+<h2 id="identification-des-peripheriques-device-uuid-et-label"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.3</span> Identification des périphériques : Device, UUID et LABEL</h2>
+<p>Dans les scripts et la configuration système, un volume peut être désigné de trois manières :</p>
+<h3 id="identification-par-le-chemin-materiel-devsda1-devsdb1"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.3.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.3.1</span> Identification par le chemin matériel (<code>/dev/sda1</code>, <code>/dev/sdb1</code>)</h3>
+<p>Cette méthode est <strong>fortement déconseillée pour les montages permanents</strong>. L'attribution des lettres <code>sda</code>, <code>sdb</code> est dynamique : si un disque dur est déplacé sur un autre port de la carte mère ou si un câble USB est branché au démarrage, l'ordre peut s'inverser et corrompre le démarrage de la machine.</p>
+<h3 id="identification-par-uuid-universally-unique-identifier"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.3.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.3.2</span> Identification par UUID (<em>Universally Unique Identifier</em>)</h3>
+<p>C'est la méthode de référence absolue recommandée par toutes les distributions modernes. L'UUID est un identifiant unique universel de 128 bits attribué au moment du formatage :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>blkid<span class="w"> </span>/dev/sdb1
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="go">/dev/sdb1: UUID="98a3b547-7592-4fcf-bc08-41584cb02ff0" BLOCK_SIZE="4096" TYPE="ext4"</span>
+</span></code></pre></div>
+<p>Dans les commandes et configurations, on l'utilise sous la forme :
+<code>UUID=98a3b547-7592-4fcf-bc08-41584cb02ff0</code></p>
+<h3 id="identification-par-label-etiquette-de-volume"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.3.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.3.3</span> Identification par LABEL (Étiquette de volume)</h3>
+<p>Permet de désigner un volume par un nom convivial et intelligible pour l'administrateur :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">// Définir un label sur une partition ext4 existante</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="gp">$ </span>sudo<span class="w"> </span>e2label<span class="w"> </span>/dev/sdb1<span class="w"> </span>SAUVEGARDES
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="go">// Définir un label sur une partition XFS</span>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="gp">$ </span>sudo<span class="w"> </span>xfs_admin<span class="w"> </span>-L<span class="w"> </span>DONNEES<span class="w"> </span>/dev/sdb2
+</span></code></pre></div>
+<p>Dans <code>/etc/fstab</code>, on l'utilise sous la forme :
+<code>LABEL=SAUVEGARDES</code></p>
+<hr/>
+<h2 id="configuration-permanente-le-fichier-etcfstab"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4</span> Configuration permanente : Le fichier <code>/etc/fstab</code></h2>
+<p>Le fichier texte <code>/etc/fstab</code> (<em>File Systems Table</em>) répertorie tous les périphériques de stockage qui doivent être montés automatiquement lors de l'initialisation du système.</p>
+<p>Chaque ligne de <code>/etc/fstab</code> comprend <strong>rigoureusement 6 colonnes</strong>, délimitées par des espaces ou des tabulations :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a># &lt;périphérique&gt;                                &lt;point_montage&gt;  &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>UUID=89a7f342-30e4-4d8b-90f7-111111111111        /boot            ext4    defaults          0       2
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>UUID=df5a0256-42bc-442a-9cb6-222222222222        /                ext4    defaults,noatime  0       1
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a>UUID=B14E-0A33                                  /boot/efi        vfat    umask=0077        0       1
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a>UUID=97cf2984-7e9b-4395-8859-444444444444        /home            ext4    defaults,nosuid   0       2
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a>/dev/vg_data/lv_web                             /var/www         ext4    defaults,noexec   0       2
+</span><span id="__span-8-7"><a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a>UUID=59e850b5-e427-4a0b-8524-333333333333        none             swap    sw                0       0
+</span></code></pre></div>
+<h3 id="analyse-detaillee-des-6-champs"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1</span> Analyse détaillée des 6 champs</h3>
+<h4 id="colonne-1-peripherique-de-stockage"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1.1</span> Colonne 1 : Périphérique de stockage</h4>
+<p>Désigne la source : un identifiant <code>UUID=...</code>, un nom <code>LABEL=...</code>, un fichier sous <code>/dev</code> (<code>/dev/sda2</code>, <code>/dev/vg/lv</code>), ou un partage réseau NFS (<code>serveur:/partage</code>).</p>
+<h4 id="colonne-2-point-de-montage"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1.2</span> Colonne 2 : Point de montage</h4>
+<p>Chemin absolu du répertoire où le contenu sera greffé (<code>/</code>, <code>/home</code>, <code>/var</code>). Pour la mémoire d'échange Swap, on indique conventionnellement <strong><code>none</code></strong> ou <strong><code>swap</code></strong>.</p>
+<h4 id="colonne-3-type-de-systeme-de-fichiers"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1.3</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1.3</span> Colonne 3 : Type de système de fichiers</h4>
+<p>Format utilisé : <code>ext4</code>, <code>xfs</code>, <code>vfat</code>, <code>swap</code>, <code>iso9660</code>, <code>nfs</code>, etc.</p>
+<h4 id="colonne-4-options-de-montage"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1.4</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1.4</span> Colonne 4 : Options de montage</h4>
+<p>Mots-clés séparés par des virgules (sans aucun espace !) :</p>
+<ul>
+<li><strong><code>defaults</code></strong> : Groupe d'options par défaut standard équivalent à <code>rw, suid, dev, exec, auto, nouser, async</code>.</li>
+<li><strong><code>ro</code> / <code>rw</code></strong> : Montage en lecture seule (<em>Read-Only</em>) ou lecture-écriture (<em>Read-Write</em>).</li>
+<li><strong><code>noexec</code></strong> : Interdit l'exécution de tout binaire sur la partition (sécurité pour <code>/tmp</code> et <code>/var/tmp</code>).</li>
+<li><strong><code>nosuid</code></strong> : Neutralise les bits SUID et SGID pour empêcher les escalades de privilèges.</li>
+<li><strong><code>nodev</code></strong> : Interdit l'interprétation des fichiers spéciaux de périphériques.</li>
+<li><strong><code>noatime</code></strong> : Désactive la mise à jour de la date de dernier accès à chaque lecture de fichier (gain substantiel de performances sur SSD).</li>
+<li><strong><code>auto</code> / <code>noauto</code></strong> : Autorise (ou empêche) le montage automatique lors de l'exécution de <code>mount -a</code> ou au démarrage.</li>
+<li><strong><code>user</code> / <code>nouser</code></strong> : Permet (ou interdit) à un utilisateur ordinaire sans privilège <code>sudo</code> de monter le périphérique (fréquent pour les lecteurs CD/DVD ou clés amovibles).</li>
+<li><strong><code>nofail</code></strong> : Permet au système de poursuivre son démarrage même si le périphérique est absent ou débranché.</li>
+</ul>
+<h4 id="colonne-5-frequence-de-sauvegarde-dump"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1.5</span> Colonne 5 : Fréquence de sauvegarde <em>dump</em></h4>
+<p>Indique si le système de fichiers doit être sauvegardé par l'ancien utilitaire Unix <code>dump</code>.  </p>
+<ul>
+<li><strong><code>0</code></strong> : Ignorer (valeur universelle aujourd'hui).</li>
+<li><strong><code>1</code></strong> : Sauvegarde quotidienne.</li>
+</ul>
+<h4 id="colonne-6-ordre-de-verification-fsck-pass-number"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.4.1.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.4.1.6</span> Colonne 6 : Ordre de vérification <code>fsck</code> (<em>pass number</em>)</h4>
+<p>Définit l'ordre dans lequel l'utilitaire <code>fsck</code> vérifie la cohérence du système de fichiers au démarrage :</p>
+<ul>
+<li><strong><code>1</code></strong> : <strong>Priorité absolue</strong>, réservé exclusivement au système de fichiers racine <strong><code>/</code></strong>.</li>
+<li><strong><code>2</code></strong> : Autres systèmes de fichiers locaux à vérifier après la racine (ex. <code>/boot</code>, <code>/home</code>, <code>/var</code>).</li>
+<li><strong><code>0</code></strong> : <strong>Aucune vérification au démarrage</strong>. Obligatoire pour la mémoire <code>swap</code>, les partages réseau NFS, les systèmes de fichiers Windows (<code>vfat</code>, <code>ntfs</code>) et les partitions <strong>XFS</strong> (qui gèrent leur propre journalisation interne).</li>
+</ul>
+<hr/>
+<h2 id="regle-de-securite-absolue-le-test-avec-mount-a"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.5</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.5</span> Règle de sécurité absolue : Le test avec <code>mount -a</code></h2>
+<p>Une seule erreur de syntaxe dans <code>/etc/fstab</code> (faute de frappe sur un UUID, option inexistante) peut bloquer le démarrage de Linux et basculer la machine en mode d'urgence (<em>emergency mode</em>).</p>
+<p>Pour valider vos modifications sans risquer de corrompre le prochain démarrage, exécutez toujours :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">$ </span>sudo<span class="w"> </span>mount<span class="w"> </span>-a
+</span></code></pre></div>
+<p>Si cette commande ne renvoie <strong>aucun message d'erreur</strong>, votre configuration <code>/etc/fstab</code> est saine et fonctionnelle.</p>
+<hr/>
+<h2 id="consultation-de-letat-des-montages"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.6</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.6</span> Consultation de l'état des montages</h2>
+<h3 id="arborescence-interactive-avec-findmnt"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.6.1</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.6.1</span> Arborescence interactive avec <code>findmnt</code></h3>
+<p>La commande <code>findmnt</code> produit une visualisation hiérarchique claire et structurée de tous les systèmes de fichiers actifs :</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="gp">$ </span>findmnt
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="go">TARGET                                SOURCE                  FSTYPE     OPTIONS</span>
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="go">/                                     /dev/mapper/vg-root     ext4       rw,relatime,errors=remount-ro</span>
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="go">├─/boot                               /dev/sda2               ext4       rw,relatime</span>
+</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="go">│ └─/boot/efi                         /dev/sda1               vfat       rw,relatime,fmask=0077,dmask=0077</span>
+</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="go">├─/home                               /dev/mapper/vg-home     ext4       rw,nosuid,relatime</span>
+</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="go">└─/var/www                            /dev/mapper/vg_data-lv_web ext4    rw,noexec,relatime</span>
+</span></code></pre></div>
+<h3 id="vue-du-noyau-procmounts-et-etcmtab"><span class="enumerate-headings-plugin enumerate-heading-plugin">35.6.2</span> <span class="enumerate-headings-plugin enumerate-heading-plugin">V.6.6.2</span> Vue du noyau : <code>/proc/mounts</code> et <code>/etc/mtab</code></h3>
+<ul>
+<li><strong><code>/proc/mounts</code></strong> est un pseudo-fichier du noyau reflétant instantanément et fidèlement l'état réel de tous les points de montage et des options actives.</li>
+<li><strong><code>/etc/mtab</code></strong> est historiquement le fichier répertoriant les systèmes de fichiers montés. Sur les distributions modernes, <code>/etc/mtab</code> est simplement un lien symbolique pointant vers <code>/proc/mounts</code>.</li>
+</ul>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+</main>
+<footer class="md-footer">
+<nav aria-label="Pied de page" class="md-footer__inner md-grid">
+<a aria-label="Précédent: V.5 Gestion des volumes LVM" class="md-footer__link md-footer__link--prev" href="../5-lvm/">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Précédent
+              </span>
+<div class="md-ellipsis">
+                V.5 Gestion des volumes LVM
+              </div>
+</div>
+</a>
+<a aria-label="Suivant: V.7 Maintenance et intégrité" class="md-footer__link md-footer__link--next" href="../7-maintenance-integrite/">
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Suivant
+              </span>
+<div class="md-ellipsis">
+                V.7 Maintenance et intégrité
+              </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2026 Wassim Youssef • Support sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="noopener" target="_blank">CC BY-NC-SA 4.0</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "toc.integrate", "navigation.path", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.footer"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+</body>
+</html>
